@@ -14,7 +14,7 @@ async function mockRelease(page: Page, body: unknown = release, status = 200): P
   await page.route(releaseApi, (route) => route.fulfill({ status, contentType: "application/json", body: JSON.stringify(body) }));
 }
 
-test("landing page is responsive and accessible", async ({ page }) => {
+test("@claim:price landing page is responsive and accessible", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockRelease(page);
   await page.goto("http://127.0.0.1:4173/");
@@ -22,6 +22,8 @@ test("landing page is responsive and accessible", async ({ page }) => {
   await expect(page.locator("main")).toBeVisible();
   await expect(page.getByRole("link", { name: /try it with sample data/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /download linux appimage/i })).toBeVisible();
+  await expect(page.getByText("$29", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Buy the field kit" })).toHaveAttribute("href", /products\/receipt-to-room\/checkout$/);
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""))).toEqual([]);
 });

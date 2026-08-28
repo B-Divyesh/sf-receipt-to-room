@@ -15,10 +15,17 @@
   },
   {
     "id": "csv-export",
-    "claim": "The free app includes search, CSV, and printable PDF.",
+    "claim": "The free app includes search and CSV export.",
     "where": "pricing section",
     "test": "npm run test:e2e -- --grep @claim:csv-export",
     "sandbox": "fresh browser context; add a typed sample receipt, search the saved inventory, and assert a CSV download"
+  },
+  {
+    "id": "price",
+    "claim": "Pay $29 once for unlimited receipt intake and JSON backup.",
+    "where": "pricing section",
+    "test": "npm run test:e2e -- --grep @claim:price",
+    "sandbox": "fresh browser context; assert the one-time $29 field-kit price and checkout link"
   },
   {
     "id": "release-api",
