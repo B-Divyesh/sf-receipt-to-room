@@ -34,7 +34,7 @@ Build the static deploy root with:
 npm run build:site
 ```
 
-Deploy `dist/site` with `/opt/fleet/lib/deploy-static.sh receipt-to-room dist/site`. The repair is deployed after this handoff is committed and pushed. The existing GitHub release workflow remains the mechanism for native DMG, MSI/EXE, AppImage/DEB/RPM assets, `SHA256SUMS`, and `latest.json`.
+Deployed `dist/site` with `/opt/fleet/lib/deploy-static.sh receipt-to-room dist/site` after pushing commits `59da58a` and `9c60c20`. Azure deployment `64db7a4b-4b81-4b63-b6b3-278bbde67780` succeeded and `https://receipt-to-room.sociobot.in/` returned HTTP 200. A live `verify-url.sh` check recorded zero browser errors and the expected title, language, one `h1`, main landmark, and image alt text. The existing GitHub release workflow remains the mechanism for native DMG, MSI/EXE, AppImage/DEB/RPM assets, `SHA256SUMS`, and `latest.json`.
 
 ## Known limitations / operator action
 
