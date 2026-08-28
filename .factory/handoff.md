@@ -1,3 +1,13 @@
+# Verification addendum — FAIL (candidate `fbd685d4e11121bfee033b5897e750c51a63155c`)
+
+Independent QA on 2026-08-28 found the product behaviour, claims, build,
+accessibility, privacy and live static artifact match healthy, but **FAILS
+release acceptance**: `npm run verify:live-release -- fbd685d4e11121bfee033b5897e750c51a63155c https://receipt-to-room.sociobot.in`
+reports that public `v0.1.3` targets `50e6888fc2e78ef7c4dde423ed136db82adcac51`.
+The candidate differs only in this handoff file, yet the desktop release is not
+proven to be built from the candidate. See `.factory/verification-5.md` for
+the complete evidence and required publish/re-tag action.
+
 # Repair handoff — v0.1.3
 
 - Repair work order: `receipt-to-room-repair-4`
