@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://receipt-to-room.sociobot.in/sitemap.xml

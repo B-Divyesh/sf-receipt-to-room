@@ -1,0 +1,10 @@
+import "./styles.css";
+const repository = "https://github.com/B-Divyesh/sf-receipt-to-room";
+type Download = { label: string; url: string; sha256?: string };
+type Manifest = { version: string; platforms: Record<string, Download> };
+function platformKey(): string { const ua=navigator.userAgent.toLowerCase();const arch=ua.includes("arm64")||ua.includes("aarch64")?"arm64":"x86_64";if(ua.includes("windows"))return "windows-x86_64";if(ua.includes("mac"))return `macos-${arch}`;return "linux-x86_64"; }
+const button=document.querySelector<HTMLAnchorElement>("#download-button")!;const note=document.querySelector<HTMLElement>("#download-note")!;const list=document.querySelector<HTMLElement>("#download-list")!;const toggle=document.querySelector<HTMLButtonElement>("#all-downloads")!;
+toggle.addEventListener("click",()=>{const open=toggle.getAttribute("aria-expanded")==="true";toggle.setAttribute("aria-expanded",String(!open));list.hidden=open;});
+async function loadDownloads(){try{const response=await fetch(`${repository}/releases/latest/download/latest.json`,{headers:{Accept:"application/json"}});if(!response.ok)throw new Error(String(response.status));const manifest=await response.json() as Manifest;const chosen=manifest.platforms[platformKey()]??manifest.platforms["linux-x86_64"];if(chosen){button.href=chosen.url;button.textContent=`Download ${chosen.label}`;note.textContent=`Version ${manifest.version} · Free for 3 receipts · unsigned release`;}list.innerHTML=Object.entries(manifest.platforms).map(([key,item])=>`<a href="${item.url}"><span>${item.label}</span><small>${key.replace("-"," · ")}</small></a>`).join("");}catch{button.textContent="View the latest downloads";note.textContent=navigator.onLine?"Release details are temporarily unavailable. Open the release page to choose your installer.":"You are offline. Downloads will appear when your connection returns.";}}
+if (location.hostname.endsWith("sociobot.in")) void loadDownloads();
+else note.textContent = "Preview mode · open Releases to choose a published installer.";
