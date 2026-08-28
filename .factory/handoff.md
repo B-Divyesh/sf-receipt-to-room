@@ -1,5 +1,23 @@
 # Receipt to Room — repair handoff
 
+## Independent QA status — FAIL (2026-08-28)
+
+Candidate independently verified: `921d3ab0bdfd0f303eaaa083a02826078293e4f7`
+at <https://receipt-to-room.sociobot.in/>. **Do not release/accept this
+candidate.** Fresh verification is recorded in `.factory/verification-2.md`.
+
+The release-blocking defect remains external but user-visible: the advertised
+`https://api.sociobot.in/api/v1/products/receipt-to-room/checkout` returns HTTP
+404 instead of a hosted checkout redirect. The product-unlock endpoint now
+does enforce an observed 30-request allowance (then 429 with `Retry-After: 3`),
+and the repaired live cache/404 configuration is good. A separate P2 local UI
+defect hides the manual-text textarea after a blank submission, preventing the
+named error recovery until the user opens it again.
+
+Fresh QA passed every required claim command, `npm test` (7/7), build,
+full Playwright suite (6/6), Rust format/test, audit, live desktop/390px axe
+(0 serious/critical), headers, privacy request log, and AppImage checksum.
+
 ## Repair status
 
 Source repair commit: `7f935a548a3e4ad0e7e6c9094f82612dd635dc5e` (tag `v0.1.1`).
