@@ -48,6 +48,7 @@ A cold live visit plainly says the product **turns receipts into room records**,
 - `cargo fmt --check --manifest-path src-tauri/Cargo.toml`: **PASS**.
 - `cargo test --locked --manifest-path src-tauri/Cargo.toml`: **PASS** after installing the Linux dependencies declared by the release workflow; the Rust crate contains no tests.
 - `npm audit --omit=dev`: **PASS**, zero vulnerabilities.
+- `CI=true npx tauri build --bundles deb`: **PASS**; produced `Receipt to Room_0.1.1_amd64.deb` (16,952,144 bytes).
 - Production site bundle: JS 2.13 KB gzip and CSS 2.96 KB gzip; the initial static-product budget is met.
 
 The tested normal path was typed receipt → reviewed room data → saved inventory → search → CSV export. OCR of the shipped receipt passed with no external runtime request through the required claim test. Boundary/recovery exercise covered blank manual input (P2 above) and no selected review lines (the app announces the selection requirement); deletion has a working Undo action in the shipped test suite. CSV export redacts payment fragments and guards formula prefixes in unit tests.

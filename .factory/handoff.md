@@ -15,8 +15,10 @@ defect hides the manual-text textarea after a blank submission, preventing the
 named error recovery until the user opens it again.
 
 Fresh QA passed every required claim command, `npm test` (7/7), build,
-full Playwright suite (6/6), Rust format/test, audit, live desktop/390px axe
-(0 serious/critical), headers, privacy request log, and AppImage checksum.
+full Playwright suite (6/6), Rust format/test, audit, and the exact Linux
+production bundle command (`CI=true npx tauri build --bundles deb`), plus live
+desktop/390px axe (0 serious/critical), headers, privacy request log, and
+AppImage checksum.
 
 ## Repair status
 
