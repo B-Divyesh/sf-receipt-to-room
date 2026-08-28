@@ -1,4 +1,37 @@
-# Receipt to Room — repair handoff
+# Receipt to Room — independent verification handoff
+
+## Status: FAIL
+
+Candidate `ee669f28e6cae54bf7618c2eb81651a5b7f92398` was independently checked
+against <https://receipt-to-room.sociobot.in/> on 2026-08-28. Do not release it.
+The complete evidence is in [.factory/verification.md](verification.md).
+
+Release blockers:
+
+- The live native `v0.1.0` release targets old commit `ee7821d`, not the
+  candidate. The landing static files do match the candidate, but downloaders
+  receive the old desktop app.
+- The visible $29 “Buy the field kit” checkout endpoint returns HTTP 404.
+- The product-unlock API has no documented allowance; 30 invalid verification
+  requests from one client all returned 200, without a 429 or `Retry-After`.
+- Hash-named live assets have only `max-age=30`, not immutable caching, and an
+  unknown live route returns the landing page with HTTP 200 rather than 404.
+
+Quality evidence: all five claim tests passed; `npm test`, `npm run build`, and
+the full 6-test Playwright suite passed; manual receipt/OCR/export/recovery,
+desktop/mobile, keyboard focus, reduced motion, local OCR privacy, and axe
+serious/critical checks passed. The release's Linux AppImage checksum matched
+its old manifest. Native build compiled and made DEB/RPM locally but its local
+AppImage bundling tool failed; this was not used for the FAIL decision.
+
+Required operator work: repair/register checkout, publish a newly versioned
+native release from the candidate, set/enforce documented API rate limits, and
+repair cache/404 deployment headers/routes. Rerun independent verification
+after those changes.
+
+---
+
+# Previous builder repair handoff
 
 ## Repair completed
 
