@@ -12,7 +12,7 @@ describe("receipt parsing", () => {
 });
 
 describe("safe exports", () => {
-  const item: InventoryItem = { id:"1",receiptId:"r1",receiptName:"shop.jpg",name:"=Lamp",quantity:2,price:12.5,confidence:90,confidenceLabel:"good",included:true,merchant:"Store card **** 1234",room:"Office",category:"Decor",purchaseDate:"2026-08-19",warrantyDate:"",createdAt:"2026-08-19T00:00:00Z" };
+  const item: InventoryItem = { id:"1",receiptId:"r1",receiptName:"shop.jpg",name:"=Lamp",quantity:2,price:12.5,currency:"USD",confidence:90,confidenceLabel:"good",included:true,merchant:"Store card **** 1234",room:"Office",category:"Decor",purchaseDate:"2026-08-19",warrantyDate:"",createdAt:"2026-08-19T00:00:00Z" };
   it("redacts payment details", () => expect(redactPayment("VISA **** 1234")).toContain("[redacted payment]"));
   it("guards CSV formulas and totals", () => { const csv=inventoryToCsv([item]);expect(csv).toContain("'=Lamp");expect(csv).not.toContain("1234");expect(totalValue([item])).toBe(25); });
 });

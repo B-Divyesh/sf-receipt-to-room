@@ -1,8 +1,8 @@
 import "./styles.css";
-import { confidenceLabel, inferDate, inferMerchant, inventoryToCsv, parseReceiptText, redactPayment, totalValue, type InventoryItem, type ParsedLine } from "./lib";
+import { inferCurrency, inferDate, inferMerchant, inventoryToCsv, parseReceiptText, redactPayment, type InventoryItem, type ParsedLine } from "./lib";
 
 type View = "intake" | "inventory" | "license";
-interface Draft { receiptId: string; receiptName: string; merchant: string; purchaseDate: string; room: string; category: string; warrantyDate: string; lines: ParsedLine[]; }
+interface Draft { receiptId: string; receiptName: string; merchant: string; purchaseDate: string; currency: string; room: string; category: string; warrantyDate: string; lines: ParsedLine[]; }
 interface LicenseCache { valid: boolean; checkedAt: number; }
 
 const STORAGE_KEY = "receipt-to-room:inventory:v1";
@@ -43,7 +43,12 @@ function receiptCount(): number { return new Set(items.map((item) => item.receip
 function escapeHtml(value: unknown): string {
   return String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]!);
 }
-function money(value: number): string { return new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(value); }
+function money(value: number, currency = "USD"): string { return new Intl.NumberFormat(undefined, { style: "currency", currency }).format(value); }
+function inventoryTotalLabel(): string {
+  const totals = new Map<string, number>();
+  for (const item of items) totals.set(item.currency || "USD", (totals.get(item.currency || "USD") ?? 0) + item.price * item.quantity);
+  return Array.from(totals).map(([currency, value]) => money(value, currency)).join(" + ") || money(0);
+}
 
 function render(): void {
   app.innerHTML = `
@@ -129,6 +134,7 @@ function reviewView(): string {
     <div class="metadata-grid">
       <label>Retailer<input name="merchant" value="${escapeHtml(draft.merchant)}" required /></label>
       <label>Purchase date<input name="purchaseDate" type="date" value="${draft.purchaseDate}" required /></label>
+      <label>Currency<select name="currency">${options(["USD", "INR", "EUR", "GBP", "CAD", "AUD"], draft.currency)}</select></label>
       <label>Room<select name="room">${options(rooms, draft.room)}</select></label>
       <label>Category<select name="category">${options(categories, draft.category)}</select></label>
       <label>Warranty until <span class="optional">optional</span><input name="warrantyDate" type="date" value="${draft.warrantyDate}" /></label>
@@ -157,7 +163,7 @@ function inventoryView(): string {
   const query = new URLSearchParams(location.hash.split("?")[1] ?? "").get("q") ?? "";
   const lowered = query.toLowerCase();
   const filtered = items.filter((item) => !lowered || [item.name, item.room, item.category, item.merchant].some((v) => v.toLowerCase().includes(lowered)));
-  return `<section class="page-head inventory-head"><div><p class="eyebrow">Household index</p><h1>Your room inventory</h1><p>${items.length} items · ${money(totalValue(items))} recorded purchase total, not a valuation.</p></div><button class="button primary" data-view="intake">Add receipt</button></section>
+  return `<section class="page-head inventory-head"><div><p class="eyebrow">Household index</p><h1>Your room inventory</h1><p>${items.length} items · ${inventoryTotalLabel()} recorded purchase total, not a valuation.</p></div><button class="button primary" data-view="intake">Add receipt</button></section>
     <section class="inventory-tools" aria-label="Inventory tools">
       <form id="search-form" role="search"><label for="search">Search items, rooms, categories, or retailers</label><div><input id="search" name="q" value="${escapeHtml(query)}" type="search"/><button class="button secondary">Search</button></div></form>
       <div class="export-actions"><button class="button secondary" id="export-csv" ${items.length ? "" : "disabled"}>Export CSV</button><button class="button secondary" id="export-pdf" ${items.length ? "" : "disabled"}>Print / save PDF</button></div>
@@ -167,7 +173,7 @@ function inventoryView(): string {
 }
 
 function itemRow(item: InventoryItem): string {
-  return `<tr><td data-label="Item"><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.merchant)} · ${escapeHtml(item.receiptName)}</small></td><td data-label="Room"><span class="room-tab room-${slug(item.room)}">${escapeHtml(item.room)}</span></td><td data-label="Category">${escapeHtml(item.category)}</td><td data-label="Purchased">${escapeHtml(item.purchaseDate)}${item.warrantyDate ? `<small>Warranty to ${escapeHtml(item.warrantyDate)}</small>` : ""}</td><td data-label="Paid" class="number">${money(item.price * item.quantity)}${item.quantity > 1 ? `<small>${item.quantity} × ${money(item.price)}</small>` : ""}</td><td class="row-action"><button class="icon-button danger" data-delete="${item.id}" aria-label="Remove ${escapeHtml(item.name)}">Remove</button></td></tr>`;
+  return `<tr><td data-label="Item"><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.merchant)} · ${escapeHtml(item.receiptName)}</small></td><td data-label="Room"><span class="room-tab room-${slug(item.room)}">${escapeHtml(item.room)}</span></td><td data-label="Category">${escapeHtml(item.category)}</td><td data-label="Purchased">${escapeHtml(item.purchaseDate)}${item.warrantyDate ? `<small>Warranty to ${escapeHtml(item.warrantyDate)}</small>` : ""}</td><td data-label="Paid" class="number">${money(item.price * item.quantity, item.currency)}${item.quantity > 1 ? `<small>${item.quantity} × ${money(item.price, item.currency)}</small>` : ""}</td><td class="row-action"><button class="icon-button danger" data-delete="${item.id}" aria-label="Remove ${escapeHtml(item.name)}">Remove</button></td></tr>`;
 }
 
 function licenseView(): string {
@@ -255,14 +261,14 @@ function humanOcrStatus(value: string): string {
 
 function createDraft(name: string, text: string, confidence: number, ocrLines?: Array<{ text: string; confidence: number }>): void {
   const lines = ocrLines?.length ? ocrLines.flatMap((line) => parseReceiptText(line.text, line.confidence)) : parseReceiptText(text, confidence);
-  draft = { receiptId: crypto.randomUUID(), receiptName: name, merchant: inferMerchant(text), purchaseDate: inferDate(text), room: "Kitchen", category: "Home supply", warrantyDate: "", lines };
+  draft = { receiptId: crypto.randomUUID(), receiptName: name, merchant: inferMerchant(text), purchaseDate: inferDate(text), currency: inferCurrency(text), room: "Kitchen", category: "Home supply", warrantyDate: "", lines };
 }
 
 function syncDraftFromForm(): void {
   if (!draft) return;
   const form = document.querySelector<HTMLFormElement>("#review-form"); if (!form) return;
   const data = new FormData(form);
-  draft.merchant = String(data.get("merchant") ?? ""); draft.purchaseDate = String(data.get("purchaseDate") ?? ""); draft.room = String(data.get("room") ?? "Other"); draft.category = String(data.get("category") ?? "Other"); draft.warrantyDate = String(data.get("warrantyDate") ?? "");
+  draft.merchant = String(data.get("merchant") ?? ""); draft.purchaseDate = String(data.get("purchaseDate") ?? ""); draft.currency = String(data.get("currency") ?? "USD"); draft.room = String(data.get("room") ?? "Other"); draft.category = String(data.get("category") ?? "Other"); draft.warrantyDate = String(data.get("warrantyDate") ?? "");
   draft.lines.forEach((line, i) => { line.included = data.has(`included-${i}`); line.name = String(data.get(`name-${i}`) ?? "").trim(); line.quantity = Number(data.get(`quantity-${i}`) ?? 1); line.price = Number(data.get(`price-${i}`) ?? 0); });
 }
 
@@ -272,7 +278,7 @@ function acceptDraft(event: SubmitEvent): void {
   if (!chosen.length) { error = "Select at least one receipt line, or discard this receipt."; render(); return; }
   if (chosen.some((line) => !line.name || line.quantity < 1 || line.price < 0)) { error = "Each selected line needs a name, quantity of at least 1, and a non-negative price."; render(); return; }
   const now = new Date().toISOString();
-  items.push(...chosen.map((line) => ({ ...line, receiptId: draft!.receiptId, receiptName: draft!.receiptName, merchant: draft!.merchant, room: draft!.room, category: draft!.category, purchaseDate: draft!.purchaseDate, warrantyDate: draft!.warrantyDate, createdAt: now })));
+  items.push(...chosen.map((line) => ({ ...line, receiptId: draft!.receiptId, receiptName: draft!.receiptName, merchant: draft!.merchant, currency: draft!.currency, room: draft!.room, category: draft!.category, purchaseDate: draft!.purchaseDate, warrantyDate: draft!.warrantyDate, createdAt: now })));
   saveItems(); status = `${chosen.length} items added to ${draft.room}.`; draft = null; error = "";
   if (fileQueue.length) { view = "intake"; location.hash = "intake"; render(); setTimeout(() => void processNextFile(), 0); }
   else { view = "inventory"; location.hash = "inventory"; render(); }
@@ -305,7 +311,7 @@ function printInventory(): void {
   const doc = printable.contentDocument!;
   const groups = new Map<string, InventoryItem[]>();
   for (const item of items) groups.set(item.room, [...(groups.get(item.room) ?? []), item]);
-  doc.open(); doc.write(`<!doctype html><html lang="en"><head><title>Receipt to Room inventory</title><style>body{font:14px system-ui;color:#19332b;margin:36px}h1,h2{font-family:Georgia,serif}header{border-bottom:2px solid #1f6349;margin-bottom:28px}table{width:100%;border-collapse:collapse;margin-bottom:28px}th,td{text-align:left;padding:8px;border-bottom:1px solid #ccc}td:last-child,th:last-child{text-align:right}.note{color:#53645c;font-size:12px}</style></head><body><header><h1>Household room inventory</h1><p>Prepared ${new Date().toLocaleDateString()} · ${items.length} reviewed items</p><p class="note">Purchase totals are user-reviewed records, not valuations or proof of insurance coverage. Payment fragments are redacted.</p></header>${Array.from(groups).map(([room, roomItems]) => `<section><h2>${escapeHtml(room)}</h2><table><thead><tr><th>Item</th><th>Category</th><th>Purchased</th><th>Warranty</th><th>Paid</th></tr></thead><tbody>${roomItems.map((item) => `<tr><td>${escapeHtml(redactPayment(item.name))}<div class="note">${escapeHtml(redactPayment(item.merchant))}</div></td><td>${escapeHtml(item.category)}</td><td>${escapeHtml(item.purchaseDate)}</td><td>${escapeHtml(item.warrantyDate || "—")}</td><td>${escapeHtml(money(item.price * item.quantity))}</td></tr>`).join("")}</tbody></table></section>`).join("")}</body></html>`); doc.close();
+  doc.open(); doc.write(`<!doctype html><html lang="en"><head><title>Receipt to Room inventory</title><style>body{font:14px system-ui;color:#19332b;margin:36px}h1,h2{font-family:Georgia,serif}header{border-bottom:2px solid #1f6349;margin-bottom:28px}table{width:100%;border-collapse:collapse;margin-bottom:28px}th,td{text-align:left;padding:8px;border-bottom:1px solid #ccc}td:last-child,th:last-child{text-align:right}.note{color:#53645c;font-size:12px}</style></head><body><header><h1>Household room inventory</h1><p>Prepared ${new Date().toLocaleDateString()} · ${items.length} reviewed items</p><p class="note">Purchase totals are user-reviewed records, not valuations or proof of insurance coverage. Payment fragments are redacted.</p></header>${Array.from(groups).map(([room, roomItems]) => `<section><h2>${escapeHtml(room)}</h2><table><thead><tr><th>Item</th><th>Category</th><th>Purchased</th><th>Warranty</th><th>Paid</th></tr></thead><tbody>${roomItems.map((item) => `<tr><td>${escapeHtml(redactPayment(item.name))}<div class="note">${escapeHtml(redactPayment(item.merchant))}</div></td><td>${escapeHtml(item.category)}</td><td>${escapeHtml(item.purchaseDate)}</td><td>${escapeHtml(item.warrantyDate || "—")}</td><td>${escapeHtml(money(item.price * item.quantity, item.currency))}</td></tr>`).join("")}</tbody></table></section>`).join("")}</body></html>`); doc.close();
   setTimeout(() => { printable.contentWindow?.focus(); printable.contentWindow?.print(); setTimeout(() => printable.remove(), 1000); }, 150);
 }
 

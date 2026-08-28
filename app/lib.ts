@@ -14,6 +14,7 @@ export interface InventoryItem extends ParsedLine {
   receiptId: string;
   receiptName: string;
   merchant: string;
+  currency: string;
   room: string;
   category: string;
   purchaseDate: string;
@@ -65,6 +66,13 @@ export function inferDate(text: string): string {
   return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 }
 
+export function inferCurrency(text: string): string {
+  if (text.includes("₹")) return "INR";
+  if (text.includes("€")) return "EUR";
+  if (text.includes("£")) return "GBP";
+  return "USD";
+}
+
 export function redactPayment(value: string): string {
   return value
     .replace(/\b(?:visa|mastercard|amex|card|acct|account)\s*[:#-]?\s*(?:[*xX•\s-]*\d){2,}\b/gi, "[redacted payment]")
@@ -78,9 +86,9 @@ function csvCell(value: unknown): string {
 }
 
 export function inventoryToCsv(items: InventoryItem[]): string {
-  const header = ["Item", "Quantity", "Paid", "Room", "Category", "Purchase date", "Warranty until", "Retailer", "Receipt"];
+  const header = ["Item", "Quantity", "Paid", "Currency", "Room", "Category", "Purchase date", "Warranty until", "Retailer", "Receipt"];
   const rows = items.map((item) => [
-    item.name, item.quantity, item.price.toFixed(2), item.room, item.category,
+    item.name, item.quantity, item.price.toFixed(2), item.currency || "USD", item.room, item.category,
     item.purchaseDate, item.warrantyDate, item.merchant, item.receiptName
   ]);
   return [header, ...rows].map((row) => row.map(csvCell).join(",")).join("\r\n");
