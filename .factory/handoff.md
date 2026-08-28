@@ -6,12 +6,12 @@ Source repair commit: `7f935a548a3e4ad0e7e6c9094f82612dd635dc5e` (tag `v0.1.1`).
 It repairs the repository-owned release identity, static-cache, and true-404
 defects recorded in the independent report for candidate `ee669f2`.
 
-The tag was pushed and GitHub Actions run
-`33200634307` started from the repair commit at 2026-08-28 18:44 UTC. It builds
-the macOS Intel/Apple Silicon, Windows x64, and Linux x64 artifacts, then
-attaches `SHA256SUMS` and `latest.json`. Do not call the native release verified
-until that run is successful and `npm run verify:live-release -- 7f935a548a3e4ad0e7e6c9094f82612dd635dc5e`
-passes against it.
+GitHub Actions run `33200634307` completed successfully at 2026-08-28 18:48
+UTC. All four macOS Intel/Apple Silicon, Windows x64, and Linux x64 build jobs,
+plus the checksum/manifest job, passed. The published `v0.1.1` release reports
+`target_commitish` `7f935a548a3e4ad0e7e6c9094f82612dd635dc5e`, exactly the
+repair commit, and carries DMG, MSI/EXE, AppImage, DEB/RPM, `SHA256SUMS`, and
+`latest.json` assets.
 
 Static deployment `b9a46125-333f-4c7f-b490-ad601aae6373` succeeded at
 <https://receipt-to-room.sociobot.in/>.
@@ -66,6 +66,10 @@ Completed locally:
 - Live deployment checks after deployment: the hashed JavaScript response has
   `Cache-Control: public, max-age=31536000, immutable`; `/not-a-real-route`
   returned HTTP 404 and contains “That record is not here.”
+- Downloaded the published Linux DEB and checked it against the release manifest:
+  `Receipt.to.Room_0.1.1_amd64.deb`, 16,950,604 bytes, SHA-256
+  `d134b9debc02c0fbf3730eaac489da59e55daae38a0562f4576bea5183f6392e`;
+  `SHA256SUMS` contains the same digest.
 
 Evidence generated during the run is under ignored
 `.factory/evidence/repair-2/`.
@@ -81,11 +85,14 @@ GET https://api.sociobot.in/api/v1/products/receipt-to-room/checkout
 ```
 
 Likewise, the centrally hosted verify endpoint still has no observed per-client
-429/`Retry-After` allowance. The new live-release gate intentionally fails
-until the factory billing service registers this $29 product and enforces that
-allowance; it prevents falsely certifying this externally owned defect as
-repaired. The desktop app continues to fail softly when verification is
-unavailable, and all free/local functionality remains usable.
+429/`Retry-After` allowance. `npm run verify:live-release --
+7f935a548a3e4ad0e7e6c9094f82612dd635dc5e` correctly validates the release
+identity and assets first, then fails at the expected checkout assertion:
+`checkout returned 404, expected hosted-checkout redirect`. The gate will also
+require 429 plus `Retry-After` once checkout is fixed. This prevents falsely
+certifying the externally owned defect as repaired. The desktop app continues
+to fail softly when verification is unavailable, and all free/local
+functionality remains usable.
 
 Native bundles remain unsigned. The GitHub Actions workflow is the release
 mechanism for the macOS, Windows, and Linux artifacts; signing needs the
