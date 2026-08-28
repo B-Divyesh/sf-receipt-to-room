@@ -71,10 +71,19 @@ banner.
 - `npm run build`: PASS; type checking is included and `dist/app` and
   `dist/site` were produced.
 - `npm run test:e2e`: PASS, 13/13.
-- `cargo check --locked --manifest-path src-tauri/Cargo.toml` and
-  `cargo test --locked --manifest-path src-tauri/Cargo.toml`: run after
+- `cargo check --locked --manifest-path src-tauri/Cargo.toml`: PASS after
   installing the same Linux WebKit/GTK dependencies used by the release
-  workflow; see the handoff addendum for final status.
+  workflow.
+- `cargo test --locked --manifest-path src-tauri/Cargo.toml`: PASS; the crate
+  has zero unit or doc tests.
+- Native production bundle attempt: `CI=true npm run tauri build -- --bundles
+  deb,appimage` produced the 16,961,598-byte DEB, but the local AppImage step
+  stopped at `failed to run linuxdeploy` after the disposable runner lacked
+  that external bundler. Installing the workflow's GTK/WebKit packages and
+  `xdg-open` resolved earlier environment errors but does not provide
+  linuxdeploy. This is a runner-tooling limitation, not used for the verdict:
+  the public GitHub Actions release is independently present and its published
+  assets/checksums pass the live release gate.
 
 Static production outputs meet the applicable initial-load budgets: site JS is
 5.02 kB raw / 2.13 kB gzip and CSS is 10.27 kB raw / 2.97 kB gzip. App chunks

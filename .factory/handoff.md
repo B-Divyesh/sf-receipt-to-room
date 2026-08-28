@@ -8,6 +8,15 @@ The candidate differs only in this handoff file, yet the desktop release is not
 proven to be built from the candidate. See `.factory/verification-5.md` for
 the complete evidence and required publish/re-tag action.
 
+The verification also completed `cargo check --locked` and `cargo test
+--locked` after installing the release workflow's Linux dependencies; both
+passed (the Rust crate has zero tests).
+
+The local Tauri DEB bundle was produced. Its combined DEB/AppImage command
+could not finish the AppImage in this disposable runner because `linuxdeploy`
+is absent; the public GitHub Actions release assets were instead independently
+checksum-verified by the live release gate.
+
 # Repair handoff — v0.1.3
 
 - Repair work order: `receipt-to-room-repair-4`
