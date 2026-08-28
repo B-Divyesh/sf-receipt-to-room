@@ -13,7 +13,7 @@ describe("release and static-host contract", () => {
     const tauri = JSON.parse(read("src-tauri/tauri.conf.json")) as { version: string };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.2");
+    expect(pkg.version).toBe("0.1.3");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -34,12 +34,40 @@ describe("release and static-host contract", () => {
       navigationFallback?: unknown;
       responseOverrides?: Record<string, { rewrite?: string }>;
       routes?: Array<{ route?: string; headers?: Record<string, string> }>;
+      globalHeaders?: Record<string, string>;
     };
     const assetRoute = config.routes?.find((route) => route.route === "/assets/*");
 
     expect(config.navigationFallback).toBeUndefined();
     expect(config.responseOverrides?.["404"]?.rewrite).toBe("/404.html");
     expect(assetRoute?.headers?.["Cache-Control"]).toBe("public, max-age=31536000, immutable");
+    expect(config.globalHeaders?.["Content-Security-Policy"]).toContain("frame-ancestors 'none'");
+    expect(config.globalHeaders?.["X-Frame-Options"]).toBe("DENY");
+    expect(read("site/public/_headers")).toContain("frame-ancestors 'none'");
     expect(read("site/404.html")).toContain("That record is not here.");
+  });
+
+  test("waits for both HTTP entry points before Playwright starts claim tests", () => {
+    const config = read("playwright.config.ts");
+    expect(config).toContain('url: "http://127.0.0.1:4173/"');
+    expect(config).toContain('url: "http://127.0.0.1:1420/"');
+    expect(config.match(/reuseExistingServer: false/g)).toHaveLength(2);
+    expect(config.match(/--strictPort/g)).toHaveLength(2);
+    expect(config).not.toMatch(/\bport:\s*(4173|1420)/);
+  });
+
+  test("lists every documented product capability with exactly one claim test", () => {
+    const claims = JSON.parse(read(".factory/claims.json")) as Array<{ id: string; test: string }>;
+    const ids = claims.map((claim) => claim.id);
+    expect(ids).toEqual(expect.arrayContaining([
+      "sample-demo", "local-ocr", "csv-export", "price", "release-api",
+      "receipt-workflow", "bulk-queue", "print-undo", "local-storage", "license-rate-policy", "offline-work"
+    ]));
+    expect(new Set(ids).size).toBe(ids.length);
+    const e2e = read("tests/e2e/product.spec.ts");
+    for (const claim of claims) {
+      expect(claim.test).toContain(`@claim:${claim.id}`);
+      expect(e2e.match(new RegExp(`@claim:${claim.id}\\b`, "g"))).toHaveLength(1);
+    }
   });
 });

@@ -48,8 +48,14 @@ const checkoutLocation = checkout.headers.get("location") ?? "";
 requireOk(/^https:\/\/checkout\.dodopayments\.com\/session\//.test(checkoutLocation), `checkout redirected to unexpected location ${checkoutLocation || "(missing)"}`);
 const hostedCheckout = await request(checkoutLocation);
 requireOk(hostedCheckout.ok, `hosted checkout returned ${hostedCheckout.status}`);
-const verifyAttempts = await Promise.all(Array.from({ length: 31 }, (_, index) => request(`${productApi}/verify?license=release-gate-invalid-${index}`)));
-requireOk(verifyAttempts.some((response) => response.status === 429 && Boolean(response.headers.get("retry-after"))), "license verification did not enforce 429 with Retry-After");
+const verifyAttempts = [];
+for (let index = 0; index < 31; index += 1) {
+  verifyAttempts.push(await request(`${productApi}/verify?license=release-gate-${expectedCommit}-${index}`));
+}
+requireOk(verifyAttempts.slice(0, 30).every((response) => response.status === 200), `license verification allowed fewer than 30 requests: ${verifyAttempts.map((response) => response.status).join(",")}`);
+requireOk(verifyAttempts[30].status === 429, `license verification request 31 returned ${verifyAttempts[30].status}, expected 429`);
+const retryAfter = Number(verifyAttempts[30].headers.get("retry-after"));
+requireOk(Number.isFinite(retryAfter) && retryAfter >= 1, `license verification returned an invalid Retry-After value: ${verifyAttempts[30].headers.get("retry-after") ?? "missing"}`);
 
 const landing = await request(`${siteUrl}/`);
 requireOk(landing.ok, `landing returned ${landing.status}`);
@@ -61,4 +67,4 @@ requireOk(/max-age=31536000/.test(builtAsset.headers.get("cache-control") ?? "")
 const notFound = await request(new URL("/not-a-real-route", siteUrl));
 requireOk(notFound.status === 404, `unknown route returned ${notFound.status}, expected 404`);
 
-console.log(JSON.stringify({ release: release.tag_name, commit: release.target_commitish, checkout: checkout.status, checkoutHost: new URL(checkoutLocation).host, hostedCheckout: hostedCheckout.status, rateLimited: true, cache: builtAsset.headers.get("cache-control"), notFound: notFound.status }, null, 2));
+console.log(JSON.stringify({ release: release.tag_name, commit: release.target_commitish, checkout: checkout.status, checkoutHost: new URL(checkoutLocation).host, hostedCheckout: hostedCheckout.status, verificationAllowance: 30, retryAfter, cache: builtAsset.headers.get("cache-control"), notFound: notFound.status }, null, 2));

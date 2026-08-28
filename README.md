@@ -12,9 +12,9 @@ retailer, warranty provider, or insurer requires them.
 ## What ships
 
 - Tauri 2 desktop app for Windows, macOS, and Linux
-- Bundled English OCR model
-- Bulk image queue, manual fallback, room/category/warranty review, and search
-- Redacted CSV and printable PDF export; deletion includes undo
+- Local English receipt OCR, including a multi-image queue
+- Manual fallback with room, category, warranty, and search review
+- Redacted CSV and printable inventory output; deletion includes five-second undo
 - Useful free tier (three receipts) and a $29 one-time Sociobot license unlock
 - Static, OS-aware download site in `dist/site`
 
@@ -47,6 +47,7 @@ npm test
 npm run build        # app -> dist/app, landing site -> dist/site
 npm run build:site   # deployment command; index.html -> dist/site/index.html
 npm run test:e2e     # Chromium accessibility + end-to-end checks
+npm run verify:url -- https://receipt-to-room.sociobot.in
 cargo check --manifest-path src-tauri/Cargo.toml
 ```
 
@@ -79,6 +80,14 @@ SmartScreen publisher warning.
 Inventory lives in local app storage. The only product API call verifies an
 optional license at `api.sociobot.in`, cached for one day. Accessibility and
 CSV/PDF exports are never paywalled. See `/privacy/` and `/terms/` on the site.
+
+The license service allows 30 verification requests per client in a service
+window. Further requests return `429` with `Retry-After`. The app always shows
+a wait of at least one second before the next attempt. The live release gate
+checks this response policy.
+
+Every visitor-facing capability above maps to an executable entry in
+[`.factory/claims.json`](.factory/claims.json).
 
 ## Deploy
 

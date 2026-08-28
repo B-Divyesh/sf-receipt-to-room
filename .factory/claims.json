@@ -33,5 +33,47 @@
     "where": "downloads section",
     "test": "npm run test:e2e -- --grep @claim:release-api",
     "sandbox": "mock GitHub Releases API metadata; assert the detected download is rendered and cached without fetching a GitHub download redirect"
+  },
+  {
+    "id": "receipt-workflow",
+    "claim": "Manual receipt text can be reviewed by room, category, and warranty date, then searched.",
+    "where": "README and desktop intake",
+    "test": "npm run test:e2e -- --grep @claim:receipt-workflow",
+    "sandbox": "fresh app storage; paste the shipped receipt text, review its fields, save it, and search the resulting inventory"
+  },
+  {
+    "id": "bulk-queue",
+    "claim": "Several receipt images can be queued after a large shop.",
+    "where": "README and desktop intake",
+    "test": "npm run test:e2e -- --grep @claim:bulk-queue",
+    "sandbox": "fresh app storage; select two copies of the shipped receipt image and assert both distinct receipts reach inventory"
+  },
+  {
+    "id": "print-undo",
+    "claim": "The app creates printable inventory output and lets you undo a deletion for five seconds.",
+    "where": "README and desktop inventory",
+    "test": "npm run test:e2e -- --grep @claim:print-undo",
+    "sandbox": "seed one local record; inspect the generated printable document, remove the record, undo, and assert persistence"
+  },
+  {
+    "id": "local-storage",
+    "claim": "Reviewed inventory is stored locally without sending receipt contents to another origin.",
+    "where": "README and privacy page",
+    "test": "npm run test:e2e -- --grep @claim:local-storage",
+    "sandbox": "fresh app storage; complete manual intake while recording requests, then assert the record in localStorage and no external request"
+  },
+  {
+    "id": "license-rate-policy",
+    "claim": "License verification allows 30 requests per service window, then returns 429; the app displays a wait of at least one second.",
+    "where": "README",
+    "test": "npm run test:e2e -- --grep @claim:license-rate-policy",
+    "sandbox": "recorded throttled verification response with Retry-After zero; assert the client presents a non-zero one-second wait; live gate checks the 30-request allowance"
+  },
+  {
+    "id": "offline-work",
+    "claim": "Manual intake, editing, and CSV export work while the desktop app is offline.",
+    "where": "desktop offline state",
+    "test": "npm run test:e2e -- --grep @claim:offline-work",
+    "sandbox": "fresh app storage; load the packaged UI, take the browser context offline, add a typed receipt, and export CSV"
   }
 ]

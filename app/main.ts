@@ -6,6 +6,7 @@ interface Draft { receiptId: string; receiptName: string; merchant: string; purc
 interface LicenseCache { valid: boolean; checkedAt: number; }
 
 const STORAGE_KEY = "receipt-to-room:inventory:v1";
+const RECEIPT_USAGE_KEY = "receipt-to-room:receipt-usage:v1";
 const LICENSE_KEY = "sb_license:receipt-to-room";
 const LICENSE_CACHE_KEY = `${LICENSE_KEY}:verdict`;
 const CHECKOUT = "https://api.sociobot.in/api/v1/products/receipt-to-room/checkout";
@@ -15,6 +16,7 @@ const rooms = ["Kitchen", "Living room", "Bedroom", "Bathroom", "Office", "Garag
 const categories = ["Appliance", "Electronics", "Furniture", "Kitchenware", "Home supply", "Tool", "Decor", "Other"];
 
 let items = loadItems();
+let receiptUsage = loadReceiptUsage(items);
 let view: View = "intake";
 let draft: Draft | null = null;
 let busy = false;
@@ -41,7 +43,25 @@ function saveItems(): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
 }
 
-function receiptCount(): number { return new Set(items.map((item) => item.receiptId)).size; }
+function loadReceiptUsage(currentItems: InventoryItem[]): number {
+  const recorded = Number(localStorage.getItem(RECEIPT_USAGE_KEY));
+  const migrated = new Set(currentItems.map((item) => item.receiptId)).size;
+  if (Number.isSafeInteger(recorded) && recorded >= migrated) return recorded;
+  localStorage.setItem(RECEIPT_USAGE_KEY, String(migrated));
+  return migrated;
+}
+function saveReceiptUsage(): void { localStorage.setItem(RECEIPT_USAGE_KEY, String(receiptUsage)); }
+function receiptCount(): number { return receiptUsage; }
+function freeLimitReached(): boolean { return !licenseValid && receiptCount() >= FREE_RECEIPTS; }
+function showLimit(): void {
+  draft = null;
+  manualEntryOpen = false;
+  error = "";
+  view = "license";
+  location.hash = "license";
+  status = `The free ${FREE_RECEIPTS}-receipt allowance is used. Existing records and exports stay available.`;
+  render();
+}
 function escapeHtml(value: unknown): string {
   return String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]!);
 }
@@ -208,10 +228,14 @@ function bindIntake(): void {
   zone?.addEventListener("dragover", (e) => { e.preventDefault(); zone.classList.add("dragging"); });
   zone?.addEventListener("dragleave", () => zone.classList.remove("dragging"));
   zone?.addEventListener("drop", (e) => { e.preventDefault(); zone.classList.remove("dragging"); void processFiles(Array.from(e.dataTransfer?.files ?? [])); });
-  document.querySelector("#show-manual")?.addEventListener("click", () => { manualEntryOpen = true; manualEntryInvalid = false; render(); document.querySelector<HTMLTextAreaElement>("#manual-text")?.focus(); });
+  document.querySelector("#show-manual")?.addEventListener("click", () => {
+    if (freeLimitReached()) { showLimit(); return; }
+    manualEntryOpen = true; manualEntryInvalid = false; render(); document.querySelector<HTMLTextAreaElement>("#manual-text")?.focus();
+  });
   document.querySelector("#parse-manual")?.addEventListener("click", () => {
     const text = document.querySelector<HTMLTextAreaElement>("#manual-text")!.value;
     if (!text.trim()) { error = "Paste at least one item and price, then try again."; manualEntryOpen = true; manualEntryInvalid = true; render(); document.querySelector<HTMLTextAreaElement>("#manual-text")?.focus(); return; }
+    if (freeLimitReached()) { showLimit(); return; }
     manualEntryOpen = false; manualEntryInvalid = false; createDraft("Typed receipt", text, 100); render();
   });
   document.querySelector("#discard-draft")?.addEventListener("click", () => { draft = null; error = ""; status = "Receipt discarded."; render(); if (fileQueue.length) void processNextFile(); });
@@ -261,6 +285,7 @@ function humanOcrStatus(value: string): string {
 }
 
 function createDraft(name: string, text: string, confidence: number, ocrLines?: Array<{ text: string; confidence: number }>): void {
+  if (freeLimitReached()) { showLimit(); return; }
   const lines = ocrLines?.length ? ocrLines.flatMap((line) => parseReceiptText(line.text, line.confidence)) : parseReceiptText(text, confidence);
   draft = { receiptId: crypto.randomUUID(), receiptName: name, merchant: inferMerchant(text), purchaseDate: inferDate(text), currency: inferCurrency(text), room: "Kitchen", category: "Home supply", warrantyDate: "", lines };
 }
@@ -275,12 +300,13 @@ function syncDraftFromForm(): void {
 
 function acceptDraft(event: SubmitEvent): void {
   event.preventDefault(); syncDraftFromForm(); if (!draft) return;
+  if (freeLimitReached()) { showLimit(); return; }
   const chosen = draft.lines.filter((line) => line.included);
   if (!chosen.length) { error = "Select at least one receipt line, or discard this receipt."; render(); return; }
   if (chosen.some((line) => !line.name || line.quantity < 1 || line.price < 0)) { error = "Each selected line needs a name, quantity of at least 1, and a non-negative price."; render(); return; }
   const now = new Date().toISOString();
   items.push(...chosen.map((line) => ({ ...line, receiptId: draft!.receiptId, receiptName: draft!.receiptName, merchant: draft!.merchant, currency: draft!.currency, room: draft!.room, category: draft!.category, purchaseDate: draft!.purchaseDate, warrantyDate: draft!.warrantyDate, createdAt: now })));
-  saveItems(); status = `${chosen.length} items added to ${draft.room}.`; draft = null; error = "";
+  receiptUsage += 1; saveReceiptUsage(); saveItems(); status = `${chosen.length} items added to ${draft.room}.`; draft = null; error = "";
   if (fileQueue.length) { view = "intake"; location.hash = "intake"; render(); setTimeout(() => void processNextFile(), 0); }
   else { view = "inventory"; location.hash = "inventory"; render(); }
 }
@@ -325,7 +351,13 @@ async function refreshLicense(force = false): Promise<boolean> {
   const token = localStorage.getItem(LICENSE_KEY); if (!token) return false;
   const cache = readLicenseCache(); if (!force && cache && Date.now() - cache.checkedAt < 86_400_000) return cache.valid;
   try {
-    const response = await fetch(`${VERIFY}?license=${encodeURIComponent(token)}`); if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const response = await fetch(`${VERIFY}?license=${encodeURIComponent(token)}`);
+    if (response.status === 429) {
+      const retrySeconds = Math.max(1, Math.ceil(Number(response.headers.get("Retry-After")) || 1));
+      status = `Too many license checks. Try again in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}.`;
+      render(); return licenseValid;
+    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const verdict = await response.json() as { valid: boolean; reason?: string };
     licenseValid = verdict.valid; localStorage.setItem(LICENSE_CACHE_KEY, JSON.stringify({ valid: verdict.valid, checkedAt: Date.now() }));
     status = verdict.valid ? "License verified. Unlimited intake is active." : "License no longer active. You can keep using and exporting existing records."; render(); return verdict.valid;
@@ -335,7 +367,7 @@ async function refreshLicense(force = false): Promise<boolean> {
 function bindLicense(): void {
   document.querySelector<HTMLFormElement>("#license-form")?.addEventListener("submit", async (e) => { e.preventDefault(); const token = document.querySelector<HTMLInputElement>("#license-token")!.value.trim(); if (!token) return; localStorage.setItem(LICENSE_KEY, token); status = "Verifying license…"; render(); await refreshLicense(true); });
   document.querySelector("#backup-json")?.addEventListener("click", () => download("receipt-to-room-backup.json", JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), items }, null, 2), "application/json"));
-  document.querySelector<HTMLInputElement>("#restore-json")?.addEventListener("change", async (e) => { const file = (e.target as HTMLInputElement).files?.[0]; if (!file) return; try { const parsed = JSON.parse(await file.text()) as { items?: InventoryItem[] }; if (!Array.isArray(parsed.items)) throw new Error(); items = parsed.items; saveItems(); status = `Restored ${items.length} items.`; view = "inventory"; render(); } catch { status = "That file is not a Receipt to Room backup."; render(); } });
+  document.querySelector<HTMLInputElement>("#restore-json")?.addEventListener("change", async (e) => { const file = (e.target as HTMLInputElement).files?.[0]; if (!file) return; try { const parsed = JSON.parse(await file.text()) as { items?: InventoryItem[] }; if (!Array.isArray(parsed.items)) throw new Error(); items = parsed.items; receiptUsage = Math.max(receiptUsage, new Set(items.map((item) => item.receiptId)).size); saveReceiptUsage(); saveItems(); status = `Restored ${items.length} items.`; view = "inventory"; render(); } catch { status = "That file is not a Receipt to Room backup."; render(); } });
 }
 
 window.addEventListener("online", () => { status = "Back online."; render(); void refreshLicense(); });
