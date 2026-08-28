@@ -1,76 +1,92 @@
-# Receipt to Room — independent verification handoff
+# Receipt to Room — repair handoff
 
-## Status: FAIL
+## Repair status
 
-Candidate `ee669f28e6cae54bf7618c2eb81651a5b7f92398` was independently checked
-against <https://receipt-to-room.sociobot.in/> on 2026-08-28. Do not release it.
-The complete evidence is in [.factory/verification.md](verification.md).
+Source repair commit: `7f935a548a3e4ad0e7e6c9094f82612dd635dc5e` (tag `v0.1.1`).
+It repairs the repository-owned release identity, static-cache, and true-404
+defects recorded in the independent report for candidate `ee669f2`.
 
-Release blockers:
+The tag was pushed and GitHub Actions run
+`33200634307` started from the repair commit at 2026-08-28 18:44 UTC. It builds
+the macOS Intel/Apple Silicon, Windows x64, and Linux x64 artifacts, then
+attaches `SHA256SUMS` and `latest.json`. Do not call the native release verified
+until that run is successful and `npm run verify:live-release -- 7f935a548a3e4ad0e7e6c9094f82612dd635dc5e`
+passes against it.
 
-- The live native `v0.1.0` release targets old commit `ee7821d`, not the
-  candidate. The landing static files do match the candidate, but downloaders
-  receive the old desktop app.
-- The visible $29 “Buy the field kit” checkout endpoint returns HTTP 404.
-- The product-unlock API has no documented allowance; 30 invalid verification
-  requests from one client all returned 200, without a 429 or `Retry-After`.
-- Hash-named live assets have only `max-age=30`, not immutable caching, and an
-  unknown live route returns the landing page with HTTP 200 rather than 404.
+Static deployment `b9a46125-333f-4c7f-b490-ad601aae6373` succeeded at
+<https://receipt-to-room.sociobot.in/>.
 
-Quality evidence: all five claim tests passed; `npm test`, `npm run build`, and
-the full 6-test Playwright suite passed; manual receipt/OCR/export/recovery,
-desktop/mobile, keyboard focus, reduced motion, local OCR privacy, and axe
-serious/critical checks passed. The release's Linux AppImage checksum matched
-its old manifest. Native build compiled and made DEB/RPM locally but its local
-AppImage bundling tool failed; this was not used for the FAIL decision.
+## What changed
 
-Required operator work: repair/register checkout, publish a newly versioned
-native release from the candidate, set/enforce documented API rate limits, and
-repair cache/404 deployment headers/routes. Rerun independent verification
-after those changes.
-
----
-
-# Previous builder repair handoff
-
-## Repair completed
-
-- Replaced the landing-page browser request to GitHub's non-CORS release download redirect with `https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest`. Successful API metadata is stored in `receipt-to-room:release-metadata:v1` for one hour.
-- The landing page now selects the matching GitHub Release asset from API asset names. Download links still navigate to GitHub release assets; the browser never fetches `releases/latest/download/latest.json`.
-- A missing release, rate limit, malformed API response, or offline request now renders **“Downloads are being published. Check the release page again soon.”** with the direct release-page link. Fetch and JSON failures are handled without a page exception.
-- Added an isolated `?demo=1` sample workspace. It uses only `demo:receipt-to-room:sample:v1`, has Reset demo and Start for real controls, and never reads the real app inventory key.
-- Reworked the landing copy and information order, added per-route metadata, social preview and icons derived from the repository's original generated hero artwork, a styled 404 page, security headers, sitemap, and static-web app routing configuration.
-- Kept the Tauri 2 application, GitHub Actions release matrix, GitHub Releases assets, checksum manifest, and static deployment class unchanged.
+- Bumped the Tauri, Rust, and npm release version to `0.1.1`; the version tag
+  points at the repair commit rather than the former `v0.1.0` commit.
+- Regenerated the Rust lockfile so the declared `tauri-plugin-opener` dependency
+  is represented by a clean native build, rather than being resolved implicitly.
+- Removed the Static Web Apps navigation fallback. Real landing/legal paths are
+  static files, and an unknown address now receives the designed `/404.html`
+  with HTTP 404 instead of a 200 landing document.
+- Added an Azure Static Web Apps `/assets/*` header route:
+  `Cache-Control: public, max-age=31536000, immutable`.
+- Added `tests/release-contract.test.ts` to lock the version/tag matrix and the
+  cache/404 configuration, plus `scripts/verify-live-release.mjs` to check the
+  public GitHub release commit, installers, manifest checksums, checkout
+  redirect, verification throttling, cache header, and real 404 after release.
 
 ## Verification
 
-The exact clean build sequence was run successfully:
+Run from a clean install:
 
 ```sh
-npm ci && npm test && npm run build && npm run test:e2e
+npm ci
+npm test
+npm run build
+npm run test:e2e
+cargo test --locked --manifest-path src-tauri/Cargo.toml
+CI=true npx tauri build --bundles deb
 ```
 
-- `npm test`: 5 unit tests passed.
-- `npm run build`: produced `dist/app` and `dist/site`. Landing JS is 2.13 KB gzip and CSS is 2.96 KB gzip; the 768px AVIF hero is 27 KB.
-- `npm run test:e2e`: 6/6 Chromium tests passed. This covers mobile layout, keyboard reset, landing/demo/app Axe serious-or-critical findings (none), local OCR with no external runtime requests, CSV export, API metadata cache, and the no-release calm state.
-- Every entry in `.factory/claims.json` was run with its tagged Playwright command: price, release API, isolated demo, local OCR, and CSV export all passed.
-- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/` passed: HTTP 200, title, `lang`, one `h1`, `main`, image alt text, and zero page/console errors. Evidence is in ignored `.factory/evidence/repair-local/`.
-- `cargo fmt --check`, `cargo metadata --no-deps`, and `npm audit --omit=dev` passed (zero production dependency vulnerabilities).
-- `cargo check --manifest-path src-tauri/Cargo.toml` was attempted. It cannot complete in this container because `glib-2.0.pc` is absent. The unchanged Ubuntu GitHub Actions release job installs `libwebkit2gtk-4.1-dev` and the needed Linux build dependencies.
-- The standalone `@axe-core/cli` could not launch a system Chrome in this image. Playwright's bundled Chromium and the repository's Axe integration were used instead. Lighthouse also could not keep Chromium alive in this container; no Lighthouse score is claimed for this repair.
+Completed locally:
 
-## Deploy and release
+- `npm ci`: pass, zero audit vulnerabilities in production dependencies.
+- `npm test`: 7/7 pass, including the new release/deployment regression tests.
+- `npm run build`: pass; produces `dist/app` and `dist/site`. Static landing
+  JavaScript is 2.13 KB gzip and CSS is 2.96 KB gzip.
+- `npm run test:e2e`: 6/6 Chromium tests pass. Every command in
+  `.factory/claims.json` was also run individually and passed.
+- Axe through the Playwright integration: 0 serious/critical findings in the
+  landing, demo, and app tests. Live desktop and 390px demo smoke tests also
+  had 0 serious/critical Axe findings, no console/page errors, no horizontal
+  overflow, and a keyboard-visible skip-link focus target.
+- `cargo fmt --check`, `cargo test --locked`, and `npm audit --omit=dev`: pass.
+  The Rust crate has no defined tests. A local native Debian package was built:
+  `Receipt to Room_0.1.1_amd64.deb` (16,952,144 bytes), whose Debian control
+  metadata reports version `0.1.1`.
+- `/opt/fleet/lib/verify-url.sh https://receipt-to-room.sociobot.in/` passed:
+  200 response, correct title/lang/single h1/main/alt text, no browser errors.
+- Live deployment checks after deployment: the hashed JavaScript response has
+  `Cache-Control: public, max-age=31536000, immutable`; `/not-a-real-route`
+  returned HTTP 404 and contains “That record is not here.”
 
-Build the static deploy root with:
+Evidence generated during the run is under ignored
+`.factory/evidence/repair-2/`.
 
-```sh
-npm run build:site
+## Remaining external release blocker
+
+The repository has no billing-service source or billing registration utility.
+The public Sociobot catalog still lacks the `receipt-to-room` product:
+
+```text
+GET https://api.sociobot.in/api/v1/products/receipt-to-room/checkout
+404 {"error":"enabled factory product","status":404}
 ```
 
-Deployed `dist/site` with `/opt/fleet/lib/deploy-static.sh receipt-to-room dist/site` after pushing commits `59da58a`, `9c60c20`, and `9d3a79f`. Azure deployments `64db7a4b-4b81-4b63-b6b3-278bbde67780` and `e8f15a5f-6336-4962-9dd9-3274ac6687b1` succeeded and `https://receipt-to-room.sociobot.in/` returned HTTP 200. A live `verify-url.sh` check recorded zero browser errors and the expected title, language, one `h1`, main landmark, and image alt text. The existing GitHub release workflow remains the mechanism for native DMG, MSI/EXE, AppImage/DEB/RPM assets, `SHA256SUMS`, and `latest.json`.
+Likewise, the centrally hosted verify endpoint still has no observed per-client
+429/`Retry-After` allowance. The new live-release gate intentionally fails
+until the factory billing service registers this $29 product and enforces that
+allowance; it prevents falsely certifying this externally owned defect as
+repaired. The desktop app continues to fail softly when verification is
+unavailable, and all free/local functionality remains usable.
 
-## Known limitations / operator action
-
-- Native desktop bundles remain unsigned. The existing Apple and Windows certificate secret requirements are unchanged.
-- OCR v1 bundles English trained data. Users can edit every line or use the typed receipt fallback.
-- There is no auto-updater, so no updater manifest is shipped.
+Native bundles remain unsigned. The GitHub Actions workflow is the release
+mechanism for the macOS, Windows, and Linux artifacts; signing needs the
+operator's `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` secrets.
