@@ -73,7 +73,11 @@ Evidence from the local Lighthouse and URL checks is kept under the ignored
 
 ## Release
 
-Release source is version `0.1.0`. The `v0.1.0` tag triggers the platform matrix;
-verify the resulting release URL, four platform entries in `latest.json`, and
-one downloaded artifact against `SHA256SUMS` before treating native distribution
-as complete.
+Release `v0.1.0` completed successfully in GitHub Actions run `33156759579`:
+<https://github.com/B-Divyesh/sf-receipt-to-room/releases/tag/v0.1.0>.
+The published assets include DMGs for both Mac architectures, MSI and EXE for
+Windows, and AppImage, DEB, and RPM for Linux, plus both Mac app archives.
+`latest.json` contains all four required platform entries. As an external smoke
+test, the published 15.0 MB Windows MSI was downloaded and its SHA256
+`8d0a14211a981bd5783e27c20c4f65edc61725d5fe908b28d381099ae7f93a38`
+matched both `latest.json` and `SHA256SUMS` exactly.
