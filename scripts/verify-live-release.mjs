@@ -44,6 +44,10 @@ for (const { url, sha256 } of Object.values(platformManifest.platforms)) {
 
 const checkout = await request(`${productApi}/checkout`, { redirect: "manual" });
 requireOk(checkout.status >= 300 && checkout.status < 400, `checkout returned ${checkout.status}, expected hosted-checkout redirect`);
+const checkoutLocation = checkout.headers.get("location") ?? "";
+requireOk(/^https:\/\/checkout\.dodopayments\.com\/session\//.test(checkoutLocation), `checkout redirected to unexpected location ${checkoutLocation || "(missing)"}`);
+const hostedCheckout = await request(checkoutLocation);
+requireOk(hostedCheckout.ok, `hosted checkout returned ${hostedCheckout.status}`);
 const verifyAttempts = await Promise.all(Array.from({ length: 31 }, (_, index) => request(`${productApi}/verify?license=release-gate-invalid-${index}`)));
 requireOk(verifyAttempts.some((response) => response.status === 429 && Boolean(response.headers.get("retry-after"))), "license verification did not enforce 429 with Retry-After");
 
@@ -57,4 +61,4 @@ requireOk(/max-age=31536000/.test(builtAsset.headers.get("cache-control") ?? "")
 const notFound = await request(new URL("/not-a-real-route", siteUrl));
 requireOk(notFound.status === 404, `unknown route returned ${notFound.status}, expected 404`);
 
-console.log(JSON.stringify({ release: release.tag_name, commit: release.target_commitish, checkout: checkout.status, rateLimited: true, cache: builtAsset.headers.get("cache-control"), notFound: notFound.status }, null, 2));
+console.log(JSON.stringify({ release: release.tag_name, commit: release.target_commitish, checkout: checkout.status, checkoutHost: new URL(checkoutLocation).host, hostedCheckout: hostedCheckout.status, rateLimited: true, cache: builtAsset.headers.get("cache-control"), notFound: notFound.status }, null, 2));

@@ -1,119 +1,88 @@
-# Receipt to Room — repair handoff
+# Receipt to Room — repair 3 handoff
 
-## Independent QA status — FAIL (2026-08-28)
+## Release status
 
-Candidate independently verified: `921d3ab0bdfd0f303eaaa083a02826078293e4f7`
-at <https://receipt-to-room.sociobot.in/>. **Do not release/accept this
-candidate.** Fresh verification is recorded in `.factory/verification-2.md`.
+Candidate `921d3ab0bdfd0f303eaaa083a02826078293e4f7` failed independent
+verification for an unavailable checkout, a hidden manual-entry recovery field,
+and strict release provenance. All three findings are repaired in `v0.1.2`.
+The original Tauri 2 desktop artifact, static landing deployment, researched
+scope, and field-guide visual system are unchanged.
 
-The release-blocking defect remains external but user-visible: the advertised
-`https://api.sociobot.in/api/v1/products/receipt-to-room/checkout` returns HTTP
-404 instead of a hosted checkout redirect. The product-unlock endpoint now
-does enforce an observed 30-request allowance (then 429 with `Retry-After: 3`),
-and the repaired live cache/404 configuration is good. A separate P2 local UI
-defect hides the manual-text textarea after a blank submission, preventing the
-named error recovery until the user opens it again.
+The static site was deployed with the work-order configuration to
+<https://receipt-to-room.sociobot.in/>. Azure Static Web Apps deployment
+`e0fcf2c2-ddde-4c75-8ec7-061db8acd5e8` succeeded on 2026-08-28. The `v0.1.2`
+tag points to this handoff commit, so the public release target and repository
+HEAD have exact source identity.
 
-Fresh QA passed every required claim command, `npm test` (7/7), build,
-full Playwright suite (6/6), Rust format/test, audit, and the exact Linux
-production bundle command (`CI=true npx tauri build --bundles deb`), plus live
-desktop/390px axe (0 serious/critical), headers, privacy request log, and
-AppImage checksum.
+## Repairs
 
-## Repair status
+- Reproduced the blank manual submission before changing source. The alert was
+  present, but `#manual-entry` had `hidden`, the textarea was invisible, and
+  focus fell back to the document.
+- Added durable manual-entry and validation state. A blank submission now keeps
+  the textarea visible, focuses it, marks it `aria-invalid`, and links it to the
+  announced error with `aria-describedby`. Entering a valid line immediately
+  continues to review.
+- Added a Playwright regression at 390 px for the exact failure and recovery.
+- Added paid-return coverage for query-token storage, URL token removal,
+  background verification, and the unlocked backup state.
+- Rechecked the newly registered production billing mapping. The product URL
+  returns HTTP 303 to a live `checkout.dodopayments.com/session/...` page, and
+  that hosted page returns HTTP 200.
+- Tightened `verify:live-release` so any non-Dodo redirect or broken hosted
+  checkout fails the release gate.
+- Bumped npm, Rust, Tauri, lockfile, release fixtures, and visible site version
+  to `0.1.2`. GitHub Actions remains the only native release builder.
 
-Source repair commit: `7f935a548a3e4ad0e7e6c9094f82612dd635dc5e` (tag `v0.1.1`).
-It repairs the repository-owned release identity, static-cache, and true-404
-defects recorded in the independent report for candidate `ee669f2`.
+## Exact verification evidence
 
-GitHub Actions run `33200634307` completed successfully at 2026-08-28 18:48
-UTC. All four macOS Intel/Apple Silicon, Windows x64, and Linux x64 build jobs,
-plus the checksum/manifest job, passed. The published `v0.1.1` release reports
-`target_commitish` `7f935a548a3e4ad0e7e6c9094f82612dd635dc5e`, exactly the
-repair commit, and carries DMG, MSI/EXE, AppImage, DEB/RPM, `SHA256SUMS`, and
-`latest.json` assets.
+The repository was installed from its lockfile with `npm ci`; npm reported 84
+packages and zero vulnerabilities. Verification then produced:
 
-Static deployment `b9a46125-333f-4c7f-b490-ad601aae6373` succeeded at
-<https://receipt-to-room.sociobot.in/>.
+- `npm test`: 7/7 passed, including release/deployment policy tests.
+- `npm run build`: passed TypeScript checking and emitted `dist/app` plus
+  `dist/site`; site JS is 5.02 kB raw / 2.13 kB gzip and CSS is 10.24 kB raw /
+  2.96 kB gzip.
+- `npm run test:e2e`: 8/8 passed, including the new manual recovery and paid
+  return cases. Axe reported no serious or critical issues.
+- Every command in `.factory/claims.json` passed separately: sample sandbox,
+  local OCR, CSV export/search, $29 price/link, and release API selection.
+- `cargo fmt --check --manifest-path src-tauri/Cargo.toml`: passed.
+- `cargo test --locked --manifest-path src-tauri/Cargo.toml`: passed; both Rust
+  targets and doc tests contain zero tests and returned success.
+- `CI=true npx tauri build --bundles deb`: passed. It produced
+  `Receipt to Room_0.1.2_amd64.deb` (17 MB); package metadata reports version
+  `0.1.2`, architecture `amd64`, and local SHA-256
+  `45679d7982f37f8ce04eb6ad2cf99774d558051260c89c645fe9e2b7d42ec6b5`.
+- Mobile Lighthouse against the production build and live URL: Performance
+  100, Accessibility 100, Best Practices 100, SEO 100; LCP 1.1 s, CLS 0,
+  total blocking time 0 ms.
+- `/opt/fleet/lib/verify-url.sh` against the live root: HTTP 200, correct title
+  and `lang`, one `h1`, a `main` landmark, no missing alt text, no unlabeled
+  buttons, and no console/page errors.
+- Fresh live desktop (1366×900) and mobile (390×844) demo checks: no horizontal
+  overflow, no console/page errors, keyboard Tab reveals a solid skip-link
+  focus ring, and Axe found zero serious/critical violations. Requests went
+  only to the site origin and the documented GitHub Releases API.
+- Mobile offline app check: the offline state was announced, manual entry and
+  its blank-error recovery remained usable, no external request occurred, and
+  reduced-motion transition duration was `0.00001s`.
+- Live response policy: `/`, `/privacy/`, and `/terms/` return 200; an unknown
+  route returns 404; hashed JavaScript returns
+  `Cache-Control: public, max-age=31536000, immutable`; HSTS, CSP, nosniff,
+  Referrer-Policy, and Permissions-Policy are present.
+- The release gate is `npm run verify:live-release -- $(git rev-parse HEAD)`.
+  It checks exact GitHub release commit identity, all required OS assets,
+  `latest.json`, `SHA256SUMS`, downloadable checksums, hosted checkout, license
+  throttling with `Retry-After`, immutable caching, and the true HTTP 404.
 
-## What changed
+The landing copy audit remains current: no sentence exceeds 22 words and no
+banned wording was introduced. No analytics, telemetry, external fonts, raw AI
+keys, receipt uploads, or direct payment-provider integration were added.
 
-- Bumped the Tauri, Rust, and npm release version to `0.1.1`; the version tag
-  points at the repair commit rather than the former `v0.1.0` commit.
-- Regenerated the Rust lockfile so the declared `tauri-plugin-opener` dependency
-  is represented by a clean native build, rather than being resolved implicitly.
-- Removed the Static Web Apps navigation fallback. Real landing/legal paths are
-  static files, and an unknown address now receives the designed `/404.html`
-  with HTTP 404 instead of a 200 landing document.
-- Added an Azure Static Web Apps `/assets/*` header route:
-  `Cache-Control: public, max-age=31536000, immutable`.
-- Added `tests/release-contract.test.ts` to lock the version/tag matrix and the
-  cache/404 configuration, plus `scripts/verify-live-release.mjs` to check the
-  public GitHub release commit, installers, manifest checksums, checkout
-  redirect, verification throttling, cache header, and real 404 after release.
+## Known gaps and operator action
 
-## Verification
-
-Run from a clean install:
-
-```sh
-npm ci
-npm test
-npm run build
-npm run test:e2e
-cargo test --locked --manifest-path src-tauri/Cargo.toml
-CI=true npx tauri build --bundles deb
-```
-
-Completed locally:
-
-- `npm ci`: pass, zero audit vulnerabilities in production dependencies.
-- `npm test`: 7/7 pass, including the new release/deployment regression tests.
-- `npm run build`: pass; produces `dist/app` and `dist/site`. Static landing
-  JavaScript is 2.13 KB gzip and CSS is 2.96 KB gzip.
-- `npm run test:e2e`: 6/6 Chromium tests pass. Every command in
-  `.factory/claims.json` was also run individually and passed.
-- Axe through the Playwright integration: 0 serious/critical findings in the
-  landing, demo, and app tests. Live desktop and 390px demo smoke tests also
-  had 0 serious/critical Axe findings, no console/page errors, no horizontal
-  overflow, and a keyboard-visible skip-link focus target.
-- `cargo fmt --check`, `cargo test --locked`, and `npm audit --omit=dev`: pass.
-  The Rust crate has no defined tests. A local native Debian package was built:
-  `Receipt to Room_0.1.1_amd64.deb` (16,952,144 bytes), whose Debian control
-  metadata reports version `0.1.1`.
-- `/opt/fleet/lib/verify-url.sh https://receipt-to-room.sociobot.in/` passed:
-  200 response, correct title/lang/single h1/main/alt text, no browser errors.
-- Live deployment checks after deployment: the hashed JavaScript response has
-  `Cache-Control: public, max-age=31536000, immutable`; `/not-a-real-route`
-  returned HTTP 404 and contains “That record is not here.”
-- Downloaded the published Linux DEB and checked it against the release manifest:
-  `Receipt.to.Room_0.1.1_amd64.deb`, 16,950,604 bytes, SHA-256
-  `d134b9debc02c0fbf3730eaac489da59e55daae38a0562f4576bea5183f6392e`;
-  `SHA256SUMS` contains the same digest.
-
-Evidence generated during the run is under ignored
-`.factory/evidence/repair-2/`.
-
-## Remaining external release blocker
-
-The repository has no billing-service source or billing registration utility.
-The public Sociobot catalog still lacks the `receipt-to-room` product:
-
-```text
-GET https://api.sociobot.in/api/v1/products/receipt-to-room/checkout
-404 {"error":"enabled factory product","status":404}
-```
-
-Likewise, the centrally hosted verify endpoint still has no observed per-client
-429/`Retry-After` allowance. `npm run verify:live-release --
-7f935a548a3e4ad0e7e6c9094f82612dd635dc5e` correctly validates the release
-identity and assets first, then fails at the expected checkout assertion:
-`checkout returned 404, expected hosted-checkout redirect`. The gate will also
-require 429 plus `Retry-After` once checkout is fixed. This prevents falsely
-certifying the externally owned defect as repaired. The desktop app continues
-to fail softly when verification is unavailable, and all free/local
-functionality remains usable.
-
-Native bundles remain unsigned. The GitHub Actions workflow is the release
-mechanism for the macOS, Windows, and Linux artifacts; signing needs the
-operator's `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` secrets.
+Native packages are unsigned. macOS notarization and Windows Authenticode need
+operator-owned `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` secrets. The app has
+no in-app updater, so it ships no updater manifest; the landing page discovers
+new signed or unsigned releases through the GitHub Releases API.

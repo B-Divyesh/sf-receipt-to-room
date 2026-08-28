@@ -2,12 +2,12 @@ import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const releaseApi = "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
-const release = { tag_name: "v0.1.1", assets: [
-  { name: "Receipt.to.Room_0.1.1_x64_en-US.msi", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.1/Receipt.to.Room_0.1.1_x64_en-US.msi" },
-  { name: "Receipt.to.Room_0.1.1_x64-setup.exe", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.1/Receipt.to.Room_0.1.1_x64-setup.exe" },
-  { name: "Receipt.to.Room_0.1.1_aarch64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.1/Receipt.to.Room_0.1.1_aarch64.dmg" },
-  { name: "Receipt.to.Room_0.1.1_x64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.1/Receipt.to.Room_0.1.1_x64.dmg" },
-  { name: "Receipt.to.Room_0.1.1_amd64.AppImage", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.1/Receipt.to.Room_0.1.1_amd64.AppImage" }
+const release = { tag_name: "v0.1.2", assets: [
+  { name: "Receipt.to.Room_0.1.2_x64_en-US.msi", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.2/Receipt.to.Room_0.1.2_x64_en-US.msi" },
+  { name: "Receipt.to.Room_0.1.2_x64-setup.exe", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.2/Receipt.to.Room_0.1.2_x64-setup.exe" },
+  { name: "Receipt.to.Room_0.1.2_aarch64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.2/Receipt.to.Room_0.1.2_aarch64.dmg" },
+  { name: "Receipt.to.Room_0.1.2_x64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.2/Receipt.to.Room_0.1.2_x64.dmg" },
+  { name: "Receipt.to.Room_0.1.2_amd64.AppImage", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.2/Receipt.to.Room_0.1.2_amd64.AppImage" }
 ] };
 
 async function mockRelease(page: Page, body: unknown = release, status = 200): Promise<void> {
@@ -35,7 +35,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
   await mockRelease(page);
   await page.goto("http://127.0.0.1:4173/");
-  await expect(page.getByRole("link", { name: /download linux appimage/i })).toHaveAttribute("href", /releases\/download\/v0\.1\.1/);
+  await expect(page.getByRole("link", { name: /download linux appimage/i })).toHaveAttribute("href", /releases\/download\/v0\.1\.2/);
   await expect.poll(() => page.evaluate(() => localStorage.getItem("receipt-to-room:release-metadata:v1"))).not.toBeNull();
   expect(requests).toContain(releaseApi);
   expect(requests.some((url) => url.includes("github.com/B-Divyesh/sf-receipt-to-room/releases/latest/download/latest.json"))).toBe(false);
@@ -90,6 +90,42 @@ test("@claim:csv-export manual receipt becomes a searchable, exportable inventor
   expect((await download).suggestedFilename()).toBe("receipt-to-room-inventory.csv");
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""))).toEqual([]);
+});
+
+test("blank manual receipt keeps its named recovery field visible and focused", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => localStorage.clear());
+  await page.goto("http://127.0.0.1:1420/");
+  await page.getByRole("button", { name: "Paste receipt text" }).click();
+  await page.getByRole("button", { name: "Review these lines" }).click();
+
+  const textarea = page.getByLabel("One purchased item and price per line");
+  await expect(page.getByRole("alert")).toHaveText("Paste at least one item and price, then try again.");
+  await expect(textarea).toBeVisible();
+  await expect(textarea).toBeFocused();
+  await expect(textarea).toHaveAttribute("aria-invalid", "true");
+  await expect(textarea).toHaveAttribute("aria-describedby", "manual-error");
+
+  await textarea.fill("Desk lamp 39.00");
+  await page.getByRole("button", { name: "Review these lines" }).click();
+  await expect(page.getByRole("heading", { name: "Check the useful lines" })).toBeVisible();
+});
+
+test("checkout return stores, strips, verifies, and unlocks a license", async ({ page }) => {
+  await page.addInitScript(() => localStorage.clear());
+  let verifiedToken = "";
+  await page.route("https://api.sociobot.in/api/v1/products/receipt-to-room/verify?*", async (route) => {
+    verifiedToken = new URL(route.request().url()).searchParams.get("license") ?? "";
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ valid: true, reason: "ok", expires_at: null }) });
+  });
+
+  await page.goto("http://127.0.0.1:1420/?license=licensed-test-token#license");
+  await expect.poll(() => verifiedToken).toBe("licensed-test-token");
+  await expect.poll(() => new URL(page.url()).searchParams.has("license")).toBe(false);
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("sb_license:receipt-to-room"))).toBe("licensed-test-token");
+  await page.getByRole("button", { name: /field kit unlocked/i }).click();
+  await expect(page.getByRole("heading", { name: "Your full field kit is unlocked." })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Download JSON backup" })).toBeVisible();
 });
 
 test("@claim:local-ocr bundled OCR reads a receipt without external runtime assets", async ({ page }) => {

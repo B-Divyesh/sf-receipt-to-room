@@ -13,7 +13,7 @@ describe("release and static-host contract", () => {
     const tauri = JSON.parse(read("src-tauri/tauri.conf.json")) as { version: string };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.1");
+    expect(pkg.version).toBe("0.1.2");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -24,6 +24,9 @@ describe("release and static-host contract", () => {
     expect(workflow).toContain("aarch64-apple-darwin");
     expect(workflow).toContain("SHA256SUMS");
     expect(workflow).toContain("latest.json");
+    const liveGate = read("scripts/verify-live-release.mjs");
+    expect(liveGate).toContain("checkout\\.dodopayments\\.com\\/session");
+    expect(liveGate).toContain("hostedCheckout.ok");
   });
 
   test("does not rewrite unknown requests to the landing page and caches hashed assets immutably", () => {

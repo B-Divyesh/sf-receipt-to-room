@@ -21,6 +21,8 @@ let busy = false;
 let progress = 0;
 let status = "Ready for a receipt.";
 let error = "";
+let manualEntryOpen = false;
+let manualEntryInvalid = false;
 let deleted: { item: InventoryItem; index: number; timeout: number } | null = null;
 let licenseValid = readLicenseCache()?.valid === true && Boolean(localStorage.getItem(LICENSE_KEY));
 let fileQueue: File[] = [];
@@ -109,12 +111,12 @@ function uploadView(): string {
         <button class="button secondary" id="show-manual">Paste receipt text</button>
       </aside>
     </section>
-    <section id="manual-entry" class="manual-entry" hidden aria-labelledby="manual-title">
+    <section id="manual-entry" class="manual-entry" ${manualEntryOpen ? "" : "hidden"} aria-labelledby="manual-title">
       <h2 id="manual-title">Paste receipt text</h2><label for="manual-text">One purchased item and price per line</label>
-      <textarea id="manual-text" rows="7" placeholder="Desk lamp 39.00&#10;Storage box 12.50"></textarea>
+      <textarea id="manual-text" rows="7" placeholder="Desk lamp 39.00&#10;Storage box 12.50" ${manualEntryInvalid ? 'aria-describedby="manual-error" aria-invalid="true"' : ""}></textarea>
       <button class="button primary" id="parse-manual">Review these lines</button>
     </section>
-    ${error ? `<p class="error-message" role="alert">${escapeHtml(error)}</p>` : ""}
+    ${error ? `<p class="error-message" id="manual-error" role="alert">${escapeHtml(error)}</p>` : ""}
   `;
 }
 
@@ -206,11 +208,11 @@ function bindIntake(): void {
   zone?.addEventListener("dragover", (e) => { e.preventDefault(); zone.classList.add("dragging"); });
   zone?.addEventListener("dragleave", () => zone.classList.remove("dragging"));
   zone?.addEventListener("drop", (e) => { e.preventDefault(); zone.classList.remove("dragging"); void processFiles(Array.from(e.dataTransfer?.files ?? [])); });
-  document.querySelector("#show-manual")?.addEventListener("click", () => { document.querySelector<HTMLElement>("#manual-entry")!.hidden = false; document.querySelector<HTMLTextAreaElement>("#manual-text")!.focus(); });
+  document.querySelector("#show-manual")?.addEventListener("click", () => { manualEntryOpen = true; manualEntryInvalid = false; render(); document.querySelector<HTMLTextAreaElement>("#manual-text")?.focus(); });
   document.querySelector("#parse-manual")?.addEventListener("click", () => {
     const text = document.querySelector<HTMLTextAreaElement>("#manual-text")!.value;
-    if (!text.trim()) { error = "Paste at least one item and price, then try again."; render(); return; }
-    createDraft("Typed receipt", text, 100); render();
+    if (!text.trim()) { error = "Paste at least one item and price, then try again."; manualEntryOpen = true; manualEntryInvalid = true; render(); document.querySelector<HTMLTextAreaElement>("#manual-text")?.focus(); return; }
+    manualEntryOpen = false; manualEntryInvalid = false; createDraft("Typed receipt", text, 100); render();
   });
   document.querySelector("#discard-draft")?.addEventListener("click", () => { draft = null; error = ""; status = "Receipt discarded."; render(); if (fileQueue.length) void processNextFile(); });
   document.querySelector("#add-line")?.addEventListener("click", () => {
