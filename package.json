@@ -1,0 +1,31 @@
+{
+  "name": "receipt-to-room",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run prepare:ocr && vite --config vite.app.config.ts",
+    "dev:site": "vite --config vite.site.config.ts",
+    "build": "npm run build:app && npm run build:site",
+    "build:app": "npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts",
+    "build:site": "vite build --config vite.site.config.ts",
+    "test": "vitest run",
+    "test:e2e": "npm run build && playwright test",
+    "tauri": "tauri",
+    "prepare:ocr": "node scripts/prepare-ocr.mjs"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-opener": "^2.5.4",
+    "@tesseract.js-data/eng": "1.0.0",
+    "tesseract.js": "6.0.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.58.2",
+    "@tauri-apps/cli": "^2.11.4",
+    "sharp": "^0.35.4",
+    "typescript": "5.9.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

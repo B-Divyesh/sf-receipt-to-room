@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Receipt to Room",
+  "version": "0.1.0",
+  "identifier": "in.sociobot.receipt-to-room",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build:app",
+    "frontendDist": "../dist/app"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Receipt to Room",
+        "width": 1180,
+        "height": 800,
+        "minWidth": 390,
+        "minHeight": 620,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' customprotocol: asset:; img-src 'self' asset: blob: data:; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost https://api.sociobot.in; worker-src 'self' blob:; child-src blob:; frame-src 'self' blob:"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "Utility",
+    "shortDescription": "Turn receipts into a room inventory",
+    "longDescription": "Local receipt OCR, review, room assignment, and insurance-ready exports.",
+    "copyright": "Copyright 2026 Param Factory",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "linux": { "deb": { "depends": [] }, "appimage": { "bundleMediaFramework": false } }
+  }
+}
