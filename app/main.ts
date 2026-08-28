@@ -248,8 +248,7 @@ async function processNextFile(): Promise<void> {
     const ocrLines = result.data.blocks?.flatMap((block) => block.paragraphs.flatMap((paragraph) => paragraph.lines.map((line) => ({ text: line.text, confidence: line.confidence }))));
     createDraft(file.name, result.data.text, result.data.confidence, ocrLines);
     status = `Read ${draft?.lines.length ?? 0} likely purchase lines from ${file.name}.`;
-  } catch (caught) {
-    console.error("Local OCR failed", caught);
+  } catch {
     error = "This image could not be read locally. Try a sharper, upright photo or use “Paste receipt text” below.";
   } finally { busy = false; render(); }
 }

@@ -1,83 +1,43 @@
-# Receipt to Room — build handoff
+# Receipt to Room — repair handoff
 
-## What was built
+## Repair completed
 
-- Tauri 2 desktop application with a Vite/TypeScript interface.
-- Fully local English receipt OCR using bundled Tesseract worker, WASM core, and
-  trained-data files. Browser verification confirmed zero external OCR requests.
-- Multi-image intake queue with JPG/PNG/WebP validation, progress, actionable
-  failure state, and a paste-text fallback.
-- Confidence-labelled, editable line review plus retailer, purchase date,
-  currency, room, category, and warranty metadata.
-- Persistent local inventory with room/category/retailer search, responsive card
-  treatment at 390px, reversible deletion, mixed-currency totals, payment-data
-  redaction, CSV download, and printable PDF output.
-- Useful free edition for three receipts. The $29 one-time Sociobot unlock adds
-  unlimited intake and JSON backup/restore; cached verification never blocks the
-  free experience. Checkout and verification use the product slug, not an ID.
-- OS-aware static landing page, privacy and terms pages, checksum-verifying shell
-  and PowerShell installers, and original botanical field-guide imagery.
-- GitHub Actions release matrix for macOS arm64/x86_64, Windows x86_64, and Linux
-  x86_64. Tauri uploads native bundles; the final job publishes `SHA256SUMS` and
-  `latest.json` for the site and installers.
+- Replaced the landing-page browser request to GitHub's non-CORS release download redirect with `https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest`. Successful API metadata is stored in `receipt-to-room:release-metadata:v1` for one hour.
+- The landing page now selects the matching GitHub Release asset from API asset names. Download links still navigate to GitHub release assets; the browser never fetches `releases/latest/download/latest.json`.
+- A missing release, rate limit, malformed API response, or offline request now renders **“Downloads are being published. Check the release page again soon.”** with the direct release-page link. Fetch and JSON failures are handled without a page exception.
+- Added an isolated `?demo=1` sample workspace. It uses only `demo:receipt-to-room:sample:v1`, has Reset demo and Start for real controls, and never reads the real app inventory key.
+- Reworked the landing copy and information order, added per-route metadata, social preview and icons derived from the repository's original generated hero artwork, a styled 404 page, security headers, sitemap, and static-web app routing configuration.
+- Kept the Tauri 2 application, GitHub Actions release matrix, GitHub Releases assets, checksum manifest, and static deployment class unchanged.
 
-## Build and deploy
+## Verification
+
+The exact clean build sequence was run successfully:
 
 ```sh
-npm ci
-npm test
-npm run build
-npm run test:e2e
+npm ci && npm test && npm run build && npm run test:e2e
 ```
 
-The factory deploy command is exactly `npm run build:site`; publish `dist/site`
-(its root contains `index.html`). Use `npm run tauri dev` for a native development
-window. Tagging `v*` or manually dispatching `.github/workflows/release.yml`
-creates desktop releases on GitHub-hosted platform runners.
+- `npm test`: 5 unit tests passed.
+- `npm run build`: produced `dist/app` and `dist/site`. Landing JS is 2.13 KB gzip and CSS is 2.96 KB gzip; the 768px AVIF hero is 27 KB.
+- `npm run test:e2e`: 6/6 Chromium tests passed. This covers mobile layout, keyboard reset, landing/demo/app Axe serious-or-critical findings (none), local OCR with no external runtime requests, CSV export, API metadata cache, and the no-release calm state.
+- Every entry in `.factory/claims.json` was run with its tagged Playwright command: release API, isolated demo, local OCR, and CSV export all passed.
+- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/` passed: HTTP 200, title, `lang`, one `h1`, `main`, image alt text, and zero page/console errors. Evidence is in ignored `.factory/evidence/repair-local/`.
+- `cargo fmt --check`, `cargo metadata --no-deps`, and `npm audit --omit=dev` passed (zero production dependency vulnerabilities).
+- `cargo check --manifest-path src-tauri/Cargo.toml` was attempted. It cannot complete in this container because `glib-2.0.pc` is absent. The unchanged Ubuntu GitHub Actions release job installs `libwebkit2gtk-4.1-dev` and the needed Linux build dependencies.
+- The standalone `@axe-core/cli` could not launch a system Chrome in this image. Playwright's bundled Chromium and the repository's Axe integration were used instead. Lighthouse also could not keep Chromium alive in this container; no Lighthouse score is claimed for this repair.
 
-## Verification completed
+## Deploy and release
 
-- `npm test`: 5/5 unit tests pass (parser, dates, confidence, redaction, CSV).
-- `npm run build`: passes; outputs `dist/app` and `dist/site`.
-- `npx playwright test`: 3/3 pass, including 390px landing accessibility,
-  receipt-to-inventory-to-CSV flow, and real bundled OCR with no external calls.
-- Axe: zero serious or critical findings on landing and populated app views.
-- `/opt/fleet/lib/verify-url.sh`: HTTP 200, title/lang/main/alt checks pass, zero
-  console errors.
-- Lighthouse mobile, production build: Performance 100, Accessibility 100,
-  Best Practices 96, SEO 100; LCP 1.2s, CLS 0, total blocking time 0ms.
-- Landing payload: 2.2 KB JS, 7.9 KB CSS; mobile hero AVIF 29 KB (all well below
-  factory budgets). Full hero AVIF is 129 KB.
-- `npm audit --omit=dev`: zero vulnerabilities. Full audit also reports zero
-  after updating build tooling.
-- `cargo fmt --check` and `cargo metadata --no-deps`: pass. A full local
-  `cargo check` could not link because this disposable image lacks GLib/WebKit;
-  the Ubuntu release job installs the documented Tauri system packages.
+Build the static deploy root with:
 
-Evidence from the local Lighthouse and URL checks is kept under the ignored
-`.factory/evidence/` directory.
+```sh
+npm run build:site
+```
 
-## Known gaps / operator action
+Deploy `dist/site` with `/opt/fleet/lib/deploy-static.sh receipt-to-room dist/site`. The repair is deployed after this handoff is committed and pushed. The existing GitHub release workflow remains the mechanism for native DMG, MSI/EXE, AppImage/DEB/RPM assets, `SHA256SUMS`, and `latest.json`.
 
-- Register the production `receipt-to-room` product and $29 price in Sociobot so
-  the existing slug-based checkout link begins issuing licenses.
-- Native bundles are intentionally unsigned. To add signing, provision Apple
-  secrets `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`,
-  `APPLE_SIGNING_IDENTITY`, `APPLE_ID`, `APPLE_PASSWORD`, and `APPLE_TEAM_ID`;
-  for Windows provision `WINDOWS_CERT_PFX` and `WINDOWS_CERT_PASSWORD`, then wire
-  certificate import/signing steps into the release workflow. Until then, retain
-  the landing-page warning and macOS right-click → Open guidance.
-- OCR v1 ships with English trained data. Users can always correct lines or use
-  the paste-text fallback; additional language packs are a future enhancement.
-- No updater is shipped, so there is intentionally no updater manifest.
+## Known limitations / operator action
 
-## Release
-
-Release `v0.1.0` completed successfully in GitHub Actions run `33156759579`:
-<https://github.com/B-Divyesh/sf-receipt-to-room/releases/tag/v0.1.0>.
-The published assets include DMGs for both Mac architectures, MSI and EXE for
-Windows, and AppImage, DEB, and RPM for Linux, plus both Mac app archives.
-`latest.json` contains all four required platform entries. As an external smoke
-test, the published 15.0 MB Windows MSI was downloaded and its SHA256
-`8d0a14211a981bd5783e27c20c4f65edc61725d5fe908b28d381099ae7f93a38`
-matched both `latest.json` and `SHA256SUMS` exactly.
+- Native desktop bundles remain unsigned. The existing Apple and Windows certificate secret requirements are unchanged.
+- OCR v1 bundles English trained data. Users can edit every line or use the typed receipt fallback.
+- There is no auto-updater, so no updater manifest is shipped.

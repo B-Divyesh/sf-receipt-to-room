@@ -10,9 +10,10 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        main: "site/index.html",
-        privacy: "site/privacy/index.html",
-        terms: "site/terms/index.html"
+        main: new URL("./site/index.html", import.meta.url).pathname,
+        privacy: new URL("./site/privacy/index.html", import.meta.url).pathname,
+        terms: new URL("./site/terms/index.html", import.meta.url).pathname,
+        notFound: new URL("./site/404.html", import.meta.url).pathname
       }
     }
   },

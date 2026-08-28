@@ -1,0 +1,30 @@
+[
+  {
+    "id": "sample-demo",
+    "claim": "Sample data stays separate.",
+    "where": "landing hero and demo banner",
+    "test": "npm run test:e2e -- --grep @claim:sample-demo",
+    "sandbox": "fresh browser context at /?demo=1; assert the sample workspace, reset action, and demo-only storage key"
+  },
+  {
+    "id": "local-ocr",
+    "claim": "Receipt OCR runs on your computer.",
+    "where": "landing hero and privacy section",
+    "test": "npm run test:e2e -- --grep @claim:local-ocr",
+    "sandbox": "fresh browser context; run bundled OCR on the shipped receipt and assert no external runtime request"
+  },
+  {
+    "id": "csv-export",
+    "claim": "The free app includes search, CSV, and printable PDF.",
+    "where": "pricing section",
+    "test": "npm run test:e2e -- --grep @claim:csv-export",
+    "sandbox": "fresh browser context; add a typed sample receipt, search the saved inventory, and assert a CSV download"
+  },
+  {
+    "id": "release-api",
+    "claim": "Choose the installer for your computer.",
+    "where": "downloads section",
+    "test": "npm run test:e2e -- --grep @claim:release-api",
+    "sandbox": "mock GitHub Releases API metadata; assert the detected download is rendered and cached without fetching a GitHub download redirect"
+  }
+]
