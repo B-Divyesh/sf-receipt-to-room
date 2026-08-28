@@ -1,4 +1,6 @@
-import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
@@ -13,7 +15,7 @@ describe("release and static-host contract", () => {
     const tauri = JSON.parse(read("src-tauri/tauri.conf.json")) as { version: string };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.3");
+    expect(pkg.version).toBe("0.1.4");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -24,9 +26,37 @@ describe("release and static-host contract", () => {
     expect(workflow).toContain("aarch64-apple-darwin");
     expect(workflow).toContain("SHA256SUMS");
     expect(workflow).toContain("latest.json");
+    expect(workflow).toContain("releaseCommitish: ${{ needs.source.outputs.commit }}");
+    expect(workflow).toContain('ref: ${{ needs.source.outputs.commit }}');
+    expect(workflow).toContain("release-provenance.mjs");
     const liveGate = read("scripts/verify-live-release.mjs");
     expect(liveGate).toContain("checkout\\.dodopayments\\.com\\/session");
     expect(liveGate).toContain("hostedCheckout.ok");
+  });
+
+  test("rejects the exact release-target drift reported by independent verification", () => {
+    const expected = "fbd685d4e11121bfee033b5897e750c51a63155c";
+    const stale = "50e6888fc2e78ef7c4dde423ed136db82adcac51";
+    const directory = mkdtempSync(resolve(tmpdir(), "receipt-release-provenance-"));
+    const releasePath = resolve(directory, "release.json");
+    const manifestPath = resolve(directory, "latest.json");
+    writeFileSync(releasePath, JSON.stringify({ tag_name: "v0.1.4", target_commitish: stale }));
+    writeFileSync(manifestPath, JSON.stringify({ version: "0.1.4", sourceCommit: stale, platforms: {} }));
+
+    expect(() => execFileSync(process.execPath, [
+      resolve(root, "scripts/release-provenance.mjs"), expected, releasePath, manifestPath
+    ], { stdio: "pipe" })).toThrow(/release targets 50e6888/);
+
+    writeFileSync(releasePath, JSON.stringify({ tag_name: "v0.1.4", target_commitish: expected }));
+    writeFileSync(manifestPath, JSON.stringify({ version: "0.1.4", sourceCommit: expected, platforms: {} }));
+    expect(execFileSync(process.execPath, [
+      resolve(root, "scripts/release-provenance.mjs"), expected, releasePath, manifestPath
+    ], { encoding: "utf8" })).toContain(expected);
+
+    writeFileSync(manifestPath, JSON.stringify({ version: "0.1.4", sourceCommit: stale, platforms: {} }));
+    expect(() => execFileSync(process.execPath, [
+      resolve(root, "scripts/release-provenance.mjs"), expected, releasePath, manifestPath
+    ], { stdio: "pipe" })).toThrow(/release manifest records 50e6888/);
   });
 
   test("does not rewrite unknown requests to the landing page and caches hashed assets immutably", () => {

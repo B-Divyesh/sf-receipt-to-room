@@ -2,12 +2,12 @@ import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const releaseApi = "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
-const release = { tag_name: "v0.1.3", assets: [
-  { name: "Receipt.to.Room_0.1.3_x64_en-US.msi", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.3/Receipt.to.Room_0.1.3_x64_en-US.msi" },
-  { name: "Receipt.to.Room_0.1.3_x64-setup.exe", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.3/Receipt.to.Room_0.1.3_x64-setup.exe" },
-  { name: "Receipt.to.Room_0.1.3_aarch64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.3/Receipt.to.Room_0.1.3_aarch64.dmg" },
-  { name: "Receipt.to.Room_0.1.3_x64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.3/Receipt.to.Room_0.1.3_x64.dmg" },
-  { name: "Receipt.to.Room_0.1.3_amd64.AppImage", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.3/Receipt.to.Room_0.1.3_amd64.AppImage" }
+const release = { tag_name: "v0.1.4", assets: [
+  { name: "Receipt.to.Room_0.1.4_x64_en-US.msi", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.4/Receipt.to.Room_0.1.4_x64_en-US.msi" },
+  { name: "Receipt.to.Room_0.1.4_x64-setup.exe", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.4/Receipt.to.Room_0.1.4_x64-setup.exe" },
+  { name: "Receipt.to.Room_0.1.4_aarch64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.4/Receipt.to.Room_0.1.4_aarch64.dmg" },
+  { name: "Receipt.to.Room_0.1.4_x64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.4/Receipt.to.Room_0.1.4_x64.dmg" },
+  { name: "Receipt.to.Room_0.1.4_amd64.AppImage", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.4/Receipt.to.Room_0.1.4_amd64.AppImage" }
 ] };
 
 const storedReceipt = (receiptId: string, name: string) => ({
@@ -77,8 +77,8 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
   await mockRelease(page);
   await page.goto("http://127.0.0.1:4173/");
-  await expect(page.getByRole("link", { name: /download linux appimage/i })).toHaveAttribute("href", /releases\/download\/v0\.1\.3/);
-  await expect.poll(() => page.evaluate(() => localStorage.getItem("receipt-to-room:release-metadata:v1"))).not.toBeNull();
+  await expect(page.getByRole("link", { name: /download linux appimage/i })).toHaveAttribute("href", /releases\/download\/v0\.1\.4/);
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("receipt-to-room:release-metadata:v2"))).not.toBeNull();
   expect(requests).toContain(releaseApi);
   expect(requests.some((url) => url.includes("github.com/B-Divyesh/sf-receipt-to-room/releases/latest/download/latest.json"))).toBe(false);
   expect(consoleErrors).toEqual([]);

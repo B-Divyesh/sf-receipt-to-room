@@ -3,7 +3,7 @@ import "./styles.css";
 const repository = "https://github.com/B-Divyesh/sf-receipt-to-room";
 const releasesApi = "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const releasePage = `${repository}/releases/latest`;
-const downloadCacheKey = "receipt-to-room:release-metadata:v1";
+const downloadCacheKey = "receipt-to-room:release-metadata:v2";
 const cacheLifetime = 60 * 60 * 1000;
 const demoKey = "demo:receipt-to-room:sample:v1";
 

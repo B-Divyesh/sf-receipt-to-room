@@ -7,6 +7,7 @@
  * Usage: node scripts/verify-live-release.mjs <expected-git-sha> [site-url]
  */
 import { createHash } from "node:crypto";
+import { assertReleaseProvenance } from "./release-provenance.mjs";
 
 const [expectedCommit, siteUrl = "https://receipt-to-room.sociobot.in"] = process.argv.slice(2);
 if (!expectedCommit) throw new Error("Usage: node scripts/verify-live-release.mjs <expected-git-sha> [site-url]");
@@ -23,8 +24,6 @@ const requireOk = (condition, message) => { if (!condition) throw new Error(mess
 const releaseResponse = await request(api, { headers: { Accept: "application/vnd.github+json" } });
 requireOk(releaseResponse.ok, `GitHub release API returned ${releaseResponse.status}`);
 const release = await releaseResponse.json();
-requireOk(release.target_commitish === expectedCommit, `release targets ${release.target_commitish}, expected ${expectedCommit}`);
-
 const assets = new Map(release.assets.map((asset) => [asset.name, asset]));
 for (const suffix of [".AppImage", ".msi", ".exe", ".dmg"]) {
   requireOk([...assets.keys()].some((name) => name.endsWith(suffix)), `release is missing a ${suffix} asset`);
@@ -33,6 +32,7 @@ const manifest = assets.get("latest.json");
 const sums = assets.get("SHA256SUMS");
 requireOk(manifest && sums, "release is missing latest.json or SHA256SUMS");
 const platformManifest = await (await request(manifest.browser_download_url)).json();
+assertReleaseProvenance(release, platformManifest, expectedCommit);
 const sumText = await (await request(sums.browser_download_url)).text();
 for (const { url, sha256 } of Object.values(platformManifest.platforms)) {
   const asset = [...assets.values()].find((entry) => entry.browser_download_url === url);

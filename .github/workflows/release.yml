@@ -9,7 +9,35 @@ permissions:
   contents: write
 
 jobs:
+  source:
+    runs-on: ubuntu-latest
+    outputs:
+      commit: ${{ steps.identity.outputs.commit }}
+      tag: ${{ steps.identity.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: identity
+        name: Bind the release to this exact source commit
+        shell: bash
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          TAG="v${VERSION}"
+          COMMIT="$(git rev-parse HEAD)"
+          test "$COMMIT" = "$GITHUB_SHA"
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            test "$GITHUB_REF_TYPE" = "tag"
+            test "$GITHUB_REF_NAME" = "$TAG"
+            test "$(git rev-list -n 1 "$TAG")" = "$COMMIT"
+          fi
+          test "$(node -p "require('./src-tauri/tauri.conf.json').version")" = "$VERSION"
+          test "$(sed -n 's/^version = "\([^"]*\)"/\1/p' src-tauri/Cargo.toml | head -1)" = "$VERSION"
+          echo "commit=$COMMIT" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: source
     strategy:
       fail-fast: false
       matrix:
@@ -25,6 +53,8 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.source.outputs.commit }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -34,7 +64,7 @@ jobs:
           targets: ${{ matrix.target }}
       - name: Install Linux build dependencies
         if: matrix.runner == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf xdg-utils file
       - run: npm ci
       - name: Build and attach bundles
         uses: tauri-apps/tauri-action@v0
@@ -44,15 +74,18 @@ jobs:
           tagName: v__VERSION__
           releaseName: Receipt to Room v__VERSION__
           releaseBody: Local receipt OCR and searchable room inventory. Builds are unsigned; compare downloads with SHA256SUMS.
+          releaseCommitish: ${{ needs.source.outputs.commit }}
           releaseDraft: false
           prerelease: false
           args: --target ${{ matrix.target }}
 
   manifest:
-    needs: build
+    needs: [source, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.source.outputs.commit }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -64,11 +97,20 @@ jobs:
           VERSION="v$(node -p "require('./package.json').version")"
           gh release download "$VERSION" --dir release-assets
       - name: Generate checksums and platform manifest
-        run: node scripts/make-release-manifest.mjs release-assets "v$(node -p "require('./package.json').version")"
+        run: node scripts/make-release-manifest.mjs release-assets "${{ needs.source.outputs.tag }}" "${{ needs.source.outputs.commit }}"
       - name: Attach checksum and manifest
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.source.outputs.tag }}
           files: |
             release-assets/SHA256SUMS
             release-assets/latest.json
           overwrite_files: true
+      - name: Reject release or manifest provenance drift
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ needs.source.outputs.tag }}
+          SOURCE_COMMIT: ${{ needs.source.outputs.commit }}
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" > release.json
+          node scripts/release-provenance.mjs "$SOURCE_COMMIT" release.json release-assets/latest.json
