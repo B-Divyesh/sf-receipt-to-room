@@ -45,9 +45,10 @@ All commands below ran on 2026-08-28 UTC.
 - `npm run test:e2e`: 13/13 passed across Chromium desktop and 390 px mobile,
   including keyboard, reduced motion, accessibility, privacy, offline, and all
   11 claims.
-- Every `.factory/claims.json` command passed independently from a fresh
-  browser state. The release-contract suite also proves each claim has exactly
-  one `@claim:<id>` test.
+- Ten `.factory/claims.json` commands passed independently from fresh browser
+  state; `@claim:offline-work` passed in the clean full suite. The
+  release-contract suite also proves each of the 11 claims has exactly one
+  `@claim:<id>` test.
 - Clean-clone reproduction check: cloned without local files into
   `/tmp/receipt-to-room-clean-ZNyIBh`, ran `npm ci`, then ran
   `npm run test:e2e -- --grep @claim:release-api`. It passed 1/1 on the first
@@ -89,10 +90,34 @@ At `https://receipt-to-room.sociobot.in`:
 
 ## Native release
 
-Tag `v0.1.3` triggers `.github/workflows/release.yml` to build unsigned macOS
-arm64/x86_64, Windows, and Linux packages on GitHub-hosted runners. The final
-release asset and live identity evidence is recorded below after that workflow
-completes.
+Release `v0.1.3` is public and targets candidate
+`50e6888fc2e78ef7c4dde423ed136db82adcac51`. GitHub Actions run
+`33213499466` completed successfully: all four Tauri build jobs and the
+checksum/manifest job passed. The release contains DMGs for macOS arm64 and
+x86_64, Windows MSI and EXE installers, and Linux AppImage, DEB, and RPM
+packages, plus `SHA256SUMS` and `latest.json`.
+
+The selected download checksums in `latest.json` are:
+
+- macOS arm64 DMG:
+  `53a617aeef2015197893b78851b1e9024f84e431b106d93376292d90c56b56e4`
+- macOS x86_64 DMG:
+  `4a1c97ddd67377e9cc7cbbfefeb189c7bff977663925cebebe2ebc12379802e7`
+- Windows x86_64 MSI:
+  `4a1ef1f15eb31c940ded5d3d7eca8ff48efe34fc478ec5e5c41c1f7f475ef7b1`
+- Linux x86_64 AppImage:
+  `a1379ed753cd9ca89b4e282da042251b02559bda3a05689835c1f4a25ae264c4`
+
+`npm run verify:live-release -- 50e6888fc2e78ef7c4dde423ed136db82adcac51
+https://receipt-to-room.sociobot.in` passed. It downloaded and hashed every
+manifest-selected platform asset, matched `SHA256SUMS`, confirmed the exact
+release target, followed the checkout redirect (303) to the live Dodo checkout
+(200), observed 30 successful license verifications and a 31st HTTP 429 with
+`Retry-After: 4`, confirmed immutable asset caching, and confirmed a true 404.
+
+A fresh 390 px live browser then resolved the primary button to the v0.1.3
+Linux AppImage and exposed real v0.1.3 links for all four platform choices with
+no console errors. Every internal landing-page link returned HTTP 200.
 
 ## Run it again
 
@@ -105,7 +130,7 @@ npm run test:e2e
 cargo check --locked --manifest-path src-tauri/Cargo.toml
 cargo test --locked --manifest-path src-tauri/Cargo.toml
 npm run verify:url -- https://receipt-to-room.sociobot.in
-npm run verify:live-release -- <release-commit> https://receipt-to-room.sociobot.in
+npm run verify:live-release -- 50e6888fc2e78ef7c4dde423ed136db82adcac51 https://receipt-to-room.sociobot.in
 ```
 
 ## Needs operator action
