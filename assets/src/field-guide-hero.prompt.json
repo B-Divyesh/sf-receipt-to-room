@@ -1,0 +1,8 @@
+{
+  "model": "factory-image (Azure AI Foundry)",
+  "generated_at": "2026-08-28",
+  "use_case": "stylized-concept",
+  "prompt": "Use case: stylized-concept. Asset type: wide landing-page hero illustration. Overhead botanist's field desk on warm archival paper. One generic completely textless receipt laid out like a specimen sheet, crossed by a delicate pressed fern frond, small blank color-coded paper tabs suggesting household rooms, a brass ruler and restrained graphite check marks. Refined editorial gouache with subtle paper grain and crisp product-illustration finish, not photorealistic. Landscape 3:2, central receipt with calm negative space around the edges, no cropped objects. Soft northern window light, quiet and trustworthy. Palette of parchment, deep botanical green, terracotta, muted ochre, graphite. Avoid readable words, letters, numbers, logos, brands, QR codes, barcodes, hands, people, excessive props, gradients, neon, glossy 3D. No text, no watermark, no logos.",
+  "review": "Approved: no readable text, logos, watermarks, people, brands, or misleading UI details. Botanical and household symbols are coherent with the art direction.",
+  "license": "Original AI-generated asset created for Receipt to Room."
+}
