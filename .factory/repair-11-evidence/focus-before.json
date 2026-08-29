@@ -1,0 +1,16 @@
+[
+  {
+    "label": "macOS and Linux install command",
+    "outlineColor": "rgb(16, 16, 16)",
+    "outlineStyle": "auto",
+    "outlineWidth": "1px",
+    "outlineOffset": "0px"
+  },
+  {
+    "label": "Windows PowerShell install command",
+    "outlineColor": "rgb(16, 16, 16)",
+    "outlineStyle": "auto",
+    "outlineWidth": "1px",
+    "outlineOffset": "0px"
+  }
+]

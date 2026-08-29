@@ -1,0 +1,9 @@
+13174 dist/site/index.html
+2935 dist/site/404.html
+1880 dist/site/install.sh
+950 dist/site/install.ps1
+752 dist/site/staticwebapp.config.json
+647 dist/app/index.html
+542 dist/site/_headers
+375 dist/site/sitemap.xml
+81 dist/site/robots.txt
