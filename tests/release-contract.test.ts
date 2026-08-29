@@ -15,7 +15,7 @@ describe("release and static-host contract", () => {
     const tauri = JSON.parse(read("src-tauri/tauri.conf.json")) as { version: string };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.4");
+    expect(pkg.version).toBe("0.1.5");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -91,7 +91,9 @@ describe("release and static-host contract", () => {
     const ids = claims.map((claim) => claim.id);
     expect(ids).toEqual(expect.arrayContaining([
       "sample-demo", "local-ocr", "csv-export", "price", "release-api",
-      "receipt-workflow", "bulk-queue", "print-undo", "local-storage", "license-rate-policy", "offline-work"
+      "receipt-workflow", "editable-records", "bulk-queue", "image-input", "print-undo",
+      "local-storage", "backup-restore", "redacted-exports", "privacy-boundaries",
+      "license-cache", "license-rate-policy", "offline-work"
     ]));
     expect(new Set(ids).size).toBe(ids.length);
     const e2e = read("tests/e2e/product.spec.ts");

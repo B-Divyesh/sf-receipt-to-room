@@ -1,17 +1,17 @@
 [
   {
     "id": "sample-demo",
-    "claim": "Sample data stays separate.",
-    "where": "landing hero and demo banner",
+    "claim": "Try it with sample data shows three useful records immediately, and the editable app sample project stays separate from real records.",
+    "where": "landing hero, demo banner, desktop first-run screen, README",
     "test": "npm run test:e2e -- --grep @claim:sample-demo",
-    "sandbox": "fresh browser context at /?demo=1; assert the sample workspace, reset action, and demo-only storage key"
+    "sandbox": "fresh 390px browser context; click the landing action and assert a sample row is in the next viewport, then edit/reset the app sample project and assert only demo-prefixed storage changes"
   },
   {
     "id": "local-ocr",
-    "claim": "Receipt OCR runs on your computer.",
+    "claim": "Receipt OCR runs on your computer; images are not uploaded or retained after recognition.",
     "where": "landing hero and privacy section",
     "test": "npm run test:e2e -- --grep @claim:local-ocr",
-    "sandbox": "fresh browser context; run bundled OCR on the shipped receipt and assert no external runtime request"
+    "sandbox": "isolated app demo; run bundled OCR on the shipped receipt, assert no external runtime request, and assert no image data enters storage"
   },
   {
     "id": "csv-export",
@@ -29,17 +29,24 @@
   },
   {
     "id": "release-api",
-    "claim": "Choose the installer for your computer.",
+    "claim": "Choose an unsigned macOS, Windows, or Linux installer for your computer.",
     "where": "downloads section",
     "test": "npm run test:e2e -- --grep @claim:release-api",
-    "sandbox": "mock GitHub Releases API metadata; assert the detected download is rendered and cached without fetching a GitHub download redirect"
+    "sandbox": "mock GitHub Releases API metadata; assert all three OS choices, unsigned notice, detected download, cache, and no redirect fetch"
   },
   {
     "id": "receipt-workflow",
-    "claim": "Manual receipt text can be reviewed by room, category, and warranty date, then searched.",
+    "claim": "Each receipt line can be reviewed with its own room, category, and warranty date, then searched.",
     "where": "README and desktop intake",
     "test": "npm run test:e2e -- --grep @claim:receipt-workflow",
     "sandbox": "fresh app storage; paste the shipped receipt text, review its fields, save it, and search the resulting inventory"
+  },
+  {
+    "id": "editable-records",
+    "claim": "Saved item details remain editable.",
+    "where": "desktop intake privacy note and inventory",
+    "test": "npm run test:e2e -- --grep @claim:editable-records",
+    "sandbox": "isolated app demo; save a mixed-room receipt, edit a saved item's room, category, and warranty, and assert persisted changes"
   },
   {
     "id": "bulk-queue",
@@ -47,6 +54,13 @@
     "where": "README and desktop intake",
     "test": "npm run test:e2e -- --grep @claim:bulk-queue",
     "sandbox": "fresh app storage; select two copies of the shipped receipt image and assert both distinct receipts reach inventory"
+  },
+  {
+    "id": "image-input",
+    "claim": "Receipt intake accepts JPG, PNG, or WebP images up to 10 MB each and provides recovery guidance for rejected files.",
+    "where": "desktop intake",
+    "test": "npm run test:e2e -- --grep @claim:image-input",
+    "sandbox": "isolated app demo; provide an unsupported file and a PNG over 10 MB, then assert both are rejected without losing the manual fallback"
   },
   {
     "id": "print-undo",
@@ -57,10 +71,38 @@
   },
   {
     "id": "local-storage",
-    "claim": "Reviewed inventory is stored locally without sending receipt contents to another origin.",
+    "claim": "No account is required; reviewed inventory is stored locally without sending receipt contents to another origin.",
     "where": "README and privacy page",
     "test": "npm run test:e2e -- --grep @claim:local-storage",
     "sandbox": "fresh app storage; complete manual intake while recording requests, then assert the record in localStorage and no external request"
+  },
+  {
+    "id": "backup-restore",
+    "claim": "The paid field kit downloads and restores validated JSON backups without replacing records from a malformed file.",
+    "where": "pricing, desktop license screen, README",
+    "test": "npm run test:e2e -- --grep @claim:backup-restore",
+    "sandbox": "cached valid license and one known-good record; import a syntactically valid malformed backup and assert the record and render remain intact"
+  },
+  {
+    "id": "redacted-exports",
+    "claim": "Payment fragments are redacted from CSV and printable exports.",
+    "where": "desktop intake note, landing how-it-works, README, privacy page",
+    "test": "npm run test:e2e -- --grep @claim:redacted-exports",
+    "sandbox": "isolated app demo record containing a card number; assert CSV and printable output contain the redaction marker and not the number"
+  },
+  {
+    "id": "privacy-boundaries",
+    "claim": "The app has no analytics, telemetry, advertising, crash reporter, or third-party runtime scripts; the website sets no analytics cookies.",
+    "where": "privacy page",
+    "test": "npm run test:e2e -- --grep @claim:privacy-boundaries",
+    "sandbox": "record requests through an app demo export and inspect the privacy page's scripts and browser cookies"
+  },
+  {
+    "id": "license-cache",
+    "claim": "License verification is cached for one day and sends only the license token to the Sociobot billing API.",
+    "where": "README and privacy page",
+    "test": "npm run test:e2e -- --grep @claim:license-cache",
+    "sandbox": "recorded verify response; assert checkout token storage, URL stripping, unlock, and no second verification request on reload"
   },
   {
     "id": "license-rate-policy",

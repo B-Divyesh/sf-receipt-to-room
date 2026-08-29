@@ -2,8 +2,8 @@
 
 Turn receipts into room records. Receipt to Room is for renters and homeowners
 who need purchase details after a move, repair, or insurance question. The
-desktop app reads JPG, PNG, and WebP receipts on-device, lets people check each
-line, and stores reviewed records by room.
+desktop app reads JPG, PNG, and WebP receipts on-device. Each line has its own
+room, category, and warranty date, and every saved item can be edited.
 
 It does not scrape retailers, estimate current value, file insurance claims, or
 promise that an insurer will accept a record. Keep original receipts where a
@@ -13,7 +13,7 @@ retailer, warranty provider, or insurer requires them.
 
 - Tauri 2 desktop app for Windows, macOS, and Linux
 - Local English receipt OCR, including a multi-image queue
-- Manual fallback with room, category, warranty, and search review
+- Manual fallback with per-line room, category, warranty, and saved-item editing
 - Redacted CSV and printable inventory output; deletion includes five-second undo
 - Useful free tier (three receipts) and a $29 one-time Sociobot license unlock
 - Static, OS-aware download site in `dist/site`
@@ -21,10 +21,10 @@ retailer, warranty provider, or insurer requires them.
 ## Try the sample
 
 Open `https://receipt-to-room.sociobot.in/?demo=1` or choose **Try it with
-sample data** on the landing page. The sandbox shows three reviewed room
-records. It uses only the `demo:receipt-to-room:sample:v1` localStorage key and
-never reads the desktop app inventory. See [.factory/demo.md](.factory/demo.md)
-for the sample and reset details.
+sample data** on the landing page. The sandbox immediately shows three reviewed
+room records. In the app, choose **Load sample project** on the first screen.
+The editable sample project uses only `demo:receipt-to-room:*` storage and never
+reads or writes real inventory. See [.factory/demo.md](.factory/demo.md).
 
 ## Develop
 

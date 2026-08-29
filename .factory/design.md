@@ -62,10 +62,10 @@ glass. A faint 24px baseline texture may appear on large paper surfaces.
 - **Collect:** a dashed intake plot accepts click, keyboard, or image drop.
 - **Identify:** OCR progress grows along a specimen rule; the image is handled
   locally and discarded after extraction.
-- **Annotate:** each extracted line is an editable row with a numbered folio and
-  a plainly written confidence state.
-- **Plant:** accepted items receive room, category, purchase date, and optional
-  warranty date before joining the searchable inventory.
+- **Annotate:** each extracted line is an editable row with its own room,
+  category, optional warranty date, numbered folio, and written confidence.
+- **Plant:** accepted items keep their line-level placement and can be edited
+  later from the searchable inventory.
 - **Press:** exports translate the same records into redacted CSV or a printable
   insurance summary. Payment fragments matching card patterns are removed.
 

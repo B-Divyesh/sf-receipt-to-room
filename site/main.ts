@@ -143,13 +143,20 @@ function renderSample(query = ""): void {
   }
 }
 
-function enterDemo(): void {
+function enterDemo(moveFocus = true): void {
   try { localStorage.setItem(demoKey, JSON.stringify({ startedAt: Date.now() })); } catch { /* The sample still works in memory. */ }
   if (!isDemo()) history.pushState({}, "", "/?demo=1#sample");
   document.title = "Demo — Receipt to Room";
   demoBanner.hidden = false;
   sample.hidden = false;
   renderSample(sampleSearch.value);
+  if (moveFocus) requestAnimationFrame(() => {
+    const scrollBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = "auto";
+    sample.scrollIntoView({ block: "start" });
+    document.querySelector<HTMLElement>("#sample-title")?.focus({ preventScroll: true });
+    document.documentElement.style.scrollBehavior = scrollBehavior;
+  });
 }
 
 function resetDemo(): void {
@@ -159,8 +166,14 @@ function resetDemo(): void {
   document.querySelector<HTMLElement>("#demo-reset-note")!.textContent = "Sample reset.";
 }
 
-document.querySelectorAll<HTMLAnchorElement>("[data-start-demo]").forEach((link) => link.addEventListener("click", () => window.setTimeout(enterDemo, 0)));
+document.querySelectorAll<HTMLAnchorElement>("[data-start-demo]").forEach((link) => link.addEventListener("click", (event) => {
+  event.preventDefault();
+  enterDemo();
+}));
 document.querySelector<HTMLButtonElement>("#reset-demo")?.addEventListener("click", resetDemo);
+document.querySelector<HTMLAnchorElement>("#start-real")?.addEventListener("click", () => {
+  try { localStorage.removeItem(demoKey); } catch { /* Storage can be disabled. */ }
+});
 sampleSearch.addEventListener("input", () => renderSample(sampleSearch.value));
 
 if (isDemo()) enterDemo();
