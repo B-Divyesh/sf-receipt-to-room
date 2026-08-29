@@ -21,7 +21,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.14");
+    expect(pkg.version).toBe("0.1.15");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -49,21 +49,21 @@ describe("release and static-host contract", () => {
 
     expect(() =>
       assertTaggedCandidate({
-        tag: "v0.1.14",
-        version: "0.1.14",
+        tag: "v0.1.15",
+        version: "0.1.15",
         tagCommit: staleTaggedParent,
         expectedCommit: candidate,
       }),
-    ).toThrow(`release tag v0.1.14 targets ${staleTaggedParent}`);
+    ).toThrow(`release tag v0.1.15 targets ${staleTaggedParent}`);
 
     expect(
       assertTaggedCandidate({
-        tag: "v0.1.14",
-        version: "0.1.14",
+        tag: "v0.1.15",
+        version: "0.1.15",
         tagCommit: candidate,
         expectedCommit: candidate,
       }),
-    ).toEqual({ tag: "v0.1.14", version: "0.1.14", commit: candidate });
+    ).toEqual({ tag: "v0.1.15", version: "0.1.15", commit: candidate });
   });
 
   test("verification 11 regression binds native artifacts and the deployed site to one nominated candidate", () => {
@@ -72,11 +72,11 @@ describe("release and static-host contract", () => {
     const page = (commit: string) =>
       `<!doctype html><html><head><meta name="build-commit" content="${commit}"></head></html>`;
     const release = (commit: string) => ({
-      tag_name: "v0.1.14",
+      tag_name: "v0.1.15",
       target_commitish: commit,
     });
     const manifest = (commit: string) => ({
-      version: "0.1.14",
+      version: "0.1.15",
       sourceCommit: commit,
       platforms: {},
     });
@@ -117,8 +117,8 @@ describe("release and static-host contract", () => {
       }),
     ).toEqual({
       commit: candidate,
-      tag: "v0.1.14",
-      version: "0.1.14",
+      tag: "v0.1.15",
+      version: "0.1.15",
       deploymentCommit: candidate,
     });
   });
