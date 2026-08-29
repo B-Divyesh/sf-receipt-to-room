@@ -21,6 +21,21 @@ export function assertReleaseProvenance(release, manifest, expectedCommit) {
   return { commit: expectedCommit, tag: release.tag_name, version: manifest.version };
 }
 
+export function assertDeploymentProvenance(html, expectedCommit) {
+  if (!fullCommit.test(expectedCommit)) {
+    throw new Error(`expected commit must be a full 40-character SHA, received ${expectedCommit}`);
+  }
+  const match = html.match(/<meta\s+name=["']build-commit["']\s+content=["']([0-9a-f]{40})["']\s*\/?\s*>/i);
+  const deployedCommit = match?.[1]?.toLowerCase();
+  if (!deployedCommit) {
+    throw new Error("deployment does not publish a build-commit identity");
+  }
+  if (deployedCommit !== expectedCommit.toLowerCase()) {
+    throw new Error(`deployment records ${deployedCommit}, expected ${expectedCommit}`);
+  }
+  return { commit: deployedCommit };
+}
+
 async function main() {
   const [expectedCommit, releasePath, manifestPath] = process.argv.slice(2);
   if (!expectedCommit || !releasePath || !manifestPath) {

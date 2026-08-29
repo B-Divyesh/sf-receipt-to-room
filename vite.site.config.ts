@@ -1,4 +1,14 @@
+import { execFileSync } from "node:child_process";
 import { defineConfig } from "vite";
+
+const sourceCommit = (
+  process.env.BUILD_SOURCE_COMMIT ??
+  execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim()
+).toLowerCase();
+
+if (!/^[0-9a-f]{40}$/.test(sourceCommit)) {
+  throw new Error(`BUILD_SOURCE_COMMIT must be a full Git SHA, received ${sourceCommit}`);
+}
 
 export default defineConfig({
   root: "site",
@@ -17,5 +27,15 @@ export default defineConfig({
       }
     }
   },
+  plugins: [{
+    name: "receipt-to-room-build-identity",
+    transformIndexHtml() {
+      return [{
+        tag: "meta",
+        attrs: { name: "build-commit", content: sourceCommit },
+        injectTo: "head"
+      }];
+    }
+  }],
   server: { port: 4173, strictPort: true }
 });

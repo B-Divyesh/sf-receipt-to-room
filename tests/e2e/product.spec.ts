@@ -4,32 +4,32 @@ import AxeBuilder from "@axe-core/playwright";
 const releaseApi =
   "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const release = {
-  tag_name: "v0.1.8",
+  tag_name: "v0.1.9",
   assets: [
     {
-      name: "Receipt.to.Room_0.1.8_x64_en-US.msi",
+      name: "Receipt.to.Room_0.1.9_x64_en-US.msi",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.8/Receipt.to.Room_0.1.8_x64_en-US.msi",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.9/Receipt.to.Room_0.1.9_x64_en-US.msi",
     },
     {
-      name: "Receipt.to.Room_0.1.8_x64-setup.exe",
+      name: "Receipt.to.Room_0.1.9_x64-setup.exe",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.8/Receipt.to.Room_0.1.8_x64-setup.exe",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.9/Receipt.to.Room_0.1.9_x64-setup.exe",
     },
     {
-      name: "Receipt.to.Room_0.1.8_aarch64.dmg",
+      name: "Receipt.to.Room_0.1.9_aarch64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.8/Receipt.to.Room_0.1.8_aarch64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.9/Receipt.to.Room_0.1.9_aarch64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.8_x64.dmg",
+      name: "Receipt.to.Room_0.1.9_x64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.8/Receipt.to.Room_0.1.8_x64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.9/Receipt.to.Room_0.1.9_x64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.8_amd64.AppImage",
+      name: "Receipt.to.Room_0.1.9_amd64.AppImage",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.8/Receipt.to.Room_0.1.8_amd64.AppImage",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.9/Receipt.to.Room_0.1.9_amd64.AppImage",
     },
   ],
 };
@@ -225,7 +225,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   await page.goto("http://127.0.0.1:4173/");
   await expect(
     page.getByRole("link", { name: /download linux appimage/i }),
-  ).toHaveAttribute("href", /releases\/download\/v0\.1\.8/);
+  ).toHaveAttribute("href", /releases\/download\/v0\.1\.9/);
   await expect(page.getByText(/unsigned release/)).toBeVisible();
   await page.getByRole("button", { name: "See all downloads" }).click();
   await expect(page.locator("#download-list")).toContainText(
@@ -1094,7 +1094,7 @@ test("site routes expose complete metadata, focused headings, shared links, and 
     await expect(page.locator("main h1")).toHaveCount(1);
     if (path !== "/") await expect(page.locator("main h1")).toBeFocused();
     await expect(page.locator("footer")).toContainText(
-      "Built by Param Factory · v0.1.8",
+      "Built by Param Factory · v0.1.9",
     );
     for (const label of ["Demo", "Privacy", "Terms", "Source"]) {
       await expect(

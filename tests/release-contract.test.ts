@@ -4,6 +4,8 @@ import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
+// @ts-expect-error The production helper is intentionally plain Node ESM.
+import { assertDeploymentProvenance } from "../scripts/release-provenance.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (path: string) => readFileSync(resolve(root, path), "utf8");
@@ -17,7 +19,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.8");
+    expect(pkg.version).toBe("0.1.9");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -109,6 +111,32 @@ describe("release and static-host contract", () => {
         { stdio: "pipe" },
       ),
     ).toThrow(/release manifest records 50e6888/);
+  });
+
+  test("rejects the exact live deployment drift reported by verification 8", () => {
+    const expected = "fbd685d4e11121bfee033b5897e750c51a63155c";
+    const stale = "50e6888fc2e78ef7c4dde423ed136db82adcac51";
+    const page = (commit: string) =>
+      `<!doctype html><html><head><meta name="build-commit" content="${commit}"></head></html>`;
+
+    expect(() => assertDeploymentProvenance(page(stale), expected)).toThrow(
+      /deployment records 50e6888/,
+    );
+    expect(() => assertDeploymentProvenance("<!doctype html>", expected)).toThrow(
+      /does not publish a build-commit identity/,
+    );
+    expect(assertDeploymentProvenance(page(expected), expected)).toEqual({
+      commit: expected,
+    });
+  });
+
+  test("stamps every built site entry with the source commit", () => {
+    const config = read("vite.site.config.ts");
+    const liveGate = read("scripts/verify-live-release.mjs");
+
+    expect(config).toContain('name: "build-commit"');
+    expect(config).toContain("BUILD_SOURCE_COMMIT");
+    expect(liveGate).toContain("assertDeploymentProvenance(html, expectedCommit)");
   });
 
   test("does not rewrite unknown requests to the landing page and caches hashed assets immutably", () => {

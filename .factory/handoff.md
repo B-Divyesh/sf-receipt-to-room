@@ -1,89 +1,52 @@
-# Receipt to Room verification 8 handoff — FAIL
-
-## Release status
-
-**FAIL.** Independent verification of candidate
-`3036d567c6291546f830e8c45d3da89ac19f08b7` found that
-<https://receipt-to-room.sociobot.in/> and the downloadable `v0.1.8` desktop
-release are still bound to `3f448f94d31c3b8ac7f29125dbc1703503cff6d8`.
-`npm run verify:live-release -- 3036d567c6291546f830e8c45d3da89ac19f08b7
-https://receipt-to-room.sociobot.in` fails exact provenance. This is a P0
-release blocker even though the tested product code is unchanged from the
-earlier release.
-
-Evidence: all 24 declared claim commands passed from a clean `npm ci` install;
-`npm test` (14/14), `npm run build`, `npm run test:e2e` (21/21), Tauri
-`cargo check`, and Tauri `cargo test` passed. Live axe/console/privacy/header,
-keyboard, mobile, checkout, cache, installer-checksum, and rate-limit checks
-also passed. The observed service allowance is 30 requests; request 31 returned
-429 with `Retry-After: 4`.
-
-See [.factory/verification-8.md](verification-8.md) for exact commands,
-evidence, the 24/24 passing claims gate, live privacy/accessibility checks,
-observed 30-request API allowance, and the required next action.
-
-## Required next step
-
-Release and deploy the nominated candidate SHA (or nominate the actual release
-SHA for a fresh verification), then rerun the live provenance gate. Do not
-claim this candidate is deployed until that passes.
-
----
-
-# Previous builder handoff (superseded by the verification result)
+# Receipt to Room repair 8 handoff
 
 ## Delivered
 
-- Closed every finding in `.factory/review-1.md` and `.factory/review-2.md`.
-  The finding-by-finding evidence is in `.factory/polish-2.md`.
-- Shipped a one-click, isolated `/?demo=1` path with three useful records, the
-  exact persistent demo banner, Reset, and a clear exit to real records.
-- Corrected first-screen, pricing, walkthrough, README, privacy, terms, and
-  refund wording without changing the botanical field-guide visual identity.
-- Added complete claim coverage, Dodo checkout/refund fixtures, demo network
-  isolation, 390 px banner geometry, route metadata/focus, shared build version,
-  and real 404 tests.
-- Updated `.factory/catalog-description.txt` to an 80-character verb-first line.
-- Released desktop version `v0.1.8` and deployed the static site.
+- Reproduced verification-8 before changing code. The live gate reported that
+  release `v0.1.8` targeted `3f448f94d31c3b8ac7f29125dbc1703503cff6d8`
+  instead of nominated candidate
+  `3036d567c6291546f830e8c45d3da89ac19f08b7`.
+- Bumped the desktop release coherently to `0.1.9` in npm, Cargo, the Cargo
+  lockfile, and Tauri configuration.
+- Added a build-time `build-commit` attestation to every static HTML entry.
+  `BUILD_SOURCE_COMMIT` can bind a detached source checkout explicitly; a
+  normal clean build uses `git rev-parse HEAD`.
+- Extended the live provenance gate so the GitHub release target,
+  `latest.json`, and deployed site must all identify one exact 40-character
+  source SHA before billing, checksums, caching, and 404 checks run.
+- Added regression coverage for the exact verification-8 conditions: stale
+  release identity, stale deployment identity, missing deployment identity,
+  and version drift.
+- Preserved all previously passing receipt, demo, accessibility, privacy,
+  offline, billing, export, installer, and responsive behavior.
 
-## Release and deployment
+## Local verification
 
-- Product commit: `3f448f94d31c3b8ac7f29125dbc1703503cff6d8`.
-- Release: <https://github.com/B-Divyesh/sf-receipt-to-room/releases/tag/v0.1.8>.
-- Workflow: <https://github.com/B-Divyesh/sf-receipt-to-room/actions/runs/33235079144> — success.
-- Assets: macOS arm64/x86_64 DMGs, Windows MSI/EXE, Linux AppImage/DEB/RPM,
-  app archives, `latest.json`, and `SHA256SUMS`.
-- Download proof: a fresh `Receipt.to.Room_0.1.8_amd64.deb` matched the
-  published `SHA256SUMS`.
-- Production: <https://receipt-to-room.sociobot.in/> via Azure Static Web Apps
-  resource `sf-receipt-to-room`.
+- `npm ci`: passed; 84 packages, zero reported vulnerabilities.
+- `npm test`: 16/16 passed, including the new verification-8 regressions.
+- `npm run build`: passed; TypeScript validation is included. Output remains
+  `dist/app` and `dist/site`.
+- `npm run test:e2e`: 21/21 passed with Playwright 1.58.2. Coverage includes
+  desktop and 390 px layouts, keyboard focus, Axe, reduced motion, privacy,
+  offline behavior, demo isolation, billing fixtures, exports, route focus,
+  and error recovery.
+- `cargo check --manifest-path src-tauri/Cargo.toml`: passed after installing
+  the Linux dependencies listed in the release workflow.
+- `cargo test --manifest-path src-tauri/Cargo.toml`: passed (the Rust crate
+  currently defines no unit or doc tests).
+- Production size: app JavaScript 19.92 KB gzip and CSS 4.13 KB gzip; landing
+  JavaScript 3.41 KB gzip and CSS 3.06 KB gzip.
 
-## Verification
+## Release and deployment procedure
 
-- `npm ci`: 84 packages, zero vulnerabilities.
-- `npm test`: 14/14 passed.
-- `npm run build`: passed; `dist/app` and `dist/site` produced. Site JS is
-  3.19 KB gzip across initial modules and CSS is 3.06 KB gzip.
-- `npm run test:e2e`: 21/21 passed, covering keyboard, mobile, accessibility,
-  privacy, offline work, routing, demo isolation, payment, and exports.
-- `cargo check --manifest-path src-tauri/Cargo.toml`: passed.
-- `cargo test --manifest-path src-tauri/Cargo.toml`: passed.
-- Fresh clone `/tmp/receipt-to-room-final-claims.ox7q51`: every one of the 24
-  `.factory/claims.json` commands passed individually.
-- `npm run verify:url -- https://receipt-to-room.sociobot.in`: correct title,
-  language, main/h1 count, alt text, width, and zero console/page errors.
-- `npm run verify:live-release -- 3f448f94d31c3b8ac7f29125dbc1703503cff6d8 https://receipt-to-room.sociobot.in`:
-  release provenance, Dodo checkout, rate limit, immutable cache, and 404 passed.
-- Cold 390 px production pass: zero demo cross-origin requests; exact banner;
-  Reset/exit; direct/click/Back/Forward focus and banner clearance; v0.1.8
-  download; Dodo legal text; designed 404; zero serious/critical Axe findings;
-  zero console errors.
-- Live link crawl: all internal pages, checkout, source/release pages, and the
-  four platform download links returned 200 after redirects.
-- Lighthouse mobile production: Performance 99, Accessibility 100, Best
-  Practices 100, SEO 100; FCP 1.1 s, LCP 1.1 s, TBT 100 ms, CLS 0.
-- Screenshots: `.factory/screenshots/polish-2-local-demo-mobile.png` and
-  `.factory/screenshots/polish-2-live-demo-mobile.png`.
+The source release commit is tagged `v0.1.9`. GitHub Actions checks out that
+exact tag SHA for every native target and records it in `latest.json`. The
+production site is built from the same detached SHA with
+`BUILD_SOURCE_COMMIT=<tag SHA>` and deployed from `dist/site` to Azure Static
+Web Apps resource `sf-receipt-to-room`.
+
+The post-release evidence commit records the immutable source SHA, workflow,
+asset checksums, deployment, claims, billing, and live provenance results.
 
 ## Run and verify
 
@@ -94,9 +57,11 @@ npm run build
 npm run test:e2e
 cargo check --manifest-path src-tauri/Cargo.toml
 cargo test --manifest-path src-tauri/Cargo.toml
+npm run verify:url -- https://receipt-to-room.sociobot.in
+npm run verify:live-release -- "$(git rev-list -n 1 v0.1.9)" https://receipt-to-room.sociobot.in
 ```
 
-Run each `.factory/claims.json` `test` command separately for the claims gate.
+Run every command in `.factory/claims.json` separately for the claims gate.
 
 ## Known gaps
 
@@ -104,9 +69,8 @@ None in the reviewed product scope.
 
 ## Needs operator action
 
-The published desktop packages are unsigned, as disclosed on the download
-page. The current workflow expects no signing secrets. Signed future releases
-need Apple and Windows certificates; use secrets named `APPLE_CERTIFICATE`,
-`APPLE_CERTIFICATE_PASSWORD`, `APPLE_SIGNING_IDENTITY`, `APPLE_ID`,
-`APPLE_PASSWORD`, `APPLE_TEAM_ID`, `WINDOWS_CERT_PFX`, and
-`WINDOWS_CERT_PASSWORD` when signing is added to the workflow.
+The desktop packages remain unsigned, as disclosed on the download page.
+Future signed builds need Apple and Windows certificates. The expected secret
+names are `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`,
+`APPLE_SIGNING_IDENTITY`, `APPLE_ID`, `APPLE_PASSWORD`, `APPLE_TEAM_ID`,
+`WINDOWS_CERT_PFX`, and `WINDOWS_CERT_PASSWORD`.

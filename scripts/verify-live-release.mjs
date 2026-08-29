@@ -7,7 +7,7 @@
  * Usage: node scripts/verify-live-release.mjs <expected-git-sha> [site-url]
  */
 import { createHash } from "node:crypto";
-import { assertReleaseProvenance } from "./release-provenance.mjs";
+import { assertDeploymentProvenance, assertReleaseProvenance } from "./release-provenance.mjs";
 
 const [expectedCommit, siteUrl = "https://receipt-to-room.sociobot.in"] = process.argv.slice(2);
 if (!expectedCommit) throw new Error("Usage: node scripts/verify-live-release.mjs <expected-git-sha> [site-url]");
@@ -60,6 +60,7 @@ requireOk(Number.isFinite(retryAfter) && retryAfter >= 1, `license verification 
 const landing = await request(`${siteUrl}/`);
 requireOk(landing.ok, `landing returned ${landing.status}`);
 const html = await landing.text();
+assertDeploymentProvenance(html, expectedCommit);
 const assetPath = html.match(/\/assets\/[^"']+\.js/)?.[0];
 requireOk(assetPath, "landing has no hashed JavaScript asset");
 const builtAsset = await request(new URL(assetPath, siteUrl));
@@ -67,4 +68,4 @@ requireOk(/max-age=31536000/.test(builtAsset.headers.get("cache-control") ?? "")
 const notFound = await request(new URL("/not-a-real-route", siteUrl));
 requireOk(notFound.status === 404, `unknown route returned ${notFound.status}, expected 404`);
 
-console.log(JSON.stringify({ release: release.tag_name, commit: release.target_commitish, checkout: checkout.status, checkoutHost: new URL(checkoutLocation).host, hostedCheckout: hostedCheckout.status, verificationAllowance: 30, retryAfter, cache: builtAsset.headers.get("cache-control"), notFound: notFound.status }, null, 2));
+console.log(JSON.stringify({ release: release.tag_name, releaseCommit: release.target_commitish, deploymentCommit: expectedCommit, checkout: checkout.status, checkoutHost: new URL(checkoutLocation).host, hostedCheckout: hostedCheckout.status, verificationAllowance: 30, retryAfter, cache: builtAsset.headers.get("cache-control"), notFound: notFound.status }, null, 2));
