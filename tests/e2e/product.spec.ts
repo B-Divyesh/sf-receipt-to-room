@@ -4,32 +4,32 @@ import AxeBuilder from "@axe-core/playwright";
 const releaseApi =
   "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const release = {
-  tag_name: "v0.1.13",
+  tag_name: "v0.1.14",
   assets: [
     {
-      name: "Receipt.to.Room_0.1.13_x64_en-US.msi",
+      name: "Receipt.to.Room_0.1.14_x64_en-US.msi",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_x64_en-US.msi",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.14/Receipt.to.Room_0.1.14_x64_en-US.msi",
     },
     {
-      name: "Receipt.to.Room_0.1.13_x64-setup.exe",
+      name: "Receipt.to.Room_0.1.14_x64-setup.exe",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_x64-setup.exe",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.14/Receipt.to.Room_0.1.14_x64-setup.exe",
     },
     {
-      name: "Receipt.to.Room_0.1.13_aarch64.dmg",
+      name: "Receipt.to.Room_0.1.14_aarch64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_aarch64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.14/Receipt.to.Room_0.1.14_aarch64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.13_x64.dmg",
+      name: "Receipt.to.Room_0.1.14_x64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_x64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.14/Receipt.to.Room_0.1.14_x64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.13_amd64.AppImage",
+      name: "Receipt.to.Room_0.1.14_amd64.AppImage",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_amd64.AppImage",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.14/Receipt.to.Room_0.1.14_amd64.AppImage",
     },
   ],
 };
@@ -244,7 +244,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   await page.goto("http://127.0.0.1:4173/");
   await expect(
     page.getByRole("link", { name: /download linux appimage/i }),
-  ).toHaveAttribute("href", /releases\/download\/v0\.1\.13/);
+  ).toHaveAttribute("href", /releases\/download\/v0\.1\.14/);
   await expect(page.getByText(/unsigned release/)).toBeVisible();
   await page.getByRole("button", { name: "See all downloads" }).click();
   await expect(page.locator("#download-list")).toContainText(
@@ -307,6 +307,7 @@ test("landing history restores URL, metadata, focus, and demo state", async ({
   await expect(
     page.getByRole("heading", { name: "Your room inventory" }),
   ).toBeFocused();
+  await expect(page.locator("#route-announcement")).toHaveText("Demo.");
   const enteredBanner = await page.getByLabel("Demo mode").boundingBox();
   const enteredHeading = await page
     .getByRole("heading", { name: "Your room inventory" })
@@ -321,6 +322,7 @@ test("landing history restores URL, metadata, focus, and demo state", async ({
   );
   await expect(page.getByLabel("Demo mode")).toBeHidden();
   await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect(page.locator("#route-announcement")).toHaveText("Home.");
   await page.goForward();
   await expect(page).toHaveURL(/\?demo=1#sample$/);
   await expect(page).toHaveTitle("Demo — Receipt to Room");
@@ -328,6 +330,7 @@ test("landing history restores URL, metadata, focus, and demo state", async ({
   await expect(
     page.getByRole("heading", { name: "Your room inventory" }),
   ).toBeFocused();
+  await expect(page.locator("#route-announcement")).toHaveText("Demo.");
   const restoredBanner = await page.getByLabel("Demo mode").boundingBox();
   const restoredHeading = await page
     .getByRole("heading", { name: "Your room inventory" })
@@ -335,6 +338,56 @@ test("landing history restores URL, metadata, focus, and demo state", async ({
   expect(restoredHeading!.y).toBeGreaterThanOrEqual(
     restoredBanner!.y + restoredBanner!.height,
   );
+});
+
+test("Home returns focus and announces every same-origin route change", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockRelease(page);
+
+  for (const path of ["/privacy/", "/terms/", "/404.html"] as const) {
+    await page.goto(`http://127.0.0.1:4173${path}`);
+    const routeHeading = page.locator("main h1");
+    await expect(routeHeading).toBeFocused();
+    await expect(routeHeading).toHaveCSS("outline-style", "solid");
+    await page.getByRole("link", { name: /return home/i }).click();
+    await expect(page).toHaveURL("http://127.0.0.1:4173/");
+    const homeHeading = page.getByRole("heading", { level: 1 });
+    await expect(homeHeading).toBeFocused();
+    await expect(homeHeading).toHaveCSS("outline-style", "solid");
+    await expect(page.locator("#route-announcement")).toHaveText("Home.");
+  }
+
+  await page.goto("http://127.0.0.1:4173/?demo=1#sample");
+  await page.getByRole("link", { name: "Leave demo and use my records" }).click();
+  await expect(page).toHaveURL("http://127.0.0.1:4173/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect(page.locator("#route-announcement")).toHaveText("Home.");
+});
+
+test("cross-page Back and Forward focus and announce the restored route", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockRelease(page);
+  await page.goto("http://127.0.0.1:4173/");
+  await page.getByRole("link", { name: "Read the privacy note" }).click();
+  await expect(page).toHaveURL("http://127.0.0.1:4173/privacy/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect(page.locator("#route-announcement")).toHaveText("Privacy.");
+  await page.goBack();
+  await expect(page).toHaveURL("http://127.0.0.1:4173/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS(
+    "outline-style",
+    "solid",
+  );
+  await expect(page.locator("#route-announcement")).toHaveText("Home.");
+  await page.goForward();
+  await expect(page).toHaveURL("http://127.0.0.1:4173/privacy/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await expect(page.locator("#route-announcement")).toHaveText("Privacy.");
 });
 
 test("@claim:offline-work manual intake and export remain available offline", async ({
@@ -1142,7 +1195,7 @@ test("site routes expose complete metadata, focused headings, shared links, and 
     await expect(page.locator("main h1")).toHaveCount(1);
     if (path !== "/") await expect(page.locator("main h1")).toBeFocused();
     await expect(page.locator("footer")).toContainText(
-      "Built by Param Factory · v0.1.13",
+      "Built by Param Factory · v0.1.14",
     );
     await expect(
       page.locator("footer").getByRole("link", { name: "Receipt to Room home" }),

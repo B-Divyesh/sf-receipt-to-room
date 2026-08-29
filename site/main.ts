@@ -1,5 +1,11 @@
 import "./styles.css";
 import { renderBuildVersion } from "./version";
+import {
+  focusAndAnnounce,
+  isHistoryTraversal,
+  markSameOriginRouteLinks,
+  wasRouteFocusRequested,
+} from "./route-navigation";
 
 const repository = "https://github.com/B-Divyesh/sf-receipt-to-room";
 const releasesApi = "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
@@ -161,7 +167,7 @@ function renderSample(query = ""): void {
   }
 }
 
-function enterDemo(moveFocus = true): void {
+function enterDemo(moveFocus = true, announce = false): void {
   try { localStorage.setItem(demoKey, JSON.stringify({ startedAt: Date.now() })); } catch { /* The sample still works in memory. */ }
   if (!isDemo()) history.pushState({}, "", "/?demo=1#sample");
   setRouteMetadata(true);
@@ -172,7 +178,8 @@ function enterDemo(moveFocus = true): void {
     const scrollBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = "auto";
     sample.scrollIntoView({ block: "start" });
-    document.querySelector<HTMLElement>("#sample-title")?.focus({ preventScroll: true });
+    if (announce) focusAndAnnounce("#sample-title", "Demo.");
+    else document.querySelector<HTMLElement>("#sample-title")?.focus({ preventScroll: true });
     document.documentElement.style.scrollBehavior = scrollBehavior;
   });
 }
@@ -184,31 +191,48 @@ function resetDemo(): void {
   document.querySelector<HTMLElement>("#demo-reset-note")!.textContent = "Sample reset.";
 }
 
-function leaveDemo(moveFocus = true): void {
+function leaveDemo(moveFocus = true, announce = false): void {
   try { localStorage.removeItem(demoKey); } catch { /* Storage can be disabled. */ }
   demoBanner.hidden = true; sample.hidden = true; setRouteMetadata(false);
   if (moveFocus) requestAnimationFrame(() => {
-    const heading = document.querySelector<HTMLElement>("h1");
-    if (heading) { heading.tabIndex = -1; heading.focus(); }
+    if (announce) focusAndAnnounce("main h1", "Home.");
+    else {
+      const heading = document.querySelector<HTMLElement>("h1");
+      if (heading) { heading.tabIndex = -1; heading.focus(); }
+    }
   });
 }
 
 function syncRouteFromLocation(): void {
-  if (isDemo()) enterDemo(true);
-  else leaveDemo(true);
+  if (isDemo()) enterDemo(true, true);
+  else leaveDemo(true, true);
 }
 
 document.querySelectorAll<HTMLAnchorElement>("[data-start-demo]").forEach((link) => link.addEventListener("click", (event) => {
   event.preventDefault();
-  enterDemo();
+  enterDemo(true, true);
 }));
 document.querySelector<HTMLButtonElement>("#reset-demo")?.addEventListener("click", resetDemo);
-document.querySelector<HTMLAnchorElement>("#start-real")?.addEventListener("click", () => {
-  leaveDemo(false);
+document.querySelector<HTMLAnchorElement>("#start-real")?.addEventListener("click", (event) => {
+  event.preventDefault();
+  history.pushState({}, "", "/");
+  leaveDemo(true, true);
 });
 sampleSearch.addEventListener("input", () => renderSample(sampleSearch.value));
 window.addEventListener("popstate", syncRouteFromLocation);
 
 renderBuildVersion();
-if (isDemo()) { enterDemo(); renderDemoDownloads(); }
-else { sample.hidden = true; demoBanner.hidden = true; setRouteMetadata(false); void loadDownloads(); }
+markSameOriginRouteLinks();
+const focusWasRequested = wasRouteFocusRequested();
+if (isDemo()) { enterDemo(true, focusWasRequested); renderDemoDownloads(); }
+else {
+  sample.hidden = true;
+  demoBanner.hidden = true;
+  setRouteMetadata(false);
+  if (focusWasRequested) focusAndAnnounce("main h1", "Home.");
+  void loadDownloads();
+}
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || isHistoryTraversal()) syncRouteFromLocation();
+});

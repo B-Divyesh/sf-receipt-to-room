@@ -1,8 +1,22 @@
 import "./styles.css";
 import { renderBuildVersion } from "./version";
+import {
+  currentRouteLabel,
+  focusAndAnnounce,
+  isHistoryTraversal,
+  markSameOriginRouteLinks,
+} from "./route-navigation";
+
+function focusCurrentRoute(): void {
+  focusAndAnnounce("main h1", currentRouteLabel());
+}
 
 window.addEventListener("DOMContentLoaded", () => {
   renderBuildVersion();
-  const heading = document.querySelector<HTMLElement>("main h1");
-  if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+  markSameOriginRouteLinks();
+  focusCurrentRoute();
+});
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || isHistoryTraversal()) focusCurrentRoute();
 });
