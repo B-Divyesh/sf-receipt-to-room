@@ -1,0 +1,50 @@
+{
+  "url": "https://receipt-to-room.sociobot.in/",
+  "status": 200,
+  "headers": {
+    "cache-control": "public, must-revalidate, max-age=30",
+    "content-encoding": "br",
+    "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+    "content-type": "text/html",
+    "date": "Sat, 29 Aug 2026 18:34:40 GMT",
+    "etag": "\"75049791\"",
+    "last-modified": "Sat, 29 Aug 2026 18:12:13 GMT",
+    "permissions-policy": "camera=(), microphone=(), geolocation=()",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+    "vary": "Accept-Encoding",
+    "x-content-type-options": "nosniff",
+    "x-dns-prefetch-control": "off",
+    "x-frame-options": "DENY",
+    "x-xss-protection": "1; mode=block"
+  },
+  "info": {
+    "title": "Receipt to Room — turn receipts into room records",
+    "lang": "en",
+    "h1": [
+      "Turn receipts into room records."
+    ],
+    "main": true,
+    "primary": [
+      "Skip to main content",
+      "Receipt to Room",
+      "Demo",
+      "How it works",
+      "Privacy",
+      "Downloads",
+      "Reset demo",
+      "Leave demo and use my records",
+      "Try it with sample data",
+      "Read the privacy note",
+      "Buy unlimited receipts — $29",
+      "Download Linux AppImage",
+      "See all downloads",
+      "macOS (Apple silicon)GitHub download",
+      "macOS (Intel)GitHub download"
+    ],
+    "metaDescription": "Turn receipt photos into a searchable room record on your computer.",
+    "html": "<html lang=\"en\"><head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <meta name=\"theme-color\" content=\"#f3efe3\">\n    <meta id=\"page-description\" name=\"description\" content=\"Turn receipt photos into a searchable room record on your computer.\">\n    <link id=\"page-canonical\" rel=\"canonical\" href=\"https://receipt-to-room.sociobot.in/\">\n    <meta property=\"og:type\" content=\"website\">\n    <meta id=\"og-title\" property=\"og:title\" content=\"Receipt to Room — turn receipts into room records\">\n    <meta id=\"og-description\" property=\"og:description\" content=\"Turn receipt photos into a searchable room record on your computer.\">\n    <meta id=\"og-image\" property=\"og:image\" content=\"https://receipt-to-room.sociobot.in/assets/social-preview.webp\">\n    <meta name=\"twitter:card\" content=\"summary_large_image\">\n    <meta id=\"twitter-title\" name=\"twitter:title\" content=\"Receipt to Room — turn receipts into room records\">\n    <meta id=\"twitter-description\" name=\"twitter:description\" content=\"Turn receipt photos into a searchable room record on your computer.\">\n    <meta id=\"twitter-image\" name=\"twitter:image\" content=\"https://receipt-to-room.sociobot.in/assets/social-preview.webp\">\n    <link rel=\"icon\" href=\"/assets/app-icon.svg\" type=\"image/svg+xml\">\n    <link rel=\"apple-touch-icon\" href=\"/assets/apple-touch-icon.png\">\n    <title>Receipt to Room — turn receipts into room records</title>\n    <script type=\"module\" crossorigin=\"\" src=\"/assets/main-CTswvo5Q.js\"></script>\n    <link rel=\"modulepreload\" crossorigin=\"\" href=\"/assets/route-navigation-mnqu8ea0.js\">\n    <link rel=\"stylesheet\" crossorigin=\"\" href=\"/assets/route-navigation-h861TRAT.css\">\n    <meta name=\"build-commit\" content=\"8820f663f52a3add9186f0f53632ffe15902ab2a\">\n  </head>\n  <body>\n    <a class=\"skip-link\" href=\"#main\">Skip to main content</a>\n    <p class=\"sr-only\" id=\"route-announcement\" aria-live=\"polite\" aria-atomic=\"true\"></p>\n    <header class=\"site-header\">\n      <a "
+  },
+  "text": "Skip to main content\n\nReceipt to Room\nDemo\nHow it works\nPrivacy\nDownloads\n\nA LOCAL DESKTOP APP\n\nTurn receipts into room records.\n\nFor renters and homeowners who need purchase details after a move, repair, or insurance question.\n\nTry it with sample data\nSee three demo records right away.\nDemo records stay separate.\nReceipt text is read on your computer.\n$29 once for unlimited receipts.\nIdentify the line. Check the detail. Place it in a room.\n\nHOW IT WORKS\n\nRead, check, and file each receipt.\n01\nAdd receipt photos\n\nChoose receipt photos in the desktop app.\n\n02\nCheck each line\n\nCorrect item names, prices, rooms, and warranty dates before saving.\n\n03\nFind records later\n\nSearch by room or item. Download a spreadsheet with payment details removed.\n\nDESKTOP WALKTHROUGH\n\nSee the receipt workflow before installing.\n\nThe four frames show loading, review, room assignment, and export.\n\n1. Load demo records\nOpen three reviewed records without touching your own.\n2. Review receipt lines\nCheck names, prices, and which lines to save.\n3. Place each item\nGive every line its room, category, and warranty date.\n4. Search and export\nFind a record later and download a spreadsheet with payment details removed.\nLOCAL\n\nPRIVACY\n\nReceipt work stays on your computer.\n\nThe desktop app reads receipt text on your computer. Read the privacy note for storage and paid-version details.\n\nRead the privacy note\n\nPRICE\n\nThree receipts are free.\n\nThe free app includes search, spreadsheet download, and printable output. Pay $29 once to add unlimited receipts and use backup files.\n\nONE TIME\n$29\nBuy unlimited receipts — $29\nPayment opens in a hosted checkout.\n\nDESKTOP DOWNLOAD\n\nInstall Receipt to Room.\n\nChoose the installer for your computer. Releases are unsigned.\n\nDownload Linux AppImage\n\nVersion 0.1.16 · unsigned release\n\nSee all downloads\nMACOS / LINUX\ncurl -fsSL https://receipt-to-room.sociobot.in/install.sh | sh\nWINDOWS POWERSHELL\nirm https://receipt-to-room.sociobot.in/install.ps1 | iex\nReceipt to Room\n\nA local room record for reviewed receipts.\n\nDemo\nPrivacy\nTerms\nSource on GitHub (external)\n\nBuilt by Param Factory · v0.1.16",
+  "errors": []
+}

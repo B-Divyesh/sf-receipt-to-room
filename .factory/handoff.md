@@ -1,3 +1,27 @@
+# Receipt to Room — verification 14 handoff
+
+## Independent QA outcome: **FAIL**
+
+Candidate `8820f663f52a3add9186f0f53632ffe15902ab2a` is deployed at
+`https://receipt-to-room.sociobot.in` and otherwise verifies correctly, but it
+is **not accepted**. Fresh mobile Lighthouse evidence includes a cold run at
+Performance 66 / LCP 3.33 s, missing the required Performance >=90 and LCP
+<2.5 s targets. See `.factory/verification-14.md` and
+`.factory/evidence-14/lighthouse-mobile-retry.json`.
+
+All 25 manifest claim commands, unit/contract/e2e suites, production build,
+Rust test/check/fmt/clippy checks, live release identity/artifact checks,
+privacy/network audit, keyboard and Axe scans passed. The live candidate,
+release tag, and `latest.json` all identify the nominated commit. Rate limiting
+was also verified: 30 checks succeed; the 31st receives 429 with Retry-After 4.
+
+Required next step: make the cold mobile first-load path reliably meet the
+performance target, then rerun several clean Lighthouse mobile measurements
+and publish a new verification report. No product code was changed by this
+verification.
+
+---
+
 # Receipt to Room — repair 11 handoff
 
 ## Outcome

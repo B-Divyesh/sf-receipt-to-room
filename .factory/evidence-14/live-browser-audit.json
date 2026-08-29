@@ -1,0 +1,377 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": 200,
+      "dims": {
+        "title": "Receipt to Room — turn receipts into room records",
+        "lang": "en",
+        "h1": [
+          "Turn receipts into room records."
+        ],
+        "main": 1,
+        "overflow": false,
+        "imagesWithoutAlt": 0,
+        "visibleDemo": false
+      },
+      "axe": {
+        "total": 0,
+        "seriousCritical": []
+      },
+      "errors": []
+    },
+    {
+      "path": "/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "dims": {
+        "title": "Receipt to Room — turn receipts into room records",
+        "lang": "en",
+        "h1": [
+          "Turn receipts into room records."
+        ],
+        "main": 1,
+        "overflow": false,
+        "imagesWithoutAlt": 0,
+        "visibleDemo": false
+      },
+      "axe": {
+        "total": 0,
+        "seriousCritical": []
+      },
+      "errors": []
+    },
+    {
+      "path": "/?demo=1#sample",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "dims": {
+        "title": "Demo — Receipt to Room",
+        "lang": "en",
+        "h1": [
+          "Turn receipts into room records."
+        ],
+        "main": 1,
+        "overflow": false,
+        "imagesWithoutAlt": 0,
+        "visibleDemo": true
+      },
+      "axe": {
+        "total": 0,
+        "seriousCritical": []
+      },
+      "errors": []
+    },
+    {
+      "path": "/privacy/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "dims": {
+        "title": "Privacy — Receipt to Room",
+        "lang": "en",
+        "h1": [
+          "Privacy in plain language."
+        ],
+        "main": 1,
+        "overflow": false,
+        "imagesWithoutAlt": 0,
+        "visibleDemo": false
+      },
+      "axe": {
+        "total": 0,
+        "seriousCritical": []
+      },
+      "errors": []
+    },
+    {
+      "path": "/terms/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "dims": {
+        "title": "Terms — Receipt to Room",
+        "lang": "en",
+        "h1": [
+          "Terms of use."
+        ],
+        "main": 1,
+        "overflow": false,
+        "imagesWithoutAlt": 0,
+        "visibleDemo": false
+      },
+      "axe": {
+        "total": 0,
+        "seriousCritical": []
+      },
+      "errors": []
+    },
+    {
+      "path": "/404.html",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "dims": {
+        "title": "Page not found — Receipt to Room",
+        "lang": "en",
+        "h1": [
+          "Page not found."
+        ],
+        "main": 1,
+        "overflow": false,
+        "imagesWithoutAlt": 0,
+        "visibleDemo": false
+      },
+      "axe": {
+        "total": 0,
+        "seriousCritical": []
+      },
+      "errors": []
+    }
+  ],
+  "demoRequests": {
+    "all": [
+      "https://receipt-to-room.sociobot.in/?demo=1",
+      "https://receipt-to-room.sociobot.in/assets/main-CTswvo5Q.js",
+      "https://receipt-to-room.sociobot.in/assets/route-navigation-mnqu8ea0.js",
+      "https://receipt-to-room.sociobot.in/assets/route-navigation-h861TRAT.css",
+      "https://receipt-to-room.sociobot.in/assets/field-guide-hero-768.avif",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-load.png",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-review.png",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-assign.png",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-export.png"
+    ],
+    "external": [],
+    "cookies": [],
+    "storage": [
+      "demo:receipt-to-room:sample:v1"
+    ],
+    "banner": "Demo — sample data, nothing is saved.\nReset demoLeave demo and use my records",
+    "rows": 3,
+    "headingFocused": true,
+    "geom": {
+      "banner": {
+        "x": 14,
+        "y": 0,
+        "width": 362,
+        "height": 104.1875
+      },
+      "heading": {
+        "x": 28,
+        "y": 267.734375,
+        "width": 334,
+        "height": 39.890625
+      }
+    },
+    "errors": []
+  },
+  "headers": {
+    "/": {
+      "status": 200,
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 18:37:40 GMT",
+        "etag": "\"75049791\"",
+        "last-modified": "Sat, 29 Aug 2026 18:12:13 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/privacy/": {
+      "status": 200,
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 18:37:40 GMT",
+        "etag": "\"75049791\"",
+        "last-modified": "Sat, 29 Aug 2026 18:12:13 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/terms/": {
+      "status": 200,
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 18:37:41 GMT",
+        "etag": "\"75049791\"",
+        "last-modified": "Sat, 29 Aug 2026 18:12:13 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/404.html": {
+      "status": 200,
+      "headers": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 18:37:41 GMT",
+        "etag": "\"75049791\"",
+        "last-modified": "Sat, 29 Aug 2026 18:12:13 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/assets/main-CTswvo5Q.js": {
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/javascript",
+        "date": "Sat, 29 Aug 2026 18:37:41 GMT",
+        "etag": "\"75049791\"",
+        "last-modified": "Sat, 29 Aug 2026 18:12:13 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    "/assets/field-guide-hero-768.avif": {
+      "status": 200,
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable",
+        "content-length": "27041",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "image/avif",
+        "date": "Sat, 29 Aug 2026 18:37:41 GMT",
+        "etag": "\"75049791\"",
+        "last-modified": "Sat, 29 Aug 2026 18:12:13 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    }
+  },
+  "keyboard": {
+    "skip": {
+      "focused": true,
+      "outline": "rgb(11, 99, 206) solid 3px"
+    },
+    "primary": {
+      "focused": true,
+      "outline": "rgb(11, 99, 206) solid 3px"
+    },
+    "demoUrl": "https://receipt-to-room.sociobot.in/?demo=1#sample",
+    "demoHeadingFocused": true
+  },
+  "links": {
+    "count": 10,
+    "checked": [
+      {
+        "href": "/",
+        "status": 200,
+        "location": null
+      },
+      {
+        "href": "/?demo=1#sample",
+        "status": 200,
+        "location": null
+      },
+      {
+        "href": "/privacy/",
+        "status": 200,
+        "location": null
+      },
+      {
+        "href": "https://api.sociobot.in/api/v1/products/receipt-to-room/checkout",
+        "external": true
+      },
+      {
+        "href": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_amd64.AppImage",
+        "external": true
+      },
+      {
+        "href": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_aarch64.dmg",
+        "external": true
+      },
+      {
+        "href": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64.dmg",
+        "external": true
+      },
+      {
+        "href": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64-setup.exe",
+        "external": true
+      },
+      {
+        "href": "/terms/",
+        "status": 200,
+        "location": null
+      },
+      {
+        "href": "https://github.com/B-Divyesh/sf-receipt-to-room",
+        "external": true
+      }
+    ]
+  },
+  "reducedMotion": {
+    "matches": true,
+    "animations": [],
+    "scrollBehavior": "auto"
+  },
+  "errors": []
+}
