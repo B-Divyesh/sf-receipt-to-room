@@ -21,7 +21,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.11");
+    expect(pkg.version).toBe("0.1.12");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -49,21 +49,21 @@ describe("release and static-host contract", () => {
 
     expect(() =>
       assertTaggedCandidate({
-        tag: "v0.1.11",
-        version: "0.1.11",
+        tag: "v0.1.12",
+        version: "0.1.12",
         tagCommit: staleTaggedParent,
         expectedCommit: candidate,
       }),
-    ).toThrow(`release tag v0.1.11 targets ${staleTaggedParent}`);
+    ).toThrow(`release tag v0.1.12 targets ${staleTaggedParent}`);
 
     expect(
       assertTaggedCandidate({
-        tag: "v0.1.11",
-        version: "0.1.11",
+        tag: "v0.1.12",
+        version: "0.1.12",
         tagCommit: candidate,
         expectedCommit: candidate,
       }),
-    ).toEqual({ tag: "v0.1.11", version: "0.1.11", commit: candidate });
+    ).toEqual({ tag: "v0.1.12", version: "0.1.12", commit: candidate });
   });
 
   test("rejects the exact release-target drift reported by independent verification", () => {
@@ -225,6 +225,9 @@ describe("release and static-host contract", () => {
     ].join("\n");
     expect(publicCopy).not.toMatch(/receipt intake/i);
     expect(publicCopy).not.toMatch(/service window|per client|preflight/i);
+    expect(read("app/main.ts")).not.toMatch(
+      /field intake|local intake|>Specimen |private worktable|No specimens|The index is waiting|Local recognition/i,
+    );
     expect(read("site/index.html")).not.toContain("redacted spreadsheet");
     expect(read("README.md")).toMatch(
       /Tag\nonly the final committed candidate\. Run the release check before pushing the\ntag\. It rejects a tag that points to another commit\./,

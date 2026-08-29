@@ -73,7 +73,7 @@ jobs:
         with:
           tagName: v__VERSION__
           releaseName: Receipt to Room v__VERSION__
-          releaseBody: Local receipt OCR and searchable room inventory. Builds are unsigned; compare downloads with SHA256SUMS.
+          releaseBody: Reads receipt text locally and organizes purchases by room. Builds are unsigned; compare downloads with published checksums.
           releaseCommitish: ${{ needs.source.outputs.commit }}
           releaseDraft: false
           prerelease: false

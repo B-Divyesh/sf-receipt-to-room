@@ -8,7 +8,7 @@
   },
   {
     "id": "local-ocr",
-    "claim": "Receipt text is read on your computer; photos are not uploaded or retained after recognition.",
+    "claim": "Receipt text is read on your computer; photos are not uploaded or kept after reading.",
     "where": "landing hero and privacy section",
     "test": "npm run test:e2e -- --grep @claim:local-ocr",
     "sandbox": "isolated app demo; run bundled OCR on the shipped receipt, assert no external runtime request, and assert no image data enters storage"
@@ -37,28 +37,28 @@
   {
     "id": "receipt-workflow",
     "claim": "Each receipt line can be reviewed with its own room, category, and warranty date, then searched.",
-    "where": "README and desktop intake",
+    "where": "README and desktop add-receipt screen",
     "test": "npm run test:e2e -- --grep @claim:receipt-workflow",
     "sandbox": "fresh app storage; paste the shipped receipt text, review its fields, save it, and search the resulting inventory"
   },
   {
     "id": "editable-records",
     "claim": "Saved item details remain editable.",
-    "where": "desktop intake privacy note and inventory",
+    "where": "desktop privacy note and inventory",
     "test": "npm run test:e2e -- --grep @claim:editable-records",
     "sandbox": "isolated app demo; save a mixed-room receipt, edit a saved item's room, category, and warranty, and assert persisted changes"
   },
   {
     "id": "bulk-queue",
     "claim": "Several receipt photos can be queued after a large shop.",
-    "where": "README and desktop intake",
+    "where": "README and desktop add-receipt screen",
     "test": "npm run test:e2e -- --grep @claim:bulk-queue",
     "sandbox": "fresh app storage; select two copies of the shipped receipt image and assert both distinct receipts reach inventory"
   },
   {
     "id": "image-input",
     "claim": "You can add JPG, PNG, or WebP receipt photos up to 10 MB each, with recovery guidance for rejected files.",
-    "where": "desktop intake",
+    "where": "desktop add-receipt screen",
     "test": "npm run test:e2e -- --grep @claim:image-input",
     "sandbox": "isolated app demo; provide an unsupported file and a PNG over 10 MB, then assert both are rejected without losing the manual fallback"
   },
@@ -74,7 +74,7 @@
     "claim": "No account is required; reviewed inventory is stored locally without sending receipt contents to another origin.",
     "where": "README and privacy page",
     "test": "npm run test:e2e -- --grep @claim:local-storage",
-    "sandbox": "fresh app storage; complete manual intake while recording requests, then assert the record in localStorage and no external request"
+    "sandbox": "fresh app storage; add a typed receipt while recording requests, then assert the record in localStorage and no external request"
   },
   {
     "id": "backup-restore",
@@ -86,7 +86,7 @@
   {
     "id": "redacted-exports",
     "claim": "Payment details are removed from spreadsheet and printable exports.",
-    "where": "desktop intake note, landing how-it-works, README, privacy page",
+    "where": "desktop privacy note, landing how-it-works, README, privacy page",
     "test": "npm run test:e2e -- --grep @claim:redacted-exports",
     "sandbox": "isolated app demo record containing a card number; assert CSV and printable output contain the redaction marker and not the number"
   },
@@ -113,7 +113,7 @@
   },
   {
     "id": "offline-work",
-    "claim": "Manual intake, editing, and CSV export work while the desktop app is offline.",
+    "claim": "Adding a typed receipt, editing, and spreadsheet download work while the desktop app is offline.",
     "where": "desktop offline state",
     "test": "npm run test:e2e -- --grep @claim:offline-work",
     "sandbox": "fresh app storage; load the packaged UI, take the browser context offline, add a typed receipt, and export CSV"

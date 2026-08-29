@@ -244,7 +244,7 @@ function render(focusSelector?: string): void {
     <header class="app-header">
       <a class="wordmark" href="#intake" data-view="intake" aria-label="Receipt to Room, new receipt">
         <svg aria-hidden="true" viewBox="0 0 32 32"><path d="M25 4C14 5 7 12 7 24m0 0c4-7 9-10 16-12M7 24c6 1 11-1 15-6"/><path d="M7 24v5"/></svg>
-        <span>Receipt to Room<small>Household field notes</small></span>
+        <span>Receipt to Room<small>Local purchase records</small></span>
       </a>
       <nav aria-label="Workspace">
         <button class="nav-button ${view === "intake" ? "active" : ""}" data-view="intake">Add receipt</button>
@@ -286,7 +286,7 @@ function intakeView(): string {
       : `${receiptCount()} of ${FREE_RECEIPTS} free receipts used.`;
   return `
     <section class="page-head">
-      <div><p class="eyebrow">Field intake · ${escapeHtml(limitNote)}</p><h1>Turn a receipt into room records.</h1><p>Choose clear receipt photos. Recognition happens on this device; photos are discarded after review.</p></div>
+      <div><p class="eyebrow">New receipt · ${escapeHtml(limitNote)}</p><h1>Turn a receipt into room records.</h1><p>Choose clear receipt photos. Text reading happens on this device; photos are discarded after review.</p></div>
       <button class="text-button" data-view="inventory">View inventory →</button>
     </section>
     ${busy ? processingView() : draft ? reviewView() : uploadView()}
@@ -297,16 +297,16 @@ function uploadView(): string {
   return `
     <section class="intake-grid" aria-labelledby="intake-title">
       <div class="drop-plot" id="drop-zone">
-        <span class="folio">Plot 01 · local intake</span>
+        <span class="folio">Receipt photo · stays on this device</span>
         <svg class="drop-leaf" aria-hidden="true" viewBox="0 0 100 100"><path d="M83 11C39 13 17 39 17 84c20-31 38-46 59-56M17 84c22 2 46-12 66-73"/></svg>
-        <h2 id="intake-title">Lay down your receipt</h2>
+        <h2 id="intake-title">Add a receipt photo</h2>
         <p>JPG, PNG, or WebP · up to 10 MB each · select several after a large shop</p>
         <label class="button primary" for="receipt-files">Choose receipt photos</label>
         <input id="receipt-files" type="file" accept="image/jpeg,image/png,image/webp" multiple />
         <p class="drop-hint">or drag receipt photos here</p>
       </div>
       <aside class="field-note" aria-labelledby="privacy-note">
-        <span class="pin" aria-hidden="true"></span><h2 id="privacy-note">Your private worktable</h2>
+        <span class="pin" aria-hidden="true"></span><h2 id="privacy-note">Your records stay private</h2>
         <ul><li>No account required</li><li>No receipt photos uploaded</li><li>Payment details removed from exports</li><li>Saved item details remain editable</li></ul>
         <details><summary>Text reading missed something?</summary><p>Use “Paste receipt text” to add a typed or copied receipt without a photo.</p></details>
         <button class="button secondary" id="show-manual">Paste receipt text</button>
@@ -325,16 +325,16 @@ function uploadView(): string {
 function processingView(): string {
   return `<section class="processing" aria-labelledby="processing-title">
     <div class="specimen-spinner" aria-hidden="true"><span></span></div>
-    <p class="eyebrow">Local recognition</p><h2 id="processing-title">Reading your receipt…</h2>
+    <p class="eyebrow">Reading on this device</p><h2 id="processing-title">Reading your receipt…</h2>
     <p>${escapeHtml(status)}</p><progress max="100" value="${progress}">${progress}%</progress>
-    <p class="muted">The first run may take a little longer while the local language model opens.</p>
+    <p class="muted">The first run may take a little longer while the local text reader opens.</p>
   </section>`;
 }
 
 function reviewView(): string {
   if (!draft) return "";
   return `<form id="review-form" class="review-sheet">
-    <div class="review-heading"><div><p class="eyebrow">Specimen ${escapeHtml(draft.receiptName)}</p><h2 id="review-title">Check the useful lines</h2><p>Edit each line and place it in the right room before saving.</p></div><button type="button" class="text-button danger" id="discard-draft">Discard receipt</button></div>
+    <div class="review-heading"><div><p class="eyebrow">Receipt ${escapeHtml(draft.receiptName)}</p><h2 id="review-title">Check the useful lines</h2><p>Edit each line and place it in the right room before saving.</p></div><button type="button" class="text-button danger" id="discard-draft">Discard receipt</button></div>
     <div class="metadata-grid">
       <label>Retailer<input name="merchant" value="${escapeHtml(draft.merchant)}" required /></label>
       <label>Purchase date<input name="purchaseDate" type="date" value="${draft.purchaseDate}" required /></label>
@@ -382,13 +382,13 @@ function inventoryView(): string {
   const editingItem = editingItemId
     ? items.find((item) => item.id === editingItemId)
     : undefined;
-  return `<section class="page-head inventory-head"><div><p class="eyebrow">Household index</p><h1>Your room inventory</h1><p>${items.length} items · ${inventoryTotalLabel()} recorded purchase total, not a valuation.</p></div><button class="button primary" data-view="intake">Add receipt</button></section>
+  return `<section class="page-head inventory-head"><div><p class="eyebrow">Room records</p><h1>Your room inventory</h1><p>${items.length} items · ${inventoryTotalLabel()} recorded purchase total, not a valuation.</p></div><button class="button primary" data-view="intake">Add receipt</button></section>
     <section class="inventory-tools" aria-label="Inventory tools">
       <form id="search-form" role="search"><label for="search">Search items, rooms, categories, or retailers</label><div><input id="search" name="q" value="${escapeHtml(query)}" type="search"/><button class="button secondary">Search</button></div></form>
       <div class="export-actions"><button class="button secondary" id="export-csv" ${items.length ? "" : "disabled"}>Download spreadsheet</button><button class="button secondary" id="export-pdf" ${items.length ? "" : "disabled"}>Print inventory</button></div>
     </section>
     ${editingItem ? editItemForm(editingItem) : ""}
-    ${items.length ? (filtered.length ? `<div class="inventory-table-wrap"><table><caption class="sr-only">Reviewed household inventory</caption><thead><tr><th>Item</th><th>Room</th><th>Category</th><th>Purchased</th><th class="number">Paid</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>${filtered.map(itemRow).join("")}</tbody></table></div>` : `<div class="empty-state"><h2>No specimens match “${escapeHtml(query)}”</h2><p>Try a room name, retailer, or broader item word.</p><button class="button secondary" id="clear-search">Clear search</button></div>`) : `<div class="empty-state"><svg aria-hidden="true" viewBox="0 0 100 100"><path d="M50 88V28m0 37C31 62 20 50 17 31 35 31 47 39 50 54m0-12c9-15 21-22 36-22-1 18-13 31-36 36"/></svg><h2>The index is waiting for its first item.</h2><p>Add a receipt photo, review the useful lines, and choose their room.</p><button class="button primary" data-view="intake">Add your first receipt</button></div>`}
+    ${items.length ? (filtered.length ? `<div class="inventory-table-wrap"><table><caption class="sr-only">Reviewed household inventory</caption><thead><tr><th>Item</th><th>Room</th><th>Category</th><th>Purchased</th><th class="number">Paid</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>${filtered.map(itemRow).join("")}</tbody></table></div>` : `<div class="empty-state"><h2>No records match “${escapeHtml(query)}”</h2><p>Try a room name, retailer, or broader item word.</p><button class="button secondary" id="clear-search">Clear search</button></div>`) : `<div class="empty-state"><svg aria-hidden="true" viewBox="0 0 100 100"><path d="M50 88V28m0 37C31 62 20 50 17 31 35 31 47 39 50 54m0-12c9-15 21-22 36-22-1 18-13 31-36 36"/></svg><h2>No room records yet.</h2><p>Add a receipt photo, review the useful lines, and choose their room.</p><button class="button primary" data-view="intake">Add your first receipt</button></div>`}
     ${deleted ? `<div class="undo-toast" role="status">Removed ${escapeHtml(deleted.item.name)}. <button id="undo-delete">Undo</button></div>` : ""}`;
 }
 
@@ -416,7 +416,7 @@ function editItemForm(item: InventoryItem): string {
 
 function licenseView(): string {
   return `<section class="license-layout">
-    <div class="license-copy"><p class="eyebrow">Paid version</p><h1>${licenseValid ? "Your paid version is active." : "Keep every room record, for good."}</h1><p>The free version includes three receipts. Pay $29 once to add unlimited receipts.</p>
+    <div class="license-copy"><p class="eyebrow">Paid version</p><h1>${licenseValid ? "Your paid version is active." : "Add receipts without a limit."}</h1><p>The free version includes three receipts. Pay $29 once to add unlimited receipts.</p>
       <ul class="feature-list"><li>Add unlimited receipts</li><li>Local inventory records</li><li>Backup and restore between devices</li><li>Spreadsheet and printable exports</li></ul>
       ${licenseValid ? `<p class="success-note">✓ Paid version checked on this device.</p><button class="button secondary" id="backup-json">Download backup file</button><label class="button secondary file-button" for="restore-json">Restore backup file</label><input id="restore-json" type="file" accept="application/json"/>` : `<a class="button primary" href="${CHECKOUT}">Buy unlimited receipts — $29</a>`}
       <p class="legal-line">Payment opens in a hosted checkout run by Dodo Payments. A refunded purchase stops the paid version. <a href="https://receipt-to-room.sociobot.in/privacy">Privacy</a> · <a href="https://receipt-to-room.sociobot.in/terms">Terms</a></p>
@@ -642,7 +642,7 @@ async function processNextFile(): Promise<void> {
 function humanOcrStatus(value: string): string {
   const map: Record<string, string> = {
     "loading tesseract core": "Opening the local reading engine…",
-    "initializing tesseract": "Preparing local recognition…",
+    "initializing tesseract": "Preparing the local text reader…",
     "loading language traineddata": "Opening the English receipt model…",
     "recognizing text": "Identifying receipt lines…",
   };
@@ -944,7 +944,7 @@ async function refreshLicense(force = false): Promise<boolean> {
       JSON.stringify({ valid: verdict.valid, checkedAt: Date.now() }),
     );
     status = verdict.valid
-      ? "License verified. Unlimited intake is active."
+      ? "License verified. You can add unlimited receipts."
       : "License no longer active. You can keep using and exporting existing records.";
     render();
     return verdict.valid;
