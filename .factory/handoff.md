@@ -1,38 +1,39 @@
-# Receipt to Room polish 1 handoff
+# Receipt to Room adversarial review 2 handoff
 
 ## Delivered
 
-- Repaired every F-1-1 through F-1-21 finding in `.factory/review-1.md`.
-- Repaired demo URL history and isolated all demo storage, including download metadata.
-- Added four original desktop workflow captures and a captioned landing walkthrough.
-- Completed claims coverage, metadata, legal/404 navigation, focus handling,
-  mobile checks, plain-language copy, and catalog description.
-- Released native version `v0.1.6` from product commit
-  `1cc3603abadc475899b154b2056cad019450b092`.
-- Deployed `dist/site` to Azure Static Web App `sf-receipt-to-room` production.
+- Added `.factory/review-2.md` with a fresh phone/desktop cold read, complete
+  landing/README copy audit, demo and storage checks, all-claims gate, live
+  routing/link/accessibility checks, prior-finding verification, missed-leverage
+  assessment, and a FAIL verdict.
+- No product code was changed.
 
 ## Verification
 
-- Fresh clone: `npm ci`, then every command in `.factory/claims.json` ran
-  individually and passed. The clone's final Playwright status is passed.
-- `npm test`: 14 passed.
-- `npm run build`: passed; produced `dist/app` and `dist/site`.
-- `npm run test:e2e`: 19 passed.
-- `cargo check --locked`, `cargo test --locked`, and `cargo fmt --check`: passed.
-- `CI=true npm run tauri build -- --bundles deb`: passed; produced
-  `Receipt to Room_0.1.6_amd64.deb` (16,958,814 bytes).
-- GitHub Actions release run 33231506112: passed. Release `v0.1.6` targets the
-  exact product commit and includes DMG, MSI/EXE, AppImage, DEB/RPM,
-  `SHA256SUMS`, and `latest.json`.
-- `npm run verify:live-release -- 1cc3603abadc475899b154b2056cad019450b092 https://receipt-to-room.sociobot.in`:
-  passed (hosted checkout, 30-request allowance, immutable assets, and real 404).
+- Installed the locked dependencies with `npm ci`.
+- Ran every command in `.factory/claims.json` individually: all 23 passed.
 - `npm run verify:url -- https://receipt-to-room.sociobot.in`: passed.
-- Live Playwright Axe: zero serious/critical findings on Home, Demo, Privacy,
-  Terms, and 404; Home/Demo/Privacy/Terms had no console errors.
-- Live history recheck: Back/Forward restored URL, title, demo banner, and focus.
-  Screenshot: `/tmp/receipt-live-demo.png`.
+- Live axe scans at 390 px: zero violations on Home, Demo, Privacy, Terms, and
+  the designed 404.
+- Live link crawl: all linked documents, downloads, source, and checkout paths
+  returned 200 after redirects; an unknown route returned the designed 404.
+- Live demo: realistic rows, search, Reset, Back/Forward, focus, and demo-only
+  storage were exercised with seeded real-storage sentinels.
 
 ## Known gaps
 
-None. Native packages are intentionally unsigned and this is disclosed before
-download; signing needs owner certificates, not a product repair.
+The review records three blockers and thirteen minor findings. Most important:
+the demo calls GitHub, payment copy contradicts the checkout's merchant-of-
+record disclosure, and the mobile demo banner clips the focused heading. See
+`.factory/review-2.md` for exact evidence and fixes.
+
+## Reproduce
+
+```sh
+npm ci
+npm test
+npm run build
+npm run verify:url -- https://receipt-to-room.sociobot.in
+```
+
+Run each `.factory/claims.json` `test` command separately for the claims gate.
