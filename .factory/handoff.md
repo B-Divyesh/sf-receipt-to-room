@@ -37,16 +37,52 @@
 - Production size: app JavaScript 19.92 KB gzip and CSS 4.13 KB gzip; landing
   JavaScript 3.41 KB gzip and CSS 3.06 KB gzip.
 
-## Release and deployment procedure
+## Release and deployment
 
-The source release commit is tagged `v0.1.9`. GitHub Actions checks out that
-exact tag SHA for every native target and records it in `latest.json`. The
-production site is built from the same detached SHA with
-`BUILD_SOURCE_COMMIT=<tag SHA>` and deployed from `dist/site` to Azure Static
-Web Apps resource `sf-receipt-to-room`.
+- Nominated source/build SHA:
+  `b6683dbeb3806c5cbc0af98ab536d98b93924b13`.
+- Release: <https://github.com/B-Divyesh/sf-receipt-to-room/releases/tag/v0.1.9>.
+- Workflow: <https://github.com/B-Divyesh/sf-receipt-to-room/actions/runs/33237753927>
+  completed successfully. Its source job and Linux, Windows, Intel macOS, and
+  Apple silicon macOS build jobs all passed.
+- `latest.json` records version `0.1.9` and the exact nominated SHA. The GitHub
+  Release API reports the same SHA in `target_commitish`.
+- Native assets include arm64 and x64 DMGs, MSI, EXE, AppImage, DEB, RPM, macOS
+  app archives, `latest.json`, and `SHA256SUMS`.
+- Production deployment `7fa47dcc-ad1f-44a3-8240-b1da057bbde0` succeeded on
+  Azure Static Web Apps resource `sf-receipt-to-room`. Every deployed HTML
+  entry reports the nominated SHA in its `build-commit` metadata.
+- A fresh DEB download passed `dpkg-deb --info` and matched `SHA256SUMS` at
+  `804e113b3c4c699fe8415800c0f1ec154ef40bc958af2043d871c0674c07c738`.
+- The live one-line Linux installer downloaded, verified, and installed the
+  AppImage in a temporary consumer directory. Its SHA-256 was
+  `16249dd44efe163a09e2981fc9da158b028aff7e8699472bd06d10a36d155a29`,
+  matching both `latest.json` and `SHA256SUMS`.
 
-The post-release evidence commit records the immutable source SHA, workflow,
-asset checksums, deployment, claims, billing, and live provenance results.
+## Post-release verification
+
+- Every one of the 24 `.factory/claims.json` commands passed separately with
+  exactly one matching test.
+- `npm run verify:url -- https://receipt-to-room.sociobot.in` passed title,
+  language, one main/h1, image alternatives, 390 px width, console, and page
+  error checks.
+- Fresh live desktop, 390 px demo, Privacy, and Terms browser checks found no
+  Axe violations, console errors, page errors, overflow, or cookies. Demo
+  traffic stayed same-origin. Reduced-motion preference was honored.
+- Keyboard checks reached the skip link and primary demo action with a solid
+  3 px `#0B63CE` outline. Enter opened `/?demo=1#sample` and focused the demo
+  workspace heading.
+- Live response policy includes CSP with `frame-ancestors 'none'`, HSTS,
+  `nosniff`, strict-origin referrer policy, restrictive permissions policy,
+  and one-year immutable caching for hashed assets. Unknown routes return 404.
+- Live billing returned 303 to `checkout.dodopayments.com`; the hosted page
+  returned 200. License verification allowed 30 requests, then returned 429
+  with `Retry-After: 4` on request 31.
+- `npm run verify:live-release -- b6683dbeb3806c5cbc0af98ab536d98b93924b13
+  https://receipt-to-room.sociobot.in` passed release/deployment identity,
+  platform assets, checksums, billing, rate policy, cache, and 404 checks.
+- Lighthouse mobile production scores: Performance 100, Accessibility 100,
+  Best Practices 100, SEO 100; FCP 0.9 s, LCP 1.1 s, TBT 30 ms, CLS 0.
 
 ## Run and verify
 
