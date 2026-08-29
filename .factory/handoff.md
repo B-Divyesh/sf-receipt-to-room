@@ -1,112 +1,59 @@
-# Receipt to Room repair 10 handoff
+# Receipt to Room verification 12 handoff
 
 ## Outcome
 
-The two release blockers in independent verification 11 are repaired for
-version `0.1.13`:
+**PASS** for candidate `7683c0dc9f3b3fc17c42cfbf7067097c35af1f3b`
+at <https://receipt-to-room.sociobot.in/> on 2026-08-29 UTC.
 
-- Native artifacts, `latest.json`, and the deployed site are checked as one
-  source identity. Release `v0.1.13` is made from the final repair commit.
-- The desktop header's **Demo** link is exactly `44 × 44` CSS px on Home,
-  Privacy, Terms, and 404 at a 1440 px viewport.
+Independent verification found no open product defect. The prior
+deployment-only failure is resolved: tag `v0.1.13`, GitHub release metadata,
+`latest.json`, and the deployed build identity all point to the nominated
+candidate. All 27 served files from the production site build were
+byte-identical to the live deployment. This required verification-only commit
+advances `main` afterward without changing the tested product or release.
 
-The final commit is tagged and deployed only after this handoff is committed.
-No evidence-only commit is added after the tag. This prevents the parent-commit
-release drift found in candidate `09d0468e5f31692affb70ff58ee998f85f8ebbf9`.
+Product code was not modified. Verification evidence and this handoff are the
+only changes.
 
-## Finding, cause, and repair
+## What was verified
 
-### P0 — native release did not match the nominated candidate
+- Mandatory first-read passed at 1440×900 and 390×844. The first screen states
+  the job, audience, first action, sample result, privacy, and price in plain
+  words.
+- **Try it with sample data** opens three useful records in one click, focuses
+  the inventory heading, keeps a persistent demo banner, and isolates demo
+  storage.
+- Every test in `.factory/claims.json` passed separately: 25/25.
+- Unit/release tests passed 19/19; the dedicated release contract passed 12/12;
+  the full Playwright suite passed 22/22.
+- TypeScript, production build, Rust format/check/test/clippy, and npm audit
+  passed. No lint script exists.
+- A separate mobile flow covered blank-input recovery, quantity 1000/999,
+  zero and comma-formatted prices, per-line room/category/warranty fields,
+  search, edit, CSV, delete/undo, and demo/real storage separation.
+- Local OCR, multi-image queueing, invalid/oversized image recovery, print,
+  redaction, malformed backup recovery, offline use, license cache/revocation,
+  and free-limit exports passed in the claim/full suites.
+- Fresh axe scans on five live routes at desktop and mobile found zero serious
+  or critical findings. Keyboard focus, 44 px targets, reduced motion,
+  semantics, metadata, and responsive overflow checks passed.
+- Browser request logs and headers confirmed the privacy boundary, no cookies
+  or tracking, strict security headers, 30-second HTML revalidation, and
+  one-year immutable caching for hashed assets.
+- Fresh mobile Lighthouse: Performance 91, Accessibility 100, Best Practices
+  100, SEO 100; FCP 1.5 s, LCP 1.6 s, TBT 360 ms, CLS 0.
+- GitHub Actions release run `33258627451` passed all six source/build/manifest
+  jobs for the candidate. Manifest-listed macOS, Windows, and Linux artifacts
+  passed checksum verification.
+- The isolated Linux installer verified and installed the 91,396,600-byte
+  AppImage with SHA-256 `d83c84cd25d20777bc8678cb2c56d9cc97ab29a4e909ba3aae4cf21a319da04a`.
+  Its extracted app stayed running for an eight-second Xvfb smoke window.
+- The live paid-version service allowed 30 checks, then returned 429 on request
+  31 with `Retry-After: 4`. Checkout redirected to hosted Dodo Payments.
 
-Reproduced before changes:
-
-```text
-npm run verify:release-candidate -- v0.1.12 09d0468e5f31692affb70ff58ee998f85f8ebbf9
-Error: release tag v0.1.12 targets bb83b4096ab30d46eb04d82fdb67dea89c571ea0,
-expected 09d0468e5f31692affb70ff58ee998f85f8ebbf9
-```
-
-The prior native release was made before later candidate commits. The static
-site identified the later commit, but its download page still offered the
-parent's binaries. Version `0.1.13` now ships from the final repair commit.
-
-`assertPublishedCandidate` makes the GitHub release target,
-`latest.json.sourceCommit`, and deployed `build-commit` one contract. The live
-release gate uses it before accepting checksums, caching, checkout, and policy.
-The verification-11 regression supplies each stale identity in turn and proves
-that all three mismatches fail before the exact-match case passes.
-
-### P2 — desktop Demo target was too narrow
-
-Reproduced before changes in Chromium at `1440 × 900`: `41.6875 × 44` CSS px.
-The shared desktop navigation rule now sets both dimensions to at least 44 px.
-After the repair, Chromium measured `44 × 44` on `/`, `/privacy/`, `/terms/`,
-and `/404.html`.
-
-The browser regression visits all four routes at 1440 px and applies the same
-bounding-box assertion used by the existing 390 px touch-target audit.
-
-## Preserved product contract
-
-The receipt workflow, local OCR, per-line review, search, editing, redacted
-spreadsheet and print output, undo, backup restore, demo isolation, free limit,
-paid-version behavior, legal pages, and botanical field-guide design are
-unchanged. The researched behavior in the existing claims, demo, design, and
-copy-audit documents remains the source of truth. No AI feature was added; the
-local receipt workflow does not need a remote model.
-
-## Local verification
-
-Run from the final source tree with Node 22, Playwright 1.58.2, Rust stable,
-and the Linux packages listed in `.github/workflows/release.yml`:
-
-- `npm ci`: passed; 84 packages, zero audit vulnerabilities.
-- `npm test`: passed; 19/19 unit and release-contract tests.
-- `npm run test:release-contract`: passed; 12/12.
-- `npx tsc --noEmit`: passed.
-- `npm run build`: passed; produced `dist/app` and `dist/site`.
-- `npm run test:e2e`: passed; 22/22.
-- `cargo fmt --check --manifest-path src-tauri/Cargo.toml`: passed.
-- `cargo check --locked --manifest-path src-tauri/Cargo.toml`: passed.
-- `cargo test --locked --manifest-path src-tauri/Cargo.toml`: passed; zero
-  Rust unit/doc tests are defined.
-- `cargo clippy --locked --manifest-path src-tauri/Cargo.toml -- -D warnings`:
-  passed with no warnings.
-- Every command in `.factory/claims.json`: 25/25 passed individually.
-
-The E2E run covers desktop and 390 px layouts, keyboard focus and activation,
-serious/critical Axe checks, demo/real storage separation, no-tracking request
-logs, offline typed receipt work, license cache and revocation, malformed input
-recovery, redacted exports, release failure fallback, routing, and metadata.
-There is no service worker or updater in this desktop product, so PWA update
-tests do not apply. Native packaging is performed only by GitHub Actions.
-
-Production sizes remain within budget:
-
-- Site JavaScript: 5.70 kB + 1.87 kB + 0.23 kB raw; 3.42 kB gzip total.
-- Site CSS: 10.99 kB raw; 3.09 kB gzip.
-- App JavaScript: 52.60 kB raw; 20.05 kB gzip total.
-- App CSS: 14.87 kB raw; 4.13 kB gzip.
-- Mobile hero AVIF: 27,041 bytes.
-
-Local mobile Lighthouse: Performance 100, Accessibility 100, Best Practices
-100, SEO 100; FCP 1.08 s, LCP 1.44 s, TBT 0 ms, CLS 0.
-
-## Release and deployment evidence
-
-- Release: <https://github.com/B-Divyesh/sf-receipt-to-room/releases/tag/v0.1.13>
-- Static site: <https://receipt-to-room.sociobot.in/>
-- Git tag `v0.1.13^{}` and `origin/main` resolve to the same final commit.
-- The release target and `latest.json.sourceCommit` resolve to that commit.
-- The release contains both macOS DMGs, Windows MSI/EXE, Linux AppImage/DEB/RPM,
-  app archives, `SHA256SUMS`, and `latest.json`.
-- The published platform downloads match `latest.json` and `SHA256SUMS`.
-- The site is built with `BUILD_SOURCE_COMMIT` set to the same commit and is
-  deployed to Azure Static Web App `sf-receipt-to-room` in `sociobot`.
-- `npm run verify:url -- https://receipt-to-room.sociobot.in` passes.
-- `npm run verify:live-release -- "$(git rev-parse v0.1.13^{})" https://receipt-to-room.sociobot.in`
-  passes release/deployment identity, download hashes, checkout, 30-request
-  allowance plus 429/Retry-After, immutable asset caching, and true 404.
+Full evidence and exact observations are in
+[verification-12.md](verification-12.md). Screenshots and the Lighthouse JSON
+are in `verification-12-artifacts/`.
 
 ## Reproduce
 
@@ -121,16 +68,22 @@ cargo fmt --check --manifest-path src-tauri/Cargo.toml
 cargo check --locked --manifest-path src-tauri/Cargo.toml
 cargo test --locked --manifest-path src-tauri/Cargo.toml
 cargo clippy --locked --manifest-path src-tauri/Cargo.toml -- -D warnings
-npm run verify:release-candidate -- v0.1.13 "$(git rev-parse HEAD)"
+npm run verify:release-candidate -- v0.1.13 7683c0dc9f3b3fc17c42cfbf7067097c35af1f3b
 npm run verify:url -- https://receipt-to-room.sociobot.in
-npm run verify:live-release -- "$(git rev-parse v0.1.13^{})" https://receipt-to-room.sociobot.in
+npm run verify:live-release -- 7683c0dc9f3b3fc17c42cfbf7067097c35af1f3b https://receipt-to-room.sociobot.in
 ```
 
-Also invoke each `test` field in `.factory/claims.json` separately from a fresh
-clone.
+Also invoke every `test` field in `.factory/claims.json` separately from a
+fresh checkout. Linux Rust checks need the packages listed in the release
+workflow.
 
 ## Known gaps and operator action
 
-No verification-11 finding remains open. Native packages are intentionally
-unsigned and say so on the site. Signing future releases requires
-`APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` in the release environment.
+No product defect remains. The macOS and Windows packages are intentionally
+unsigned and the download page states this. Future signing requires the
+operator-owned `APPLE_CERTIFICATE` and `WINDOWS_CERT_PFX` secrets.
+
+This is a Tauri desktop app with no service worker, product backend, or sign-in
+flow, so PWA, backend concurrency/health, consumer-package, and Entra checks do
+not apply. `.factory/brief.json` is absent; the researched work-order brief was
+used as the acceptance contract.
