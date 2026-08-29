@@ -1,0 +1,375 @@
+{
+  "testedAt": "2026-08-29T20:44:50.093Z",
+  "base": "https://receipt-to-room.sociobot.in",
+  "routes": {
+    "desktop-home": {
+      "status": 200,
+      "responseHeaders": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 20:44:50 GMT",
+        "etag": "\"78933507\"",
+        "last-modified": "Sat, 29 Aug 2026 19:56:53 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      },
+      "title": "Receipt to Room — turn receipts into room records",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Turn receipts into room records."
+      ],
+      "mainCount": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requests": [
+        "https://receipt-to-room.sociobot.in/",
+        "https://receipt-to-room.sociobot.in/assets/field-guide-hero-1536.webp",
+        "https://receipt-to-room.sociobot.in/assets/main-BsdWZ4Hu.js",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-BEfiWRGC.js",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-DROxw5QI.css",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-load-720.webp",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-review-720.webp",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-assign-720.webp",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-export-720.webp",
+        "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest"
+      ],
+      "seriousCriticalAxe": [],
+      "allAxe": []
+    },
+    "mobile-home": {
+      "status": 200,
+      "responseHeaders": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 20:44:52 GMT",
+        "etag": "\"78933507\"",
+        "last-modified": "Sat, 29 Aug 2026 19:56:53 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      },
+      "title": "Receipt to Room — turn receipts into room records",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Turn receipts into room records."
+      ],
+      "mainCount": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requests": [
+        "https://receipt-to-room.sociobot.in/",
+        "https://receipt-to-room.sociobot.in/assets/field-guide-hero-384.webp",
+        "https://receipt-to-room.sociobot.in/assets/main-BsdWZ4Hu.js",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-BEfiWRGC.js",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-DROxw5QI.css",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-load-480.webp",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-review-480.webp",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-assign-480.webp",
+        "https://receipt-to-room.sociobot.in/assets/walkthrough-export-480.webp",
+        "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest"
+      ],
+      "seriousCriticalAxe": [],
+      "allAxe": [],
+      "smallTargets": []
+    },
+    "mobile-privacy": {
+      "status": 200,
+      "responseHeaders": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 20:44:54 GMT",
+        "etag": "\"78933507\"",
+        "last-modified": "Sat, 29 Aug 2026 19:56:53 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      },
+      "title": "Privacy — Receipt to Room",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Privacy in plain language."
+      ],
+      "mainCount": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requests": [
+        "https://receipt-to-room.sociobot.in/privacy/",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-BEfiWRGC.js",
+        "https://receipt-to-room.sociobot.in/assets/route-focus-BBKz67xV.js",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-DROxw5QI.css"
+      ],
+      "seriousCriticalAxe": [],
+      "allAxe": [],
+      "smallTargets": []
+    },
+    "mobile-terms": {
+      "status": 200,
+      "responseHeaders": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 20:44:56 GMT",
+        "etag": "\"78933507\"",
+        "last-modified": "Sat, 29 Aug 2026 19:56:53 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      },
+      "title": "Terms — Receipt to Room",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Terms of use."
+      ],
+      "mainCount": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "requests": [
+        "https://receipt-to-room.sociobot.in/terms/",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-BEfiWRGC.js",
+        "https://receipt-to-room.sociobot.in/assets/route-focus-BBKz67xV.js",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-DROxw5QI.css"
+      ],
+      "seriousCriticalAxe": [],
+      "allAxe": [],
+      "smallTargets": []
+    },
+    "mobile-404": {
+      "status": 404,
+      "responseHeaders": {
+        "cache-control": "public, must-revalidate, max-age=30",
+        "content-length": "2935",
+        "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+        "content-type": "text/html",
+        "date": "Sat, 29 Aug 2026 20:44:58 GMT",
+        "etag": "\"78933507\"",
+        "last-modified": "Sat, 29 Aug 2026 19:56:53 GMT",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      },
+      "title": "Page not found — Receipt to Room",
+      "lang": "en",
+      "h1Count": 1,
+      "h1": [
+        "Page not found."
+      ],
+      "mainCount": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "pageErrors": [],
+      "requests": [
+        "https://receipt-to-room.sociobot.in/definitely-missing",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-BEfiWRGC.js",
+        "https://receipt-to-room.sociobot.in/assets/route-focus-BBKz67xV.js",
+        "https://receipt-to-room.sociobot.in/assets/route-navigation-DROxw5QI.css"
+      ],
+      "seriousCriticalAxe": [],
+      "allAxe": [],
+      "smallTargets": []
+    }
+  },
+  "demo": {
+    "status": 200,
+    "banner": "Demo — sample data, nothing is saved.\nReset demoLeave demo and use my records",
+    "sampleRows": 3,
+    "heading": "Your room inventory",
+    "focusedId": "sample-title",
+    "localStorage": {
+      "demo:receipt-to-room:sample:v1": "{\"startedAt\":1788036305378}"
+    },
+    "requests": [
+      "https://receipt-to-room.sociobot.in/?demo=1",
+      "https://receipt-to-room.sociobot.in/assets/field-guide-hero-384.webp",
+      "https://receipt-to-room.sociobot.in/assets/main-BsdWZ4Hu.js",
+      "https://receipt-to-room.sociobot.in/assets/route-navigation-BEfiWRGC.js",
+      "https://receipt-to-room.sociobot.in/assets/route-navigation-DROxw5QI.css",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-load-480.webp",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-review-480.webp",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-assign-480.webp",
+      "https://receipt-to-room.sociobot.in/assets/walkthrough-export-480.webp"
+    ],
+    "externalRequests": [],
+    "cookies": [],
+    "consoleErrors": [],
+    "pageErrors": []
+  },
+  "keyboard": {
+    "skip": {
+      "text": "Skip to main content",
+      "href": "#main",
+      "outline": "rgb(11, 99, 206) solid 3px",
+      "rect": {
+        "x": 8,
+        "y": 8,
+        "width": 172.96875,
+        "height": 44.796875,
+        "top": 8,
+        "right": 180.96875,
+        "bottom": 52.796875,
+        "left": 8
+      }
+    },
+    "skipAfterEnter": {
+      "id": "",
+      "tag": "H1"
+    },
+    "tabOrder": [
+      "Skip to main content",
+      "Receipt to Room",
+      "Demo",
+      "How it works",
+      "Privacy",
+      "Downloads",
+      "Try it with sample data"
+    ],
+    "demoAction": {
+      "text": "Try it with sample data",
+      "outline": "rgb(11, 99, 206) solid 3px",
+      "outlineOffset": "4px"
+    },
+    "demoAfterEnter": {
+      "url": "https://receipt-to-room.sociobot.in/?demo=1#sample",
+      "focusedId": "sample-title",
+      "rows": 3
+    }
+  },
+  "reducedMotion": {
+    "matches": true,
+    "scrollBehavior": "auto",
+    "runningAnimations": 0
+  },
+  "links": [
+    {
+      "url": "https://receipt-to-room.sociobot.in/#main",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/?demo=1#sample",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/#how",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/#privacy",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/#downloads",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/privacy/",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://api.sociobot.in/api/v1/products/receipt-to-room/checkout",
+      "status": 303,
+      "locationHost": "checkout.dodopayments.com"
+    },
+    {
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_amd64.AppImage",
+      "status": 302,
+      "locationHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_aarch64.dmg",
+      "status": 302,
+      "locationHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_x64.dmg",
+      "status": 302,
+      "locationHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_x64-setup.exe",
+      "status": 302,
+      "locationHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/terms/",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/robots.txt",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/sitemap.xml",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/install.sh",
+      "status": 200,
+      "locationHost": null
+    },
+    {
+      "url": "https://receipt-to-room.sociobot.in/install.ps1",
+      "status": 200,
+      "locationHost": null
+    }
+  ]
+}
