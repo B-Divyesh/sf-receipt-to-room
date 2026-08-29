@@ -1,30 +1,365 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="theme-color" content="#f3efe3"/>
-  <meta id="page-description" name="description" content="Turn receipt photos into a searchable room record on your computer."/>
-  <link id="page-canonical" rel="canonical" href="https://receipt-to-room.sociobot.in/"/>
-  <meta property="og:type" content="website"/><meta id="og-title" property="og:title" content="Receipt to Room — turn receipts into room records"/><meta id="og-description" property="og:description" content="Turn receipt photos into a searchable room record on your computer."/><meta id="og-image" property="og:image" content="https://receipt-to-room.sociobot.in/assets/social-preview.webp"/>
-  <meta name="twitter:card" content="summary_large_image"/><meta id="twitter-title" name="twitter:title" content="Receipt to Room — turn receipts into room records"/><meta id="twitter-description" name="twitter:description" content="Turn receipt photos into a searchable room record on your computer."/><meta id="twitter-image" name="twitter:image" content="https://receipt-to-room.sociobot.in/assets/social-preview.webp"/>
-  <link rel="icon" href="/assets/app-icon.svg" type="image/svg+xml"/><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"/>
-  <title>Receipt to Room — turn receipts into room records</title>
-</head>
-<body>
-<a class="skip-link" href="#main">Skip to main content</a>
-<header class="site-header"><a class="brand" href="/" aria-label="Receipt to Room home"><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M25 4C14 5 7 12 7 24m0 0c4-7 9-10 16-12M7 24c6 1 11-1 15-6M7 24v5"/></svg><span>Receipt to Room</span></a><nav aria-label="Primary"><a href="/?demo=1#sample">Demo</a><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="#downloads">Downloads</a></nav></header>
-<aside class="demo-banner" id="demo-banner" aria-label="Demo mode" hidden><span><strong>Demo</strong> — demo records only; nothing is saved to your real records.</span><span><button id="reset-demo" type="button">Reset demo</button><a id="start-real" href="/">Leave demo and use my records</a></span><span class="sr-only" id="demo-reset-note" aria-live="polite"></span></aside>
-<main id="main">
-<section class="hero"><div class="hero-copy"><p class="eyebrow">A local desktop app</p><h1>Turn receipts into room records.</h1><p class="lead">For renters and homeowners who need purchase details after a move, repair, or insurance question.</p><div class="hero-actions"><a class="button primary" data-start-demo href="/?demo=1#sample">Try it with sample data</a><span>See three demo records right away.</span></div><ul class="plain-facts"><li>Demo records stay separate.</li><li>Receipt text is read on your computer.</li><li>$29 once for unlimited receipts.</li></ul></div>
-<figure class="hero-art"><picture><source type="image/avif" srcset="/assets/field-guide-hero-768.avif 768w, /assets/field-guide-hero-1536.avif 1536w" sizes="(max-width:760px) 100vw,54vw"/><source type="image/webp" srcset="/assets/field-guide-hero-768.webp 768w, /assets/field-guide-hero-1536.webp 1536w" sizes="(max-width:760px) 100vw,54vw"/><img src="/assets/field-guide-hero-768.webp" width="768" height="512" alt="Illustrated receipt arranged as a botanical specimen with a fern, room tabs, and a brass ruler" fetchpriority="high" decoding="async"/></picture><figcaption>Identify the line. Check the detail. Place it in a room.</figcaption></figure></section>
-<section class="sample-section" id="sample-workspace" aria-labelledby="sample-title" hidden><div class="section-heading"><p class="eyebrow">Demo records</p><h2 id="sample-title" tabindex="-1">Your room inventory</h2><p>Three reviewed purchases are ready to search.</p></div><div class="sample-tools"><label for="sample-search">Search demo records</label><input id="sample-search" type="search" placeholder="Try Kitchen or lamp"/></div><ul class="sample-rows" id="sample-rows" aria-label="Demo inventory records"></ul><p class="sample-caption">These demo records never read or change your real records.</p></section>
-<section class="process" id="how" aria-labelledby="how-title"><div class="section-heading"><p class="eyebrow">How it works</p><h2 id="how-title">Read, check, and file each receipt.</h2></div><ol><li><span>01</span><h3>Add receipt photos</h3><p>Choose receipt photos in the desktop app.</p></li><li><span>02</span><h3>Check each line</h3><p>Correct item names, prices, rooms, and warranty dates before saving.</p></li><li><span>03</span><h3>Find records later</h3><p>Search by room or item. Download a spreadsheet with payment details removed.</p></li></ol></section>
-<section class="walkthrough" aria-labelledby="walkthrough-title"><div class="section-heading"><p class="eyebrow">Desktop walkthrough</p><h2 id="walkthrough-title">See the receipt workflow before installing.</h2><p>The four frames show loading, review, room assignment, and export.</p></div><ol class="walkthrough-frames"><li><figure><img src="/assets/walkthrough-load.png" width="960" height="600" alt="Receipt to Room demo inventory with three reviewed household records" loading="lazy" decoding="async"/><figcaption><strong>1. Load demo records</strong><span>Open three reviewed records without touching your own.</span></figcaption></figure></li><li><figure><img src="/assets/walkthrough-review.png" width="960" height="600" alt="Receipt to Room review screen showing extracted purchase lines" loading="lazy" decoding="async"/><figcaption><strong>2. Review receipt lines</strong><span>Check names, prices, and which lines to save.</span></figcaption></figure></li><li><figure><img src="/assets/walkthrough-assign.png" width="960" height="600" alt="Receipt to Room line fields for room category and warranty date" loading="lazy" decoding="async"/><figcaption><strong>3. Place each item</strong><span>Give every line its room, category, and warranty date.</span></figcaption></figure></li><li><figure><img src="/assets/walkthrough-export.png" width="960" height="600" alt="Receipt to Room inventory with search and spreadsheet export controls" loading="lazy" decoding="async"/><figcaption><strong>4. Search and export</strong><span>Find a record later and download a redacted spreadsheet.</span></figcaption></figure></li></ol></section>
-<section class="privacy-section" id="privacy" aria-labelledby="privacy-title"><div class="receipt-diagram" aria-hidden="true"><span></span><span></span><span></span><b>local</b></div><div><p class="eyebrow">Privacy</p><h2 id="privacy-title">Receipt work stays on your computer.</h2><p>The desktop app reads receipt text on your computer. Read the privacy note for storage and paid-version details.</p><a href="/privacy/">Read the privacy note</a></div></section>
-<section class="price-section" id="price" aria-labelledby="price-title"><div><p class="eyebrow">Price</p><h2 id="price-title">Three receipts are free.</h2><p>The free app includes search, spreadsheet download, and printable output. Pay $29 once for unlimited receipt intake and backup files.</p></div><div class="price-tag"><span>one time</span><strong>$29</strong><a class="button primary" href="https://api.sociobot.in/api/v1/products/receipt-to-room/checkout">Buy unlimited receipts — $29</a><small>Payment opens in a hosted checkout.</small></div></section>
-<section class="install-section" id="downloads" aria-labelledby="install-title"><p class="eyebrow">Desktop download</p><h2 id="install-title">Install Receipt to Room.</h2><p>Choose the installer for your computer. Releases are unsigned.</p><a class="button primary" id="download-button" href="https://github.com/B-Divyesh/sf-receipt-to-room/releases/latest">View release page</a><p class="download-note" id="download-note" aria-live="polite">Checking the latest release.</p><button class="text-button" id="all-downloads" type="button" aria-expanded="false" aria-controls="download-list">See all downloads</button><div class="download-list" id="download-list" hidden></div><div class="commands"><div tabindex="0" aria-label="macOS and Linux install command"><span>macOS / Linux</span><code>curl -fsSL https://receipt-to-room.sociobot.in/install.sh | sh</code></div><div tabindex="0" aria-label="Windows PowerShell install command"><span>Windows PowerShell</span><code>irm https://receipt-to-room.sociobot.in/install.ps1 | iex</code></div></div></section>
-</main>
-<footer><div><a class="brand" href="/"><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M25 4C14 5 7 12 7 24m0 0c4-7 9-10 16-12M7 24v5"/></svg><span>Receipt to Room</span></a><p>A local room record for reviewed receipts.</p></div><div><a href="/?demo=1#sample">Demo</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-receipt-to-room">Source</a></div><p class="disclosure">Built by Param Factory · <span data-build-version></span></p></footer>
-<script type="module" src="/main.ts"></script>
-</body></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f3efe3" />
+    <meta
+      id="page-description"
+      name="description"
+      content="Turn receipt photos into a searchable room record on your computer."
+    />
+    <link
+      id="page-canonical"
+      rel="canonical"
+      href="https://receipt-to-room.sociobot.in/"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      id="og-title"
+      property="og:title"
+      content="Receipt to Room — turn receipts into room records"
+    />
+    <meta
+      id="og-description"
+      property="og:description"
+      content="Turn receipt photos into a searchable room record on your computer."
+    />
+    <meta
+      id="og-image"
+      property="og:image"
+      content="https://receipt-to-room.sociobot.in/assets/social-preview.webp"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      id="twitter-title"
+      name="twitter:title"
+      content="Receipt to Room — turn receipts into room records"
+    />
+    <meta
+      id="twitter-description"
+      name="twitter:description"
+      content="Turn receipt photos into a searchable room record on your computer."
+    />
+    <meta
+      id="twitter-image"
+      name="twitter:image"
+      content="https://receipt-to-room.sociobot.in/assets/social-preview.webp"
+    />
+    <link rel="icon" href="/assets/app-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <title>Receipt to Room — turn receipts into room records</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Receipt to Room home"
+        ><svg aria-hidden="true" viewBox="0 0 32 32">
+          <path
+            d="M25 4C14 5 7 12 7 24m0 0c4-7 9-10 16-12M7 24c6 1 11-1 15-6M7 24v5"
+          /></svg
+        ><span>Receipt to Room</span></a
+      >
+      <nav aria-label="Primary">
+        <a href="/?demo=1#sample">Demo</a><a href="#how">How it works</a
+        ><a href="#privacy">Privacy</a><a href="#downloads">Downloads</a>
+      </nav>
+    </header>
+    <aside class="demo-banner" id="demo-banner" aria-label="Demo mode" hidden>
+      <span><strong>Demo</strong> — sample data, nothing is saved.</span
+      ><span
+        ><button id="reset-demo" type="button">Reset demo</button
+        ><a id="start-real" href="/">Leave demo and use my records</a></span
+      ><span class="sr-only" id="demo-reset-note" aria-live="polite"></span>
+    </aside>
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">A local desktop app</p>
+          <h1>Turn receipts into room records.</h1>
+          <p class="lead">
+            For renters and homeowners who need purchase details after a move,
+            repair, or insurance question.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" data-start-demo href="/?demo=1#sample"
+              >Try it with sample data</a
+            ><span>See three demo records right away.</span>
+          </div>
+          <ul class="plain-facts">
+            <li>Demo records stay separate.</li>
+            <li>Receipt text is read on your computer.</li>
+            <li>$29 once for unlimited receipts.</li>
+          </ul>
+        </div>
+        <figure class="hero-art">
+          <picture
+            ><source
+              type="image/avif"
+              srcset="
+                /assets/field-guide-hero-768.avif   768w,
+                /assets/field-guide-hero-1536.avif 1536w
+              "
+              sizes="(max-width:760px) 100vw,54vw" />
+            <source
+              type="image/webp"
+              srcset="
+                /assets/field-guide-hero-768.webp   768w,
+                /assets/field-guide-hero-1536.webp 1536w
+              "
+              sizes="(max-width:760px) 100vw,54vw" />
+            <img
+              src="/assets/field-guide-hero-768.webp"
+              width="768"
+              height="512"
+              alt="Illustrated receipt arranged as a botanical specimen with a fern, room tabs, and a brass ruler"
+              fetchpriority="high"
+              decoding="async"
+          /></picture>
+          <figcaption>
+            Identify the line. Check the detail. Place it in a room.
+          </figcaption>
+        </figure>
+      </section>
+      <section
+        class="sample-section"
+        id="sample-workspace"
+        aria-labelledby="sample-title"
+        hidden
+      >
+        <div class="section-heading">
+          <p class="eyebrow">Demo records</p>
+          <h2 id="sample-title" tabindex="-1">Your room inventory</h2>
+          <p>Three reviewed purchases are ready to search.</p>
+        </div>
+        <div class="sample-tools">
+          <label for="sample-search">Search demo records</label
+          ><input
+            id="sample-search"
+            type="search"
+            placeholder="Try Kitchen or lamp"
+          />
+        </div>
+        <ul
+          class="sample-rows"
+          id="sample-rows"
+          aria-label="Demo inventory records"
+        ></ul>
+        <p class="sample-caption">
+          These demo records never read or change your real records.
+        </p>
+      </section>
+      <section class="process" id="how" aria-labelledby="how-title">
+        <div class="section-heading">
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">Read, check, and file each receipt.</h2>
+        </div>
+        <ol>
+          <li>
+            <span>01</span>
+            <h3>Add receipt photos</h3>
+            <p>Choose receipt photos in the desktop app.</p>
+          </li>
+          <li>
+            <span>02</span>
+            <h3>Check each line</h3>
+            <p>
+              Correct item names, prices, rooms, and warranty dates before
+              saving.
+            </p>
+          </li>
+          <li>
+            <span>03</span>
+            <h3>Find records later</h3>
+            <p>
+              Search by room or item. Download a spreadsheet with payment
+              details removed.
+            </p>
+          </li>
+        </ol>
+      </section>
+      <section class="walkthrough" aria-labelledby="walkthrough-title">
+        <div class="section-heading">
+          <p class="eyebrow">Desktop walkthrough</p>
+          <h2 id="walkthrough-title">
+            See the receipt workflow before installing.
+          </h2>
+          <p>
+            The four frames show loading, review, room assignment, and export.
+          </p>
+        </div>
+        <ol class="walkthrough-frames">
+          <li>
+            <figure>
+              <img
+                src="/assets/walkthrough-load.png"
+                width="960"
+                height="600"
+                alt="Receipt to Room demo inventory with three reviewed household records"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>
+                <strong>1. Load demo records</strong
+                ><span
+                  >Open three reviewed records without touching your own.</span
+                >
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img
+                src="/assets/walkthrough-review.png"
+                width="960"
+                height="600"
+                alt="Receipt to Room review screen showing extracted purchase lines"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>
+                <strong>2. Review receipt lines</strong
+                ><span>Check names, prices, and which lines to save.</span>
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img
+                src="/assets/walkthrough-assign.png"
+                width="960"
+                height="600"
+                alt="Receipt to Room line fields for room category and warranty date"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>
+                <strong>3. Place each item</strong
+                ><span
+                  >Give every line its room, category, and warranty date.</span
+                >
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img
+                src="/assets/walkthrough-export.png"
+                width="960"
+                height="600"
+                alt="Receipt to Room inventory with search and spreadsheet export controls"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>
+                <strong>4. Search and export</strong
+                ><span
+                  >Find a record later and download a redacted
+                  spreadsheet.</span
+                >
+              </figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+      <section
+        class="privacy-section"
+        id="privacy"
+        aria-labelledby="privacy-title"
+      >
+        <div class="receipt-diagram" aria-hidden="true">
+          <span></span><span></span><span></span><b>local</b>
+        </div>
+        <div>
+          <p class="eyebrow">Privacy</p>
+          <h2 id="privacy-title">Receipt work stays on your computer.</h2>
+          <p>
+            The desktop app reads receipt text on your computer. Read the
+            privacy note for storage and paid-version details.
+          </p>
+          <a href="/privacy/">Read the privacy note</a>
+        </div>
+      </section>
+      <section class="price-section" id="price" aria-labelledby="price-title">
+        <div>
+          <p class="eyebrow">Price</p>
+          <h2 id="price-title">Three receipts are free.</h2>
+          <p>
+            The free app includes search, spreadsheet download, and printable
+            output. Pay $29 once for unlimited receipt intake and backup files.
+          </p>
+        </div>
+        <div class="price-tag">
+          <span>one time</span><strong>$29</strong
+          ><a
+            class="button primary"
+            href="https://api.sociobot.in/api/v1/products/receipt-to-room/checkout"
+            >Buy unlimited receipts — $29</a
+          ><small>Payment opens in a hosted checkout.</small>
+        </div>
+      </section>
+      <section
+        class="install-section"
+        id="downloads"
+        aria-labelledby="install-title"
+      >
+        <p class="eyebrow">Desktop download</p>
+        <h2 id="install-title">Install Receipt to Room.</h2>
+        <p>Choose the installer for your computer. Releases are unsigned.</p>
+        <a
+          class="button primary"
+          id="download-button"
+          href="https://github.com/B-Divyesh/sf-receipt-to-room/releases/latest"
+          >View release page</a
+        >
+        <p class="download-note" id="download-note" aria-live="polite">
+          Checking the latest release.
+        </p>
+        <button
+          class="text-button"
+          id="all-downloads"
+          type="button"
+          aria-expanded="false"
+          aria-controls="download-list"
+        >
+          See all downloads
+        </button>
+        <div class="download-list" id="download-list" hidden></div>
+        <div class="commands">
+          <div tabindex="0" aria-label="macOS and Linux install command">
+            <span>macOS / Linux</span
+            ><code
+              >curl -fsSL https://receipt-to-room.sociobot.in/install.sh |
+              sh</code
+            >
+          </div>
+          <div tabindex="0" aria-label="Windows PowerShell install command">
+            <span>Windows PowerShell</span
+            ><code
+              >irm https://receipt-to-room.sociobot.in/install.ps1 | iex</code
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div>
+        <a class="brand" href="/"
+          ><svg aria-hidden="true" viewBox="0 0 32 32">
+            <path d="M25 4C14 5 7 12 7 24m0 0c4-7 9-10 16-12M7 24v5" /></svg
+          ><span>Receipt to Room</span></a
+        >
+        <p>A local room record for reviewed receipts.</p>
+      </div>
+      <div>
+        <a href="/?demo=1#sample">Demo</a><a href="/privacy/">Privacy</a
+        ><a href="/terms/">Terms</a
+        ><a href="https://github.com/B-Divyesh/sf-receipt-to-room">Source</a>
+      </div>
+      <p class="disclosure">
+        Built by Param Factory · <span data-build-version></span>
+      </p>
+    </footer>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

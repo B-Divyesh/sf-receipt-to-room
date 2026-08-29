@@ -5,6 +5,8 @@ on the landing page. The demo starts with three reviewed records:
 Cedar kettle in Kitchen, Reading lamp in Office, and Linen storage box in
 Bedroom.
 
+The persistent banner says **Demo — sample data, nothing is saved**.
+
 The landing action scrolls and focuses the demo inventory immediately. Its
 state uses only `demo:receipt-to-room:sample:v1` and
 no download metadata is requested or stored. **Reset demo** restores all three
