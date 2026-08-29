@@ -94,8 +94,8 @@ export function inferCurrency(text: string): string {
 
 export function redactPayment(value: string): string {
   return value
-    .replace(/\b(?:visa|mastercard|amex|card|acct|account)\s*[:#-]?\s*(?:[*xX•\s-]*\d){2,}\b/gi, "[redacted payment]")
-    .replace(/\b(?:\d[ -]*?){12,19}\b/g, "[redacted payment]");
+    .replace(/\b(?:visa|mastercard|amex|card|acct|account)\s*[:#-]?\s*(?:[*xX•\s-]*\d){2,}\b/gi, "[payment details removed]")
+    .replace(/\b(?:\d[ -]*?){12,19}\b/g, "[payment details removed]");
 }
 
 function csvCell(value: unknown): string {

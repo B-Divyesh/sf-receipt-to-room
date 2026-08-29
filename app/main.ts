@@ -282,7 +282,7 @@ function intakeView(): string {
   const limitNote = demoMode
     ? "Demo records"
     : licenseValid
-      ? "Unlimited receipt intake is active."
+      ? "You can add unlimited receipts."
       : `${receiptCount()} of ${FREE_RECEIPTS} free receipts used.`;
   return `
     <section class="page-head">
@@ -307,7 +307,7 @@ function uploadView(): string {
       </div>
       <aside class="field-note" aria-labelledby="privacy-note">
         <span class="pin" aria-hidden="true"></span><h2 id="privacy-note">Your private worktable</h2>
-        <ul><li>No account required</li><li>No receipt photos uploaded</li><li>Payment fragments redacted from exports</li><li>Saved item details remain editable</li></ul>
+        <ul><li>No account required</li><li>No receipt photos uploaded</li><li>Payment details removed from exports</li><li>Saved item details remain editable</li></ul>
         <details><summary>Text reading missed something?</summary><p>Use “Paste receipt text” to add a typed or copied receipt without a photo.</p></details>
         <button class="button secondary" id="show-manual">Paste receipt text</button>
         ${!demoMode && items.length === 0 ? `<button class="button secondary" id="load-demo">Load demo records</button>` : ""}
@@ -416,8 +416,8 @@ function editItemForm(item: InventoryItem): string {
 
 function licenseView(): string {
   return `<section class="license-layout">
-    <div class="license-copy"><p class="eyebrow">Paid version</p><h1>${licenseValid ? "Your paid version is active." : "Keep every room record, for good."}</h1><p>The free version includes three receipts. Pay $29 once to remove receipt intake limits.</p>
-      <ul class="feature-list"><li>Unlimited receipt intake</li><li>Local inventory records</li><li>Backup and restore between devices</li><li>Spreadsheet and printable exports</li></ul>
+    <div class="license-copy"><p class="eyebrow">Paid version</p><h1>${licenseValid ? "Your paid version is active." : "Keep every room record, for good."}</h1><p>The free version includes three receipts. Pay $29 once to add unlimited receipts.</p>
+      <ul class="feature-list"><li>Add unlimited receipts</li><li>Local inventory records</li><li>Backup and restore between devices</li><li>Spreadsheet and printable exports</li></ul>
       ${licenseValid ? `<p class="success-note">✓ Paid version checked on this device.</p><button class="button secondary" id="backup-json">Download backup file</button><label class="button secondary file-button" for="restore-json">Restore backup file</label><input id="restore-json" type="file" accept="application/json"/>` : `<a class="button primary" href="${CHECKOUT}">Buy unlimited receipts — $29</a>`}
       <p class="legal-line">Payment opens in a hosted checkout run by Dodo Payments. A refunded purchase stops the paid version. <a href="https://receipt-to-room.sociobot.in/privacy">Privacy</a> · <a href="https://receipt-to-room.sociobot.in/terms">Terms</a></p>
     </div>
@@ -878,7 +878,7 @@ function printInventory(): void {
     groups.set(item.room, [...(groups.get(item.room) ?? []), item]);
   doc.open();
   doc.write(
-    `<!doctype html><html lang="en"><head><title>Receipt to Room inventory</title><style>body{font:14px system-ui;color:#19332b;margin:36px}h1,h2{font-family:Georgia,serif}header{border-bottom:2px solid #1f6349;margin-bottom:28px}table{width:100%;border-collapse:collapse;margin-bottom:28px}th,td{text-align:left;padding:8px;border-bottom:1px solid #ccc}td:last-child,th:last-child{text-align:right}.note{color:#53645c;font-size:12px}</style></head><body><header><h1>Household room inventory</h1><p>Prepared ${new Date().toLocaleDateString()} · ${items.length} reviewed items</p><p class="note">Purchase totals are user-reviewed records, not valuations or proof of insurance coverage. Payment fragments are redacted.</p></header>${Array.from(
+    `<!doctype html><html lang="en"><head><title>Receipt to Room inventory</title><style>body{font:14px system-ui;color:#19332b;margin:36px}h1,h2{font-family:Georgia,serif}header{border-bottom:2px solid #1f6349;margin-bottom:28px}table{width:100%;border-collapse:collapse;margin-bottom:28px}th,td{text-align:left;padding:8px;border-bottom:1px solid #ccc}td:last-child,th:last-child{text-align:right}.note{color:#53645c;font-size:12px}</style></head><body><header><h1>Household room inventory</h1><p>Prepared ${new Date().toLocaleDateString()} · ${items.length} reviewed items</p><p class="note">Purchase totals are user-reviewed records, not valuations or proof of insurance coverage. Payment details have been removed.</p></header>${Array.from(
       groups,
     )
       .map(

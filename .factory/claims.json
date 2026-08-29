@@ -22,7 +22,7 @@
   },
   {
     "id": "price",
-    "claim": "Pay $29 once for unlimited receipt intake and backup files.",
+    "claim": "Pay $29 once to add unlimited receipts and use backup files.",
     "where": "pricing section",
     "test": "npm run test:e2e -- --grep @claim:price",
     "sandbox": "fresh browser context; assert the one-time $29 paid-version price and unlimited receipt and backup behavior"
@@ -57,7 +57,7 @@
   },
   {
     "id": "image-input",
-    "claim": "Receipt intake accepts JPG, PNG, or WebP images up to 10 MB each and provides recovery guidance for rejected files.",
+    "claim": "You can add JPG, PNG, or WebP receipt photos up to 10 MB each, with recovery guidance for rejected files.",
     "where": "desktop intake",
     "test": "npm run test:e2e -- --grep @claim:image-input",
     "sandbox": "isolated app demo; provide an unsupported file and a PNG over 10 MB, then assert both are rejected without losing the manual fallback"
@@ -85,7 +85,7 @@
   },
   {
     "id": "redacted-exports",
-    "claim": "Payment fragments are redacted from CSV and printable exports.",
+    "claim": "Payment details are removed from spreadsheet and printable exports.",
     "where": "desktop intake note, landing how-it-works, README, privacy page",
     "test": "npm run test:e2e -- --grep @claim:redacted-exports",
     "sandbox": "isolated app demo record containing a card number; assert CSV and printable output contain the redaction marker and not the number"
@@ -106,7 +106,7 @@
   },
   {
     "id": "license-rate-policy",
-    "claim": "License verification allows 30 requests per service window, then returns 429; the app displays a wait of at least one second.",
+    "claim": "The paid-version service allows 30 checks before a temporary pause; the app shows a wait of at least one second.",
     "where": "README",
     "test": "npm run test:e2e -- --grep @claim:license-rate-policy",
     "sandbox": "recorded throttled verification response with Retry-After zero; assert the client presents a non-zero one-second wait; live gate checks the 30-request allowance"
@@ -152,6 +152,13 @@
     "where": "README Deploy section",
     "test": "npm run test:release-contract -- -t @claim:release-artifacts",
     "sandbox": "repository contract test reads the checked-in release workflow and manifest generator contract"
+  },
+  {
+    "id": "release-candidate",
+    "claim": "The release check rejects a version tag that points to a different commit.",
+    "where": "README Deploy section",
+    "test": "npm run test:release-contract -- -t @claim:release-candidate",
+    "sandbox": "repository contract test passes mismatched and matching tag commits to the production release check"
   },
   {
     "id": "installer-integrity",

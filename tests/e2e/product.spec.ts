@@ -4,32 +4,32 @@ import AxeBuilder from "@axe-core/playwright";
 const releaseApi =
   "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const release = {
-  tag_name: "v0.1.10",
+  tag_name: "v0.1.11",
   assets: [
     {
-      name: "Receipt.to.Room_0.1.10_x64_en-US.msi",
+      name: "Receipt.to.Room_0.1.11_x64_en-US.msi",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.10/Receipt.to.Room_0.1.10_x64_en-US.msi",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.11/Receipt.to.Room_0.1.11_x64_en-US.msi",
     },
     {
-      name: "Receipt.to.Room_0.1.10_x64-setup.exe",
+      name: "Receipt.to.Room_0.1.11_x64-setup.exe",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.10/Receipt.to.Room_0.1.10_x64-setup.exe",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.11/Receipt.to.Room_0.1.11_x64-setup.exe",
     },
     {
-      name: "Receipt.to.Room_0.1.10_aarch64.dmg",
+      name: "Receipt.to.Room_0.1.11_aarch64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.10/Receipt.to.Room_0.1.10_aarch64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.11/Receipt.to.Room_0.1.11_aarch64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.10_x64.dmg",
+      name: "Receipt.to.Room_0.1.11_x64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.10/Receipt.to.Room_0.1.10_x64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.11/Receipt.to.Room_0.1.11_x64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.10_amd64.AppImage",
+      name: "Receipt.to.Room_0.1.11_amd64.AppImage",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.10/Receipt.to.Room_0.1.10_amd64.AppImage",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.11/Receipt.to.Room_0.1.11_amd64.AppImage",
     },
   ],
 };
@@ -122,7 +122,7 @@ test("@claim:price @claim:checkout-operator landing price and hosted payment are
   await expect(page.getByText("$29", { exact: true })).toBeVisible();
   await expect(
     page.getByText(
-      "Pay $29 once for unlimited receipt intake and backup files.",
+      "Pay $29 once to add unlimited receipts and use backup files.",
     ),
   ).toBeVisible();
   await expect(
@@ -244,7 +244,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   await page.goto("http://127.0.0.1:4173/");
   await expect(
     page.getByRole("link", { name: /download linux appimage/i }),
-  ).toHaveAttribute("href", /releases\/download\/v0\.1\.10/);
+  ).toHaveAttribute("href", /releases\/download\/v0\.1\.11/);
   await expect(page.getByText(/unsigned release/)).toBeVisible();
   await page.getByRole("button", { name: "See all downloads" }).click();
   await expect(page.locator("#download-list")).toContainText(
@@ -850,7 +850,7 @@ test("@claim:redacted-exports @claim:privacy-boundaries exports redact payment d
   const csv = await (
     await import("node:fs/promises")
   ).readFile((await (await download).path()) as string, "utf8");
-  expect(csv).toContain("[redacted payment]");
+  expect(csv).toContain("[payment details removed]");
   expect(csv).not.toContain("4111 1111 1111 1111");
   await page.getByRole("button", { name: "Print inventory" }).click();
   const printText = await page
@@ -859,7 +859,7 @@ test("@claim:redacted-exports @claim:privacy-boundaries exports redact payment d
       (frame: HTMLIFrameElement) =>
         frame.contentDocument?.body.textContent ?? "",
     );
-  expect(printText).toContain("[redacted payment]");
+  expect(printText).toContain("[payment details removed]");
   expect(printText).not.toContain("4111 1111 1111 1111");
   expect(externalRequests).toEqual([]);
   expect(await page.context().cookies()).toEqual([]);
@@ -1129,12 +1129,19 @@ test("site routes expose complete metadata, focused headings, shared links, and 
     await expect(page.locator("main h1")).toHaveCount(1);
     if (path !== "/") await expect(page.locator("main h1")).toBeFocused();
     await expect(page.locator("footer")).toContainText(
-      "Built by Param Factory · v0.1.10",
+      "Built by Param Factory · v0.1.11",
     );
-    for (const label of ["Demo", "Privacy", "Terms", "Source"]) {
+    await expect(
+      page.locator("footer").getByRole("link", { name: "Receipt to Room home" }),
+    ).toHaveCount(1);
+    for (const label of ["Demo", "Privacy", "Terms", "Source on GitHub (external)"]) {
       await expect(
         page.locator("footer").getByRole("link", { name: label, exact: true }),
       ).toHaveCount(1);
     }
   }
+  await page.goto("http://127.0.0.1:4173/404.html");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Page not found.",
+  );
 });

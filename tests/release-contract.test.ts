@@ -21,7 +21,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.10");
+    expect(pkg.version).toBe("0.1.11");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -43,27 +43,27 @@ describe("release and static-host contract", () => {
     expect(liveGate).toContain("hostedCheckout.ok");
   });
 
-  test("rejects a release tag that points to the parent of the nominated repair candidate", () => {
+  test("@claim:release-candidate rejects a release tag that points to a different commit", () => {
     const candidate = "b5b307b4dc38a2001f503652f0661712c5b498f9";
     const staleTaggedParent = "b6683dbeb3806c5cbc0af98ab536d98b93924b13";
 
     expect(() =>
       assertTaggedCandidate({
-        tag: "v0.1.10",
-        version: "0.1.10",
+        tag: "v0.1.11",
+        version: "0.1.11",
         tagCommit: staleTaggedParent,
         expectedCommit: candidate,
       }),
-    ).toThrow(`release tag v0.1.10 targets ${staleTaggedParent}`);
+    ).toThrow(`release tag v0.1.11 targets ${staleTaggedParent}`);
 
     expect(
       assertTaggedCandidate({
-        tag: "v0.1.10",
-        version: "0.1.10",
+        tag: "v0.1.11",
+        version: "0.1.11",
         tagCommit: candidate,
         expectedCommit: candidate,
       }),
-    ).toEqual({ tag: "v0.1.10", version: "0.1.10", commit: candidate });
+    ).toEqual({ tag: "v0.1.11", version: "0.1.11", commit: candidate });
   });
 
   test("rejects the exact release-target drift reported by independent verification", () => {
@@ -186,7 +186,7 @@ describe("release and static-host contract", () => {
     );
     expect(config.globalHeaders?.["X-Frame-Options"]).toBe("DENY");
     expect(read("site/public/_headers")).toContain("frame-ancestors 'none'");
-    expect(read("site/404.html")).toContain("That record is not here.");
+    expect(read("site/404.html")).toContain("Page not found.");
     for (const page of [
       "site/index.html",
       "site/privacy/index.html",
@@ -214,6 +214,24 @@ describe("release and static-host contract", () => {
     expect(readme).toContain("does not estimate current value");
     expect(readme).toMatch(/not\s+file insurance claims/);
     expect(terms).toContain("does not provide insurance coverage");
+  });
+
+  test("round-three public copy uses short, consistent plain words", () => {
+    const publicCopy = [
+      read("README.md"),
+      read("site/index.html"),
+      read("site/terms/index.html"),
+      read("app/main.ts"),
+    ].join("\n");
+    expect(publicCopy).not.toMatch(/receipt intake/i);
+    expect(publicCopy).not.toMatch(/service window|per client|preflight/i);
+    expect(read("site/index.html")).not.toContain("redacted spreadsheet");
+    expect(read("README.md")).toMatch(
+      /Tag\nonly the final committed candidate\. Run the release check before pushing the\ntag\. It rejects a tag that points to another commit\./,
+    );
+    expect(read("site/terms/index.html")).toContain(
+      "Pay $29 once to add unlimited receipts and use backup files.",
+    );
   });
 
   test("@claim:installer-integrity checks the published checksum before each installer proceeds", () => {
@@ -265,6 +283,9 @@ describe("release and static-host contract", () => {
         "checkout-operator",
         "free-exports",
         "scope-boundaries",
+        "release-trigger",
+        "release-artifacts",
+        "release-candidate",
         "installer-integrity",
         "refund-revocation",
       ]),

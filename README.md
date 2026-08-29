@@ -15,7 +15,7 @@ them.
 - Reads English receipt text on your computer, including several photos in a queue
 - Manual entry with per-line room, category, warranty, and saved-item editing
 - Spreadsheet download with payment details removed, printable output, and five-second undo
-- Free version for three receipts; $29 once for unlimited receipt intake and backup files
+- Free version for three receipts; $29 once to add unlimited receipts and use backup files
 - Download page that recommends the installer for your computer
 
 ## Try the demo
@@ -76,17 +76,17 @@ when you check a paid-version code. Its result is saved for one day.
 Spreadsheet and printable exports remain available in the free version.
 See `/privacy/` and `/terms/` on the site.
 
-The paid-version service allows 30 checks per client in a service window. After
-30 checks, it pauses new checks and tells the app how long to wait. The app
-always shows a wait of at least one second before the next attempt.
+The paid-version service allows 30 checks before a temporary pause. It then
+tells the app how long to wait. The app always shows a wait of at least one
+second before the next attempt.
 
 ## Deploy
 
 Deploy the contents of `dist/site` as a static site. Do not deploy `dist/app`.
 GitHub Actions builds native bundles after a `v*` tag or manual dispatch. A
 native release publishes installers, checksums, and a release manifest. Tag
-only the final committed candidate, then run the preflight before pushing the
-tag; it rejects a tag that points to a different commit.
+only the final committed candidate. Run the release check before pushing the
+tag. It rejects a tag that points to another commit.
 
 ```sh
 git tag "v$(node -p \"require('./package.json').version\")"
