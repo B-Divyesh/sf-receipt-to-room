@@ -1,0 +1,38 @@
+[
+  {
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "fcpMs": 906.212,
+    "lcpMs": 1356.212,
+    "tbtMs": 0,
+    "cls": 0,
+    "transferBytes": 107710,
+    "lcpElement": "main#main > section.hero > div.hero-copy > h1"
+  },
+  {
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "fcpMs": 910.846,
+    "lcpMs": 1360.846,
+    "tbtMs": 0,
+    "cls": 0,
+    "transferBytes": 107710,
+    "lcpElement": "main#main > section.hero > div.hero-copy > h1"
+  },
+  {
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "fcpMs": 907.5640000000001,
+    "lcpMs": 1357.564,
+    "tbtMs": 0,
+    "cls": 0,
+    "transferBytes": 107710,
+    "lcpElement": "main#main > section.hero > div.hero-copy > h1"
+  }
+]

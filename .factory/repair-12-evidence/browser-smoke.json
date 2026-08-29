@@ -1,0 +1,24 @@
+{
+  "viewport": [
+    390,
+    844
+  ],
+  "reducedMotion": true,
+  "scrollBehavior": "auto",
+  "runningAnimations": 0,
+  "overflow": false,
+  "headingFocused": true,
+  "mainCount": 1,
+  "h1Count": 1,
+  "imagesWithoutAlt": 0,
+  "skip": {
+    "focused": true,
+    "outline": "rgb(11, 99, 206) solid 3px"
+  },
+  "skipped": true,
+  "zoom": {
+    "scale": 2,
+    "overflow": false
+  },
+  "errors": []
+}

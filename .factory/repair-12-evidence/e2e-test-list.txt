@@ -1,0 +1,28 @@
+Listing tests:
+  product.spec.ts:89:1 › @claim:price @claim:checkout-operator landing price and hosted payment are responsive and accurate
+  product.spec.ts:234:1 › @claim:release-api uses the GitHub API, caches a matching download, and never fetches the redirect manifest
+  product.spec.ts:274:1 › normal landing hides demo state while the demo URL shows it
+  product.spec.ts:297:1 › verification 14 regression preloads and selects the phone-sized hero
+  product.spec.ts:385:1 › install command panels use the designed keyboard focus ring
+  product.spec.ts:406:1 › landing history restores URL, metadata, focus, and demo state
+  product.spec.ts:452:1 › Home returns focus and announces every same-origin route change
+  product.spec.ts:478:1 › cross-page Back and Forward focus and announce the restored route
+  product.spec.ts:502:1 › @claim:offline-work manual intake and export remain available offline
+  product.spec.ts:526:1 › unavailable releases show a calm publishing state without console errors
+  product.spec.ts:544:1 › @claim:sample-demo is isolated, searchable, resettable, and keyboard reachable
+  product.spec.ts:679:1 › @claim:csv-export @claim:receipt-workflow @claim:local-storage @claim:editable-records @claim:free-exports a mixed-room receipt stays accurate and editable
+  product.spec.ts:771:1 › @claim:bulk-queue queues two shipped receipt images
+  product.spec.ts:811:1 › @claim:print-undo creates printable output and restores a removed item
+  product.spec.ts:842:1 › blank manual receipt keeps its named recovery field visible and focused
+  product.spec.ts:867:1 › @claim:image-input rejects unsupported and oversized receipt files with recovery guidance
+  product.spec.ts:890:1 › deep links survive reload and mobile screen changes restore heading focus
+  product.spec.ts:935:1 › @claim:backup-restore rejects malformed records without replacing known-good inventory
+  product.spec.ts:986:1 › @claim:redacted-exports @claim:privacy-boundaries exports redact payment details without tracking
+  product.spec.ts:1039:1 › 390px touch targets cover every control reported by verification 9
+  product.spec.ts:1071:1 › verification 11 regression keeps every desktop Demo link at least 44 by 44 CSS pixels
+  product.spec.ts:1084:1 › @claim:license-cache checkout return stores, strips, verifies, and caches a license
+  product.spec.ts:1146:1 › @claim:refund-revocation a revoked purchase turns off paid features
+  product.spec.ts:1198:1 › @claim:license-rate-policy license throttling always presents a non-zero retry interval
+  product.spec.ts:1244:1 › @claim:local-ocr bundled OCR reads a receipt without external runtime assets
+  product.spec.ts:1275:1 › site routes expose complete metadata, focused headings, shared links, and one build version
+Total: 26 tests in 1 file
