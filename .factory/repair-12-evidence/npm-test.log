@@ -1,0 +1,13 @@
+
+> receipt-to-room@0.1.17 test
+> vitest run
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  19:32:24
+   Duration  439ms (transform 158ms, setup 0ms, import 216ms, tests 177ms, environment 0ms)
+

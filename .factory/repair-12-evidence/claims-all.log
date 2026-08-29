@@ -1,0 +1,1270 @@
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:sample-demo
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:sample-demo
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 424ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 134ms
+[WebServer] (node:17956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18012) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:18033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (6.1s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:local-ocr
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:local-ocr
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 155ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 101ms
+[WebServer] (node:18272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:18349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.5s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:csv-export
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:csv-export
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 157ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 92ms
+[WebServer] (node:18571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18627) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:18648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.8s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:price
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:price
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 154ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 88ms
+[WebServer] (node:18913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:18990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (6.7s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:release-api
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:release-api
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 166ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 92ms
+[WebServer] (node:19225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:19281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:19302) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19302) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:receipt-workflow
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:receipt-workflow
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 168ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 91ms
+[WebServer] (node:19523) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:19579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:19600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:editable-records
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:editable-records
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 169ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 90ms
+[WebServer] (node:19860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:19916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:19937) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19937) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:bulk-queue
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:bulk-queue
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 163ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 95ms
+[WebServer] (node:20176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:20232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:20253) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20253) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.6s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:image-input
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:image-input
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 159ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 93ms
+[WebServer] (node:20474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:20530) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:20551) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20551) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.1s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:print-undo
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:print-undo
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 156ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 99ms
+[WebServer] (node:20792) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:20848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:20869) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20869) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:local-storage
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:local-storage
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 175ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 102ms
+[WebServer] (node:21086) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:21142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:21163) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21163) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (6.1s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:backup-restore
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:backup-restore
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 177ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 89ms
+[WebServer] (node:21412) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:21468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:21489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:redacted-exports
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:redacted-exports
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 172ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 90ms
+[WebServer] (node:21708) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:21764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:21785) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21785) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:privacy-boundaries
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:privacy-boundaries
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 166ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 93ms
+[WebServer] (node:22006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:22062) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:22083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.0s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:license-cache
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:license-cache
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 158ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 89ms
+[WebServer] (node:22322) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:22378) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:22400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.0s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:license-rate-policy
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:license-rate-policy
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 172ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 95ms
+[WebServer] (node:22618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:22674) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:22695) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22695) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:offline-work
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:offline-work
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 182ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 93ms
+[WebServer] (node:22911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:22967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:22988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.9s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:checkout-operator
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:checkout-operator
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 153ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 87ms
+[WebServer] (node:23204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:23281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (6.7s)
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:free-exports
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:free-exports
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 162ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 91ms
+[WebServer] (node:23541) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23597) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:23618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (5.8s)
+CLAIM COMMAND: npm run test:release-contract -- -t @claim:scope-boundaries
+
+> receipt-to-room@0.1.17 test:release-contract
+> vitest run tests/release-contract.test.ts -t @claim:scope-boundaries
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 13 skipped (14)
+   Start at  19:42:11
+   Duration  251ms (transform 66ms, setup 0ms, import 86ms, tests 5ms, environment 0ms)
+
+CLAIM COMMAND: npm run test:release-contract -- -t @claim:release-trigger
+
+> receipt-to-room@0.1.17 test:release-contract
+> vitest run tests/release-contract.test.ts -t @claim:release-trigger
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 13 skipped (14)
+   Start at  19:42:12
+   Duration  228ms (transform 60ms, setup 0ms, import 79ms, tests 8ms, environment 0ms)
+
+CLAIM COMMAND: npm run test:release-contract -- -t @claim:release-artifacts
+
+> receipt-to-room@0.1.17 test:release-contract
+> vitest run tests/release-contract.test.ts -t @claim:release-artifacts
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 13 skipped (14)
+   Start at  19:42:13
+   Duration  227ms (transform 61ms, setup 0ms, import 81ms, tests 4ms, environment 0ms)
+
+CLAIM COMMAND: npm run test:release-contract -- -t @claim:release-candidate
+
+> receipt-to-room@0.1.17 test:release-contract
+> vitest run tests/release-contract.test.ts -t @claim:release-candidate
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 13 skipped (14)
+   Start at  19:42:13
+   Duration  251ms (transform 64ms, setup 0ms, import 88ms, tests 5ms, environment 0ms)
+
+CLAIM COMMAND: npm run test:release-contract -- -t @claim:installer-integrity
+
+> receipt-to-room@0.1.17 test:release-contract
+> vitest run tests/release-contract.test.ts -t @claim:installer-integrity
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 13 skipped (14)
+   Start at  19:42:14
+   Duration  231ms (transform 64ms, setup 0ms, import 84ms, tests 4ms, environment 0ms)
+
+CLAIM COMMAND: npm run test:e2e -- --grep @claim:refund-revocation
+
+> receipt-to-room@0.1.17 test:e2e
+> npm run build && playwright test --grep @claim:refund-revocation
+
+
+> receipt-to-room@0.1.17 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.17 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.17 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 164ms
+
+> receipt-to-room@0.1.17 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            15.29 kB │ gzip: 3.67 kB
+dist/site/assets/route-navigation-DROxw5QI.css  11.33 kB │ gzip: 3.19 kB
+dist/site/assets/route-focus-BBKz67xV.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BEfiWRGC.js    3.12 kB │ gzip: 1.49 kB │ map:  6.31 kB
+dist/site/assets/main-BsdWZ4Hu.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 89ms
+[WebServer] (node:24053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:24109) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:24130) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24130) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (3.8s)

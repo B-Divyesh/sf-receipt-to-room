@@ -1,0 +1,15 @@
+
+> receipt-to-room@0.1.17 verify:url
+> bash verify-url.sh http://127.0.0.1:4173
+
+{
+  "url": "http://127.0.0.1:4173",
+  "title": "Receipt to Room — turn receipts into room records",
+  "lang": "en",
+  "mains": 1,
+  "h1s": 1,
+  "imagesWithoutAlt": 0,
+  "horizontalOverflow": false,
+  "consoleErrors": 0,
+  "pageErrors": 0
+}

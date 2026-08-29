@@ -1,0 +1,13 @@
+
+> receipt-to-room@0.1.17 test:release-contract
+> vitest run tests/release-contract.test.ts
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  19:32:25
+   Duration  377ms (transform 57ms, setup 0ms, import 77ms, tests 159ms, environment 0ms)
+
