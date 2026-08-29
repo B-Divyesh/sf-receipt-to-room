@@ -1,10 +1,10 @@
 import "./styles.css";
+import { renderBuildVersion } from "./version";
 
 const repository = "https://github.com/B-Divyesh/sf-receipt-to-room";
 const releasesApi = "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const releasePage = `${repository}/releases/latest`;
 const realDownloadCacheKey = "receipt-to-room:release-metadata:v2";
-const demoDownloadCacheKey = "demo:receipt-to-room:release-metadata:v2";
 const cacheLifetime = 60 * 60 * 1000;
 const demoKey = "demo:receipt-to-room:sample:v1";
 
@@ -49,13 +49,13 @@ function downloadsFromRelease(release: Release): Download[] {
 }
 
 function saveRelease(release: Release): void {
-  try { localStorage.setItem(isDemo() ? demoDownloadCacheKey : realDownloadCacheKey, JSON.stringify({ savedAt: Date.now(), release } satisfies CachedRelease)); }
+  try { localStorage.setItem(realDownloadCacheKey, JSON.stringify({ savedAt: Date.now(), release } satisfies CachedRelease)); }
   catch { /* Storage can be unavailable in private browser modes. */ }
 }
 
 function cachedRelease(): CachedRelease | null {
   try {
-    const cached = JSON.parse(localStorage.getItem(isDemo() ? demoDownloadCacheKey : realDownloadCacheKey) ?? "null") as CachedRelease | null;
+    const cached = JSON.parse(localStorage.getItem(realDownloadCacheKey) ?? "null") as CachedRelease | null;
     if (!cached || typeof cached.savedAt !== "number" || !cached.release || !Array.isArray(cached.release.assets)) return null;
     return cached;
   } catch { return null; }
@@ -88,6 +88,13 @@ function renderPublishing(): void {
   button.href = releasePage;
   button.textContent = "View release page";
   note.textContent = "Downloads are being published. Check the release page again soon.";
+  list.replaceChildren();
+}
+
+function renderDemoDownloads(): void {
+  button.href = releasePage;
+  button.textContent = "View release page";
+  note.textContent = "Installer checks are paused during the demo.";
   list.replaceChildren();
 }
 
@@ -202,6 +209,6 @@ document.querySelector<HTMLAnchorElement>("#start-real")?.addEventListener("clic
 sampleSearch.addEventListener("input", () => renderSample(sampleSearch.value));
 window.addEventListener("popstate", syncRouteFromLocation);
 
-if (isDemo()) enterDemo();
-else { sample.hidden = true; demoBanner.hidden = true; setRouteMetadata(false); }
-void loadDownloads();
+renderBuildVersion();
+if (isDemo()) { enterDemo(); renderDemoDownloads(); }
+else { sample.hidden = true; demoBanner.hidden = true; setRouteMetadata(false); void loadDownloads(); }

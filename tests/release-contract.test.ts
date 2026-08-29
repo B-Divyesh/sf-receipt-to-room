@@ -15,7 +15,7 @@ describe("release and static-host contract", () => {
     const tauri = JSON.parse(read("src-tauri/tauri.conf.json")) as { version: string };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.6");
+    expect(pkg.version).toBe("0.1.7");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -75,6 +75,10 @@ describe("release and static-host contract", () => {
     expect(config.globalHeaders?.["X-Frame-Options"]).toBe("DENY");
     expect(read("site/public/_headers")).toContain("frame-ancestors 'none'");
     expect(read("site/404.html")).toContain("That record is not here.");
+    for (const page of ["site/index.html", "site/privacy/index.html", "site/terms/index.html", "site/404.html"]) {
+      expect(read(page)).toContain("data-build-version");
+      expect(read(page)).not.toMatch(/Built by Param Factory · v\d/);
+    }
   });
 
   test("waits for both HTTP entry points before Playwright starts claim tests", () => {
@@ -114,7 +118,7 @@ describe("release and static-host contract", () => {
       "receipt-workflow", "editable-records", "bulk-queue", "image-input", "print-undo",
       "local-storage", "backup-restore", "redacted-exports", "privacy-boundaries",
       "license-cache", "license-rate-policy", "offline-work", "checkout-operator", "free-exports",
-      "scope-boundaries", "installer-integrity"
+      "scope-boundaries", "installer-integrity", "refund-revocation"
     ]));
     expect(new Set(ids).size).toBe(ids.length);
     const e2e = `${read("tests/e2e/product.spec.ts")}\n${read("tests/release-contract.test.ts")}`;

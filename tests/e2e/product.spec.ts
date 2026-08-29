@@ -2,12 +2,12 @@ import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const releaseApi = "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
-const release = { tag_name: "v0.1.5", assets: [
-  { name: "Receipt.to.Room_0.1.5_x64_en-US.msi", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.5/Receipt.to.Room_0.1.5_x64_en-US.msi" },
-  { name: "Receipt.to.Room_0.1.5_x64-setup.exe", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.5/Receipt.to.Room_0.1.5_x64-setup.exe" },
-  { name: "Receipt.to.Room_0.1.5_aarch64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.5/Receipt.to.Room_0.1.5_aarch64.dmg" },
-  { name: "Receipt.to.Room_0.1.5_x64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.5/Receipt.to.Room_0.1.5_x64.dmg" },
-  { name: "Receipt.to.Room_0.1.5_amd64.AppImage", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.5/Receipt.to.Room_0.1.5_amd64.AppImage" }
+const release = { tag_name: "v0.1.7", assets: [
+  { name: "Receipt.to.Room_0.1.7_x64_en-US.msi", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.7/Receipt.to.Room_0.1.7_x64_en-US.msi" },
+  { name: "Receipt.to.Room_0.1.7_x64-setup.exe", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.7/Receipt.to.Room_0.1.7_x64-setup.exe" },
+  { name: "Receipt.to.Room_0.1.7_aarch64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.7/Receipt.to.Room_0.1.7_aarch64.dmg" },
+  { name: "Receipt.to.Room_0.1.7_x64.dmg", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.7/Receipt.to.Room_0.1.7_x64.dmg" },
+  { name: "Receipt.to.Room_0.1.7_amd64.AppImage", browser_download_url: "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.7/Receipt.to.Room_0.1.7_amd64.AppImage" }
 ] };
 
 const storedReceipt = (receiptId: string, name: string) => ({
@@ -22,16 +22,32 @@ async function mockRelease(page: Page, body: unknown = release, status = 200): P
   await page.route(releaseApi, (route) => route.fulfill({ status, contentType: "application/json", body: JSON.stringify(body) }));
 }
 
-test("@claim:price @claim:checkout-operator landing price and payment link are responsive and accessible", async ({ page }) => {
+test("@claim:price @claim:checkout-operator landing price and hosted payment are responsive and accurate", async ({ page, context }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockRelease(page);
+  await context.route(/api\.sociobot\.in\/api\/v1\/products\/receipt-to-room\/checkout/, (route) => route.fulfill({
+    status: 200,
+    contentType: "text/html",
+    body: '<!doctype html><html><head><meta http-equiv="refresh" content="0;url=https://checkout.dodopayments.com/session/recorded-fixture"></head></html>'
+  }));
+  await context.route(/^https:\/\/checkout\.dodopayments\.com\//, (route) => route.fulfill({
+    status: 200,
+    contentType: "text/html",
+    body: "<!doctype html><html><body><main><h1>Hosted checkout</h1><p>This order is handled by Dodo Payments, the merchant of record.</p></main></body></html>"
+  }));
   await page.goto("http://127.0.0.1:4173/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(/turn receipts into room records/i);
   await expect(page.locator("main")).toBeVisible();
-  await expect(page.getByRole("link", { name: /try the demo/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Try it with sample data" })).toBeVisible();
   await expect(page.getByRole("link", { name: /download linux appimage/i })).toBeVisible();
   await expect(page.getByText("$29", { exact: true })).toBeVisible();
+  await expect(page.getByText("Pay $29 once for unlimited receipt intake and backup files.")).toBeVisible();
   await expect(page.getByRole("link", { name: "Buy unlimited receipts — $29" })).toHaveAttribute("href", "https://api.sociobot.in/api/v1/products/receipt-to-room/checkout");
+  await page.getByRole("link", { name: "Buy unlimited receipts — $29" }).click();
+  await expect(page).toHaveURL(/^https:\/\/checkout\.dodopayments\.com\//);
+  await expect(page.getByText(/Dodo Payments, the merchant of record/i)).toBeVisible();
+  await page.goto("http://127.0.0.1:4173/terms/");
+  await expect(page.getByText("Dodo Payments is the merchant of record.")).toBeVisible();
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""))).toEqual([]);
 
@@ -77,7 +93,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
   await mockRelease(page);
   await page.goto("http://127.0.0.1:4173/");
-  await expect(page.getByRole("link", { name: /download linux appimage/i })).toHaveAttribute("href", /releases\/download\/v0\.1\.5/);
+  await expect(page.getByRole("link", { name: /download linux appimage/i })).toHaveAttribute("href", /releases\/download\/v0\.1\.7/);
   await expect(page.getByText(/unsigned release/)).toBeVisible();
   await page.getByRole("button", { name: "See all downloads" }).click();
   await expect(page.locator("#download-list")).toContainText("macOS (Apple silicon)");
@@ -104,13 +120,17 @@ test("normal landing hides demo state while the demo URL shows it", async ({ pag
 });
 
 test("landing history restores URL, metadata, focus, and demo state", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await mockRelease(page);
   await page.goto("http://127.0.0.1:4173/");
-  await page.getByRole("link", { name: "Try the demo" }).click();
+  await page.getByRole("link", { name: "Try it with sample data" }).click();
   await expect(page).toHaveURL(/\?demo=1#sample$/);
   await expect(page).toHaveTitle("Demo — Receipt to Room");
   await expect(page.getByLabel("Demo mode")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Your room inventory" })).toBeFocused();
+  const enteredBanner = await page.getByLabel("Demo mode").boundingBox();
+  const enteredHeading = await page.getByRole("heading", { name: "Your room inventory" }).boundingBox();
+  expect(enteredHeading!.y).toBeGreaterThanOrEqual(enteredBanner!.y + enteredBanner!.height);
   await page.goBack();
   await expect(page).toHaveURL("http://127.0.0.1:4173/");
   await expect(page).toHaveTitle("Receipt to Room — turn receipts into room records");
@@ -121,6 +141,9 @@ test("landing history restores URL, metadata, focus, and demo state", async ({ p
   await expect(page).toHaveTitle("Demo — Receipt to Room");
   await expect(page.getByLabel("Demo mode")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Your room inventory" })).toBeFocused();
+  const restoredBanner = await page.getByLabel("Demo mode").boundingBox();
+  const restoredHeading = await page.getByRole("heading", { name: "Your room inventory" }).boundingBox();
+  expect(restoredHeading!.y).toBeGreaterThanOrEqual(restoredBanner!.y + restoredBanner!.height);
 });
 
 test("@claim:offline-work manual intake and export remain available offline", async ({ page, context }) => {
@@ -151,18 +174,24 @@ test("unavailable releases show a calm publishing state without console errors",
 test("@claim:sample-demo is isolated, searchable, resettable, and keyboard reachable", async ({ page, browser }) => {
   const realRecord = storedReceipt("real-receipt", "Real lamp");
   await page.addInitScript((record) => localStorage.setItem("receipt-to-room:inventory:v1", JSON.stringify([record])), realRecord);
-  await mockRelease(page);
+  const thirdPartyRequests: string[] = [];
+  page.on("request", (request) => {
+    const url = new URL(request.url());
+    if (url.protocol.startsWith("http") && url.hostname !== "127.0.0.1") thirdPartyRequests.push(request.url());
+  });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("http://127.0.0.1:4173/?demo=1");
   await expect(page).toHaveTitle("Demo — Receipt to Room");
   await expect(page.getByLabel("Demo mode")).toContainText("demo records only; nothing is saved to your real records");
-  await expect.poll(() => page.evaluate(() => Object.keys(localStorage))).toContain("demo:receipt-to-room:release-metadata:v2");
   expect(await page.evaluate(() => localStorage.getItem("receipt-to-room:release-metadata:v2"))).toBeNull();
-  expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key !== "receipt-to-room:inventory:v1"))).toEqual(expect.arrayContaining(["demo:receipt-to-room:sample:v1", "demo:receipt-to-room:release-metadata:v2"]));
+  expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key !== "receipt-to-room:inventory:v1"))).toEqual(["demo:receipt-to-room:sample:v1"]);
   expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key !== "receipt-to-room:inventory:v1").every((key) => key.startsWith("demo:")))).toBe(true);
   const sampleHeading = page.getByRole("heading", { name: "Your room inventory" });
   await expect(sampleHeading).toBeVisible();
   await expect(sampleHeading).toBeFocused();
+  const banner = await page.getByLabel("Demo mode").boundingBox();
+  const heading = await sampleHeading.boundingBox();
+  expect(heading!.y).toBeGreaterThanOrEqual(banner!.y + banner!.height);
   expect((await page.getByText("Cedar kettle", { exact: true }).boundingBox())!.y).toBeLessThan(844);
   await expect(page.getByText("Cedar kettle", { exact: true })).toBeVisible();
   await page.getByLabel("Search demo records").fill("lamp");
@@ -187,7 +216,7 @@ test("@claim:sample-demo is isolated, searchable, resettable, and keyboard reach
   await page.getByRole("button", { name: "Reset demo" }).click();
   await expect(page.getByText("Cedar kettle", { exact: true })).toBeVisible();
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("demo:receipt-to-room:inventory:v1")!)[0].room)).toBe("Kitchen");
-  await page.getByRole("button", { name: "Start for real" }).click();
+  await page.getByRole("button", { name: "Leave demo and use my records" }).click();
   await expect(page.getByLabel("Demo mode")).toBeHidden();
   expect(await page.evaluate(() => localStorage.getItem("demo:receipt-to-room:inventory:v1"))).toBeNull();
   const cleanContext = await browser.newContext();
@@ -197,6 +226,7 @@ test("@claim:sample-demo is isolated, searchable, resettable, and keyboard reach
   await expect(cleanPage.getByLabel("Demo mode")).toBeVisible();
   await expect(cleanPage.getByText("Cedar kettle", { exact: true })).toBeVisible();
   await cleanContext.close();
+  expect(thirdPartyRequests).toEqual([]);
 });
 
 test("@claim:csv-export @claim:receipt-workflow @claim:local-storage @claim:editable-records @claim:free-exports a mixed-room receipt stays accurate and editable", async ({ page }) => {
@@ -411,6 +441,34 @@ test("@claim:license-cache checkout return stores, strips, verifies, and caches 
   await page.reload();
   await expect(page.getByRole("heading", { name: "Your paid version is active." })).toBeVisible();
   expect(verificationRequests).toBe(1);
+  await page.evaluate(() => localStorage.setItem("sb_license:receipt-to-room:verdict", JSON.stringify({ valid: true, checkedAt: Date.now() - 86_399_000 })));
+  await page.reload();
+  expect(verificationRequests).toBe(1);
+  await page.evaluate(() => localStorage.setItem("sb_license:receipt-to-room:verdict", JSON.stringify({ valid: true, checkedAt: Date.now() - 86_401_000 })));
+  await page.reload();
+  await expect.poll(() => verificationRequests).toBe(2);
+});
+
+test("@claim:refund-revocation a revoked purchase turns off paid features", async ({ page }) => {
+  await page.addInitScript((record) => {
+    localStorage.setItem("sb_license:receipt-to-room", "refunded-fixture-token");
+    localStorage.setItem("sb_license:receipt-to-room:verdict", JSON.stringify({ valid: true, checkedAt: 0 }));
+    localStorage.setItem("receipt-to-room:inventory:v1", JSON.stringify([record]));
+  }, storedReceipt("kept-after-refund", "Kept lamp"));
+  await page.route("https://api.sociobot.in/api/v1/products/receipt-to-room/verify?*", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ valid: false, reason: "revoked", expires_at: null })
+  }));
+  await page.goto("http://127.0.0.1:1420/#license");
+  await expect(page.getByRole("status")).toContainText("License no longer active");
+  await expect(page.getByRole("heading", { name: "Keep every room record, for good." })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Download backup file" })).toHaveCount(0);
+  await page.getByRole("button", { name: /inventory/i }).click();
+  await expect(page.getByText("Kept lamp", { exact: true })).toBeVisible();
+  const exportDownload = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Download spreadsheet" }).click();
+  expect((await exportDownload).suggestedFilename()).toBe("receipt-to-room-inventory.csv");
 });
 
 test("@claim:license-rate-policy license throttling always presents a non-zero retry interval", async ({ page }) => {
@@ -449,4 +507,28 @@ test("@claim:local-ocr bundled OCR reads a receipt without external runtime asse
   await expect(page.locator('[name^="name-"]').first()).not.toHaveValue("");
   expect(await page.evaluate(() => Object.values(localStorage).every((value) => !String(value).startsWith("data:image/")))).toBe(true);
   expect(externalRequests).toEqual([]);
+});
+
+test("site routes expose complete metadata, focused headings, shared links, and one build version", async ({ page }) => {
+  await mockRelease(page);
+  const routes = [
+    ["/", "Receipt to Room — turn receipts into room records"],
+    ["/privacy/", "Privacy — Receipt to Room"],
+    ["/terms/", "Terms — Receipt to Room"],
+    ["/404.html", "Page not found — Receipt to Room"]
+  ] as const;
+  for (const [path, title] of routes) {
+    await page.goto(`http://127.0.0.1:4173${path}`);
+    await expect(page).toHaveTitle(title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /.+/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /^https:\/\/receipt-to-room\.sociobot\.in\//);
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /social-preview\.webp$/);
+    await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute("content", /social-preview\.webp$/);
+    await expect(page.locator("main h1")).toHaveCount(1);
+    if (path !== "/") await expect(page.locator("main h1")).toBeFocused();
+    await expect(page.locator("footer")).toContainText("Built by Param Factory · v0.1.7");
+    for (const label of ["Demo", "Privacy", "Terms", "Source"]) {
+      await expect(page.locator("footer").getByRole("link", { name: label, exact: true })).toHaveCount(1);
+    }
+  }
 });

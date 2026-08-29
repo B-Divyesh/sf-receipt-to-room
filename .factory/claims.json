@@ -1,14 +1,14 @@
 [
   {
     "id": "sample-demo",
-    "claim": "Try the demo shows three useful records immediately, and demo work stays separate from real records.",
+    "claim": "Try it with sample data shows three useful records immediately, and demo work stays separate from real records.",
     "where": "landing hero, demo banner, desktop first-run screen, README",
     "test": "npm run test:e2e -- --grep @claim:sample-demo",
-    "sandbox": "fresh 390px browser context; click the landing action and assert a sample row is in the next viewport, then edit/reset the app sample project and assert only demo-prefixed storage changes"
+    "sandbox": "fresh 390px browser context; assert no third-party request, a clear focused heading, and only demo-prefixed writes; then edit and reset the app demo"
   },
   {
     "id": "local-ocr",
-    "claim": "Receipt text is read on your computer; images are not uploaded or retained after recognition.",
+    "claim": "Receipt text is read on your computer; photos are not uploaded or retained after recognition.",
     "where": "landing hero and privacy section",
     "test": "npm run test:e2e -- --grep @claim:local-ocr",
     "sandbox": "isolated app demo; run bundled OCR on the shipped receipt, assert no external runtime request, and assert no image data enters storage"
@@ -25,7 +25,7 @@
     "claim": "Pay $29 once for unlimited receipt intake and backup files.",
     "where": "pricing section",
     "test": "npm run test:e2e -- --grep @claim:price",
-    "sandbox": "fresh browser context; assert the one-time $29 field-kit price and checkout link"
+    "sandbox": "fresh browser context; assert the one-time $29 paid-version price and unlimited receipt and backup behavior"
   },
   {
     "id": "release-api",
@@ -50,7 +50,7 @@
   },
   {
     "id": "bulk-queue",
-    "claim": "Several receipt images can be queued after a large shop.",
+    "claim": "Several receipt photos can be queued after a large shop.",
     "where": "README and desktop intake",
     "test": "npm run test:e2e -- --grep @claim:bulk-queue",
     "sandbox": "fresh app storage; select two copies of the shipped receipt image and assert both distinct receipts reach inventory"
@@ -78,7 +78,7 @@
   },
   {
     "id": "backup-restore",
-    "claim": "The paid field kit downloads and restores validated JSON backups without replacing records from a malformed file.",
+    "claim": "The paid version downloads and restores validated backup files without replacing records from a malformed file.",
     "where": "pricing, desktop license screen, README",
     "test": "npm run test:e2e -- --grep @claim:backup-restore",
     "sandbox": "cached valid license and one known-good record; import a syntactically valid malformed backup and assert the record and render remain intact"
@@ -120,10 +120,10 @@
   },
   {
     "id": "checkout-operator",
-    "claim": "Payment opens on Sociobot.",
-    "where": "landing price section, privacy page",
+    "claim": "Payment opens in a hosted Dodo Payments checkout, and Dodo Payments is the merchant of record.",
+    "where": "landing price section, privacy page, terms page",
     "test": "npm run test:e2e -- --grep @claim:checkout-operator",
-    "sandbox": "fresh landing browser context; assert the paid-version action points only to the Sociobot hosted checkout endpoint"
+    "sandbox": "recorded Sociobot redirect; follow the paid-version action to the Dodo Payments host and assert its merchant-of-record disclosure"
   },
   {
     "id": "free-exports",
@@ -159,5 +159,12 @@
     "where": "README Install section",
     "test": "npm run test:release-contract -- -t @claim:installer-integrity",
     "sandbox": "repository contract test confirms each installer rejects a checksum mismatch before install or launch"
+  },
+  {
+    "id": "refund-revocation",
+    "claim": "A refunded purchase stops the paid version while existing records and exports remain available.",
+    "where": "desktop paid-version screen, terms page",
+    "test": "npm run test:e2e -- --grep @claim:refund-revocation",
+    "sandbox": "recorded revoked Sociobot verification response; assert paid backup controls lock and the app reports that existing records and exports remain available"
   }
 ]

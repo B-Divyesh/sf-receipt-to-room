@@ -125,7 +125,7 @@ function render(focusSelector?: string): void {
         <button class="nav-button ${view === "license" ? "active" : ""}" data-view="license">${licenseValid ? "Paid version active" : "Paid version"}</button>
       </nav>
     </header>
-    ${demoMode ? `<aside class="demo-banner" aria-label="Demo mode"><span><strong>Demo</strong> — sample data, nothing is saved to your real records.</span><span><button id="reset-demo" type="button">Reset demo</button><button id="start-real" type="button">Start for real</button></span><span class="sr-only" id="demo-reset-note" aria-live="polite"></span></aside>` : ""}
+    ${demoMode ? `<aside class="demo-banner" aria-label="Demo mode"><span><strong>Demo</strong> — demo records only; nothing is saved to your real records.</span><span><button id="reset-demo" type="button">Reset demo</button><button id="start-real" type="button">Leave demo and use my records</button></span><span class="sr-only" id="demo-reset-note" aria-live="polite"></span></aside>` : ""}
     ${navigator.onLine ? "" : '<div class="offline" role="status">Offline — text reading, editing, and exports still work. Paid-version checks resume when connected.</div>'}
     <main id="main" tabindex="-1">${viewContent()}</main>
     <div class="sr-only" aria-live="polite" id="live-status">${escapeHtml(status)}</div>
@@ -155,7 +155,7 @@ function intakeView(): string {
   const limitNote = demoMode ? "Demo records" : licenseValid ? "Unlimited receipt intake is active." : `${receiptCount()} of ${FREE_RECEIPTS} free receipts used.`;
   return `
     <section class="page-head">
-      <div><p class="eyebrow">Field intake · ${escapeHtml(limitNote)}</p><h1>Turn a receipt into room records.</h1><p>Choose clear photos. Recognition happens on this device; images are discarded after review.</p></div>
+      <div><p class="eyebrow">Field intake · ${escapeHtml(limitNote)}</p><h1>Turn a receipt into room records.</h1><p>Choose clear receipt photos. Recognition happens on this device; photos are discarded after review.</p></div>
       <button class="text-button" data-view="inventory">View inventory →</button>
     </section>
     ${busy ? processingView() : draft ? reviewView() : uploadView()}
@@ -172,11 +172,11 @@ function uploadView(): string {
         <p>JPG, PNG, or WebP · up to 10 MB each · select several after a large shop</p>
         <label class="button primary" for="receipt-files">Choose receipt photos</label>
         <input id="receipt-files" type="file" accept="image/jpeg,image/png,image/webp" multiple />
-        <p class="drop-hint">or drag images onto this plot</p>
+        <p class="drop-hint">or drag receipt photos here</p>
       </div>
       <aside class="field-note" aria-labelledby="privacy-note">
         <span class="pin" aria-hidden="true"></span><h2 id="privacy-note">Your private worktable</h2>
-        <ul><li>No account required</li><li>No receipt images uploaded</li><li>Payment fragments redacted from exports</li><li>Saved item details remain editable</li></ul>
+        <ul><li>No account required</li><li>No receipt photos uploaded</li><li>Payment fragments redacted from exports</li><li>Saved item details remain editable</li></ul>
         <details><summary>Text reading missed something?</summary><p>Use “Paste receipt text” to add a typed or copied receipt without a photo.</p></details>
         <button class="button secondary" id="show-manual">Paste receipt text</button>
         ${!demoMode && items.length === 0 ? `<button class="button secondary" id="load-demo">Load demo records</button>` : ""}
@@ -274,7 +274,7 @@ function licenseView(): string {
     <div class="license-copy"><p class="eyebrow">Paid version</p><h1>${licenseValid ? "Your paid version is active." : "Keep every room record, for good."}</h1><p>The free version includes three receipts. Pay $29 once to remove receipt intake limits.</p>
       <ul class="feature-list"><li>Unlimited receipt intake</li><li>Local inventory records</li><li>Backup and restore between devices</li><li>Spreadsheet and printable exports</li></ul>
       ${licenseValid ? `<p class="success-note">✓ Paid version checked on this device.</p><button class="button secondary" id="backup-json">Download backup file</button><label class="button secondary file-button" for="restore-json">Restore backup file</label><input id="restore-json" type="file" accept="application/json"/>` : `<a class="button primary" href="${CHECKOUT}">Buy unlimited receipts — $29</a>`}
-      <p class="legal-line">Payment opens on Sociobot. Refunds revoke the paid version. <a href="https://receipt-to-room.sociobot.in/privacy">Privacy</a> · <a href="https://receipt-to-room.sociobot.in/terms">Terms</a></p>
+      <p class="legal-line">Payment opens in a hosted checkout run by Dodo Payments. A refunded purchase stops the paid version. <a href="https://receipt-to-room.sociobot.in/privacy">Privacy</a> · <a href="https://receipt-to-room.sociobot.in/terms">Terms</a></p>
     </div>
     <aside class="license-card"><span class="folio">Restore a purchase</span><h2>Have a paid-version token?</h2><p>Paste the token from your receipt. It is stored only on this device.</p><form id="license-form"><label for="license-token">Paid-version token</label><input id="license-token" autocomplete="off" spellcheck="false" required/><button class="button secondary">Verify paid version</button></form><p class="form-note" id="license-note" role="status">${escapeHtml(status)}</p></aside>
   </section>`;
@@ -369,7 +369,7 @@ async function processNextFile(): Promise<void> {
     createDraft(file.name, result.data.text, result.data.confidence, ocrLines);
     status = `Read ${draft?.lines.length ?? 0} likely purchase lines from ${file.name}.`;
   } catch {
-    error = "This image could not be read locally. Try a sharper, upright photo or use “Paste receipt text” below.";
+    error = "This photo could not be read locally. Try a sharper, upright photo or use “Paste receipt text” below.";
   } finally { busy = false; render(draft ? "#review-title" : undefined); }
 }
 
