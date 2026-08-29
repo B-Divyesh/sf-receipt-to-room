@@ -1,6 +1,6 @@
 [package]
 name = "receipt-to-room"
-version = "0.1.15"
+version = "0.1.16"
 description = "Local receipt reading and room inventory"
 authors = ["Param Factory"]
 license = "MIT"

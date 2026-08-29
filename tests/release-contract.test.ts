@@ -8,6 +8,8 @@ import { describe, expect, test } from "vitest";
 import { assertDeploymentProvenance, assertPublishedCandidate } from "../scripts/release-provenance.mjs";
 // @ts-expect-error The production helper is intentionally plain Node ESM.
 import { assertTaggedCandidate } from "../scripts/release-candidate.mjs";
+// @ts-expect-error The production helper is intentionally plain Node ESM.
+import { assertAvifContentType } from "../scripts/response-policy.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (path: string) => readFileSync(resolve(root, path), "utf8");
@@ -21,7 +23,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.15");
+    expect(pkg.version).toBe("0.1.16");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -49,21 +51,21 @@ describe("release and static-host contract", () => {
 
     expect(() =>
       assertTaggedCandidate({
-        tag: "v0.1.15",
-        version: "0.1.15",
+        tag: "v0.1.16",
+        version: "0.1.16",
         tagCommit: staleTaggedParent,
         expectedCommit: candidate,
       }),
-    ).toThrow(`release tag v0.1.15 targets ${staleTaggedParent}`);
+    ).toThrow(`release tag v0.1.16 targets ${staleTaggedParent}`);
 
     expect(
       assertTaggedCandidate({
-        tag: "v0.1.15",
-        version: "0.1.15",
+        tag: "v0.1.16",
+        version: "0.1.16",
         tagCommit: candidate,
         expectedCommit: candidate,
       }),
-    ).toEqual({ tag: "v0.1.15", version: "0.1.15", commit: candidate });
+    ).toEqual({ tag: "v0.1.16", version: "0.1.16", commit: candidate });
   });
 
   test("verification 11 regression binds native artifacts and the deployed site to one nominated candidate", () => {
@@ -72,11 +74,11 @@ describe("release and static-host contract", () => {
     const page = (commit: string) =>
       `<!doctype html><html><head><meta name="build-commit" content="${commit}"></head></html>`;
     const release = (commit: string) => ({
-      tag_name: "v0.1.15",
+      tag_name: "v0.1.16",
       target_commitish: commit,
     });
     const manifest = (commit: string) => ({
-      version: "0.1.15",
+      version: "0.1.16",
       sourceCommit: commit,
       platforms: {},
     });
@@ -117,10 +119,37 @@ describe("release and static-host contract", () => {
       }),
     ).toEqual({
       commit: candidate,
-      tag: "v0.1.15",
-      version: "0.1.15",
+      tag: "v0.1.16",
+      version: "0.1.16",
       deploymentCommit: candidate,
     });
+  });
+
+  test("verification 13 regression rejects the exact stale native release", () => {
+    const candidate = "5e4023b748d08f478c8be2c474546dc34c07dca4";
+    const staleParent = "7ddbd63b0ac262d1f4afcd0292e18beaaca858c9";
+
+    expect(() =>
+      assertTaggedCandidate({
+        tag: "v0.1.15",
+        version: "0.1.15",
+        tagCommit: staleParent,
+        expectedCommit: candidate,
+      }),
+    ).toThrow(`release tag v0.1.15 targets ${staleParent}`);
+
+    expect(() =>
+      assertPublishedCandidate({
+        release: { tag_name: "v0.1.15", target_commitish: staleParent },
+        manifest: {
+          version: "0.1.15",
+          sourceCommit: staleParent,
+          platforms: {},
+        },
+        html: `<meta name="build-commit" content="${candidate}">`,
+        expectedCommit: candidate,
+      }),
+    ).toThrow(`release targets ${staleParent}, expected ${candidate}`);
   });
 
   test("rejects the exact release-target drift reported by independent verification", () => {
@@ -229,6 +258,7 @@ describe("release and static-host contract", () => {
       navigationFallback?: unknown;
       responseOverrides?: Record<string, { rewrite?: string }>;
       routes?: Array<{ route?: string; headers?: Record<string, string> }>;
+      mimeTypes?: Record<string, string>;
       globalHeaders?: Record<string, string>;
     };
     const assetRoute = config.routes?.find(
@@ -240,6 +270,13 @@ describe("release and static-host contract", () => {
     expect(assetRoute?.headers?.["Cache-Control"]).toBe(
       "public, max-age=31536000, immutable",
     );
+    expect(config.mimeTypes?.[".avif"]).toBe("image/avif");
+    expect(() => assertAvifContentType("application/octet-stream")).toThrow(
+      "expected image/avif",
+    );
+    expect(assertAvifContentType(config.mimeTypes?.[".avif"])).toEqual({
+      contentType: "image/avif",
+    });
     expect(config.globalHeaders?.["Content-Security-Policy"]).toContain(
       "frame-ancestors 'none'",
     );

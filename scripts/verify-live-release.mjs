@@ -8,6 +8,7 @@
  */
 import { createHash } from "node:crypto";
 import { assertPublishedCandidate } from "./release-provenance.mjs";
+import { assertAvifContentType } from "./response-policy.mjs";
 
 const [expectedCommit, siteUrl = "https://receipt-to-room.sociobot.in"] = process.argv.slice(2);
 if (!expectedCommit) throw new Error("Usage: node scripts/verify-live-release.mjs <expected-git-sha> [site-url]");
@@ -64,7 +65,12 @@ const assetPath = html.match(/\/assets\/[^"']+\.js/)?.[0];
 requireOk(assetPath, "landing has no hashed JavaScript asset");
 const builtAsset = await request(new URL(assetPath, siteUrl));
 requireOk(/max-age=31536000/.test(builtAsset.headers.get("cache-control") ?? "") && /immutable/.test(builtAsset.headers.get("cache-control") ?? ""), "hashed asset is not immutably cached");
+const avifPath = html.match(/\/assets\/[^"'\s]+\.avif/)?.[0];
+requireOk(avifPath, "landing has no AVIF asset");
+const avifAsset = await request(new URL(avifPath, siteUrl));
+requireOk(avifAsset.ok, `AVIF asset returned ${avifAsset.status}`);
+const avif = assertAvifContentType(avifAsset.headers.get("content-type"));
 const notFound = await request(new URL("/not-a-real-route", siteUrl));
 requireOk(notFound.status === 404, `unknown route returned ${notFound.status}, expected 404`);
 
-console.log(JSON.stringify({ release: release.tag_name, releaseCommit: release.target_commitish, deploymentCommit: expectedCommit, checkout: checkout.status, checkoutHost: new URL(checkoutLocation).host, hostedCheckout: hostedCheckout.status, verificationAllowance: 30, retryAfter, cache: builtAsset.headers.get("cache-control"), notFound: notFound.status }, null, 2));
+console.log(JSON.stringify({ release: release.tag_name, releaseCommit: release.target_commitish, deploymentCommit: expectedCommit, checkout: checkout.status, checkoutHost: new URL(checkoutLocation).host, hostedCheckout: hostedCheckout.status, verificationAllowance: 30, retryAfter, cache: builtAsset.headers.get("cache-control"), avifContentType: avif.contentType, notFound: notFound.status }, null, 2));

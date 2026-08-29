@@ -4,32 +4,32 @@ import AxeBuilder from "@axe-core/playwright";
 const releaseApi =
   "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const release = {
-  tag_name: "v0.1.15",
+  tag_name: "v0.1.16",
   assets: [
     {
-      name: "Receipt.to.Room_0.1.15_x64_en-US.msi",
+      name: "Receipt.to.Room_0.1.16_x64_en-US.msi",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_x64_en-US.msi",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64_en-US.msi",
     },
     {
-      name: "Receipt.to.Room_0.1.15_x64-setup.exe",
+      name: "Receipt.to.Room_0.1.16_x64-setup.exe",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_x64-setup.exe",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64-setup.exe",
     },
     {
-      name: "Receipt.to.Room_0.1.15_aarch64.dmg",
+      name: "Receipt.to.Room_0.1.16_aarch64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_aarch64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_aarch64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.15_x64.dmg",
+      name: "Receipt.to.Room_0.1.16_x64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_x64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.15_amd64.AppImage",
+      name: "Receipt.to.Room_0.1.16_amd64.AppImage",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_amd64.AppImage",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_amd64.AppImage",
     },
   ],
 };
@@ -244,7 +244,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   await page.goto("http://127.0.0.1:4173/");
   await expect(
     page.getByRole("link", { name: /download linux appimage/i }),
-  ).toHaveAttribute("href", /releases\/download\/v0\.1\.15/);
+  ).toHaveAttribute("href", /releases\/download\/v0\.1\.16/);
   await expect(page.getByText(/unsigned release/)).toBeVisible();
   await page.getByRole("button", { name: "See all downloads" }).click();
   await expect(page.locator("#download-list")).toContainText(
@@ -292,6 +292,27 @@ test("normal landing hides demo state while the demo URL shows it", async ({
   await expect(
     page.getByRole("heading", { name: "Your room inventory" }),
   ).toBeVisible();
+});
+
+test("install command panels use the designed keyboard focus ring", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await mockRelease(page);
+  await page.goto("http://127.0.0.1:4173/");
+
+  for (const name of [
+    "macOS and Linux install command",
+    "Windows PowerShell install command",
+  ]) {
+    const command = page.getByLabel(name);
+    await command.focus();
+    await expect(command).toBeFocused();
+    await expect(command).toHaveCSS("outline-color", "rgb(11, 99, 206)");
+    await expect(command).toHaveCSS("outline-style", "solid");
+    await expect(command).toHaveCSS("outline-width", "3px");
+    await expect(command).toHaveCSS("outline-offset", "4px");
+  }
 });
 
 test("landing history restores URL, metadata, focus, and demo state", async ({
@@ -1195,7 +1216,7 @@ test("site routes expose complete metadata, focused headings, shared links, and 
     await expect(page.locator("main h1")).toHaveCount(1);
     if (path !== "/") await expect(page.locator("main h1")).toBeFocused();
     await expect(page.locator("footer")).toContainText(
-      "Built by Param Factory · v0.1.15",
+      "Built by Param Factory · v0.1.16",
     );
     await expect(
       page.locator("footer").getByRole("link", { name: "Receipt to Room home" }),
