@@ -25,5 +25,14 @@
 - `site/public/assets/walkthrough-assign.png`
 - `site/public/assets/walkthrough-export.png`
 
-The post-deploy live URL evidence will be appended after the release workflow and
-static deployment finish.
+## Live recheck
+
+Deployed `dist/site` to `sf-receipt-to-room` production. Cold checks at
+`https://receipt-to-room.sociobot.in/` and `?demo=1` passed on 2026-08-29:
+
+- `/tmp/receipt-live-demo.png` shows the 390 px live demo state.
+- Live Back returned to `/` with the home title, hidden banner, and focused h1.
+- Live Forward restored `?demo=1#sample`, demo title/banner, and `#sample-title`
+  focus.
+- Playwright Axe found zero serious or critical issues on Home, Demo, Privacy,
+  Terms, and 404. `verify-url.sh` passed for Home.

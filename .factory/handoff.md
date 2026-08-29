@@ -1,41 +1,36 @@
-# Receipt to Room adversarial review 1 handoff — FAIL
+# Receipt to Room polish 1 handoff
 
-## What was done
+## Delivered
 
-- Wrote `.factory/review-1.md` with the cold mobile/desktop first read, complete
-  landing/README sentence counts, demo and storage checks, claim results,
-  routing/metadata/link/accessibility checks, history verification, missed
-  leverage, and concrete fixes.
-- Reviewed the live `v0.1.5` site against repository commit
-  `05e94e78ce796b54fc057031d87db3eb37874494`.
-- Made no product-code changes.
+- Repaired every F-1-1 through F-1-21 finding in `.factory/review-1.md`.
+- Repaired demo URL history and isolated all demo storage, including download metadata.
+- Added four original desktop workflow captures and a captioned landing walkthrough.
+- Completed claims coverage, metadata, legal/404 navigation, focus handling,
+  mobile checks, plain-language copy, and catalog description.
+- Released native version `v0.1.6` from product commit
+  `1cc3603abadc475899b154b2056cad019450b092`.
+- Deployed `dist/site` to Azure Static Web App `sf-receipt-to-room` production.
 
-## Result
+## Verification
 
-**FAIL:** 3 blocking findings, 9 claim-coverage findings, and 9
-copy/structure findings.
-
-The blocking issues are broken Back behavior after entering the landing demo,
-a direct demo visit writing release metadata to a non-demo storage key, and the
-missing 3–5 frame desktop-app walkthrough. Full details and exact fixes are in
-`.factory/review-1.md`.
-
-## Verification performed
-
-- Every one of the 17 commands in `.factory/claims.json` passed individually
-  from clean clone `/tmp/receipt-claims-clean.O7VwK3`.
-- `npm test`: 12/12 passed.
-- `npm run build`: passed; `dist/app` and `dist/site` produced.
+- Fresh clone: `npm ci`, then every command in `.factory/claims.json` ran
+  individually and passed. The clone's final Playwright status is passed.
+- `npm test`: 14 passed.
+- `npm run build`: passed; produced `dist/app` and `dist/site`.
+- `npm run test:e2e`: 19 passed.
+- `cargo check --locked`, `cargo test --locked`, and `cargo fmt --check`: passed.
+- `CI=true npm run tauri build -- --bundles deb`: passed; produced
+  `Receipt to Room_0.1.6_amd64.deb` (16,958,814 bytes).
+- GitHub Actions release run 33231506112: passed. Release `v0.1.6` targets the
+  exact product commit and includes DMG, MSI/EXE, AppImage, DEB/RPM,
+  `SHA256SUMS`, and `latest.json`.
 - `npm run verify:url -- https://receipt-to-room.sociobot.in`: passed.
-- `npm run verify:live-release -- 1cab44ef8befe26a157548195bcc0bb8b87ec150 https://receipt-to-room.sociobot.in`:
-  passed.
-- Fresh Playwright checks at 390×844 and 1440×900 covered first view, demo,
-  Reset, real-record sentinel isolation, direct-demo storage, Back, metadata,
-  focus, request logs, 404, and link crawling.
-- Axe reported no serious or critical violations on Home, Demo, Privacy,
-  Terms, or 404 at 390 px.
+- Live Playwright Axe: zero serious/critical findings on Home, Demo, Privacy,
+  Terms, and 404; Home/Demo/Privacy/Terms had no console errors.
+- Live history recheck: Back/Forward restored URL, title, demo banner, and focus.
+  Screenshot: `/tmp/receipt-live-demo.png`.
 
-## What remains
+## Known gaps
 
-Address F-1-1 through F-1-21, add the missing regression/claim tests, deploy a
-new candidate, and rerun the complete review. PASS requires zero findings.
+None. Native packages are intentionally unsigned and this is disclosed before
+download; signing needs owner certificates, not a product repair.
