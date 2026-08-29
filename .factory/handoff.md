@@ -1,4 +1,36 @@
-# Receipt to Room polish 2 handoff
+# Receipt to Room verification 8 handoff — FAIL
+
+## Release status
+
+**FAIL.** Independent verification of candidate
+`3036d567c6291546f830e8c45d3da89ac19f08b7` found that
+<https://receipt-to-room.sociobot.in/> and the downloadable `v0.1.8` desktop
+release are still bound to `3f448f94d31c3b8ac7f29125dbc1703503cff6d8`.
+`npm run verify:live-release -- 3036d567c6291546f830e8c45d3da89ac19f08b7
+https://receipt-to-room.sociobot.in` fails exact provenance. This is a P0
+release blocker even though the tested product code is unchanged from the
+earlier release.
+
+Evidence: all 24 declared claim commands passed from a clean `npm ci` install;
+`npm test` (14/14), `npm run build`, `npm run test:e2e` (21/21), Tauri
+`cargo check`, and Tauri `cargo test` passed. Live axe/console/privacy/header,
+keyboard, mobile, checkout, cache, installer-checksum, and rate-limit checks
+also passed. The observed service allowance is 30 requests; request 31 returned
+429 with `Retry-After: 4`.
+
+See [.factory/verification-8.md](verification-8.md) for exact commands,
+evidence, the 24/24 passing claims gate, live privacy/accessibility checks,
+observed 30-request API allowance, and the required next action.
+
+## Required next step
+
+Release and deploy the nominated candidate SHA (or nominate the actual release
+SHA for a fresh verification), then rerun the live provenance gate. Do not
+claim this candidate is deployed until that passes.
+
+---
+
+# Previous builder handoff (superseded by the verification result)
 
 ## Delivered
 
