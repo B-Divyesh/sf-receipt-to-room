@@ -84,7 +84,15 @@ always shows a wait of at least one second before the next attempt.
 
 Deploy the contents of `dist/site` as a static site. Do not deploy `dist/app`.
 GitHub Actions builds native bundles after a `v*` tag or manual dispatch. A
-native release publishes installers, checksums, and a release manifest.
+native release publishes installers, checksums, and a release manifest. Tag
+only the final committed candidate, then run the preflight before pushing the
+tag; it rejects a tag that points to a different commit.
+
+```sh
+git tag "v$(node -p \"require('./package.json').version\")"
+npm run verify:release-candidate -- "v$(node -p \"require('./package.json').version\")" "$(git rev-parse HEAD)"
+git push origin main --tags
+```
 
 ## License
 

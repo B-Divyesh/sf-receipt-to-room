@@ -68,6 +68,8 @@ button:focus-visible {
 .brand {
   display: flex;
   align-items: center;
+  min-width: 44px;
+  min-height: 44px;
   gap: 9px;
   color: var(--ink);
   text-decoration: none;
@@ -405,6 +407,15 @@ footer {
 footer > div:nth-child(2) {
   display: flex;
   gap: 22px;
+}
+footer > div:nth-child(2) a,
+.privacy-section a,
+.legal a,
+.demo-banner a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 .disclosure {
   grid-column: 1/3;

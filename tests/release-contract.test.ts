@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 // @ts-expect-error The production helper is intentionally plain Node ESM.
 import { assertDeploymentProvenance } from "../scripts/release-provenance.mjs";
+// @ts-expect-error The production helper is intentionally plain Node ESM.
+import { assertTaggedCandidate } from "../scripts/release-candidate.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (path: string) => readFileSync(resolve(root, path), "utf8");
@@ -19,7 +21,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.9");
+    expect(pkg.version).toBe("0.1.10");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -35,9 +37,33 @@ describe("release and static-host contract", () => {
     );
     expect(workflow).toContain("ref: ${{ needs.source.outputs.commit }}");
     expect(workflow).toContain("release-provenance.mjs");
+    expect(workflow).toContain("release-candidate.mjs");
     const liveGate = read("scripts/verify-live-release.mjs");
     expect(liveGate).toContain("checkout\\.dodopayments\\.com\\/session");
     expect(liveGate).toContain("hostedCheckout.ok");
+  });
+
+  test("rejects a release tag that points to the parent of the nominated repair candidate", () => {
+    const candidate = "b5b307b4dc38a2001f503652f0661712c5b498f9";
+    const staleTaggedParent = "b6683dbeb3806c5cbc0af98ab536d98b93924b13";
+
+    expect(() =>
+      assertTaggedCandidate({
+        tag: "v0.1.10",
+        version: "0.1.10",
+        tagCommit: staleTaggedParent,
+        expectedCommit: candidate,
+      }),
+    ).toThrow(`release tag v0.1.10 targets ${staleTaggedParent}`);
+
+    expect(
+      assertTaggedCandidate({
+        tag: "v0.1.10",
+        version: "0.1.10",
+        tagCommit: candidate,
+        expectedCommit: candidate,
+      }),
+    ).toEqual({ tag: "v0.1.10", version: "0.1.10", commit: candidate });
   });
 
   test("rejects the exact release-target drift reported by independent verification", () => {

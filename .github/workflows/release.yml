@@ -29,8 +29,8 @@ jobs:
           if [ "$GITHUB_EVENT_NAME" = "push" ]; then
             test "$GITHUB_REF_TYPE" = "tag"
             test "$GITHUB_REF_NAME" = "$TAG"
-            test "$(git rev-list -n 1 "$TAG")" = "$COMMIT"
           fi
+          node scripts/release-candidate.mjs "$TAG" "$COMMIT"
           test "$(node -p "require('./src-tauri/tauri.conf.json').version")" = "$VERSION"
           test "$(sed -n 's/^version = "\([^"]*\)"/\1/p' src-tauri/Cargo.toml | head -1)" = "$VERSION"
           echo "commit=$COMMIT" >> "$GITHUB_OUTPUT"
