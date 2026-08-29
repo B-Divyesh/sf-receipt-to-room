@@ -78,8 +78,8 @@ action and in a polite live region. Deletions have a five-second undo.
 At 390px the receipt preview becomes a compact file strip; review rows stack
 labels above values; the inventory table becomes labelled specimen cards; and
 secondary header links move below the wordmark. No control or required field is
-dropped. Landing copy precedes the illustration so the download action remains
-immediate.
+dropped. Landing copy precedes a 200px specimen thumbnail so the first action
+remains immediate and the headline paints without waiting for the illustration.
 
 ## Motion policy
 

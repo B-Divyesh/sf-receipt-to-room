@@ -23,7 +23,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.16");
+    expect(pkg.version).toBe("0.1.17");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -251,6 +251,34 @@ describe("release and static-host contract", () => {
     expect(liveGate).toContain(
       "assertPublishedCandidate({ release, manifest: platformManifest, html, expectedCommit })",
     );
+  });
+
+  test("verification 14 regression preloads the exact responsive LCP image and contains off-screen layout", () => {
+    const page = read("site/index.html");
+    const styles = read("site/styles.css");
+    const preload = page.match(
+      /<link\s+rel="preload"\s+as="image"[\s\S]*?fetchpriority="high"\s*\/?>/,
+    )?.[0];
+    const webpSource = page.match(
+      /<source\s+type="image\/webp"[\s\S]*?\/>/,
+    )?.[0];
+
+    expect(preload).toBeDefined();
+    expect(preload).toContain('type="image/webp"');
+    expect(preload).toContain("field-guide-hero-384.webp");
+    expect(preload).toContain("field-guide-hero-672.webp");
+    expect(preload).toContain(
+      'imagesizes="(max-width:600px) calc(100vw - 28px), (max-width:850px) calc(100vw - 48px), 54vw"',
+    );
+    expect(webpSource).toContain("field-guide-hero-384.webp");
+    expect(webpSource).toContain("field-guide-hero-672.webp");
+    expect(webpSource).toContain(
+      'sizes="(max-width:600px) calc(100vw - 28px), (max-width:850px) calc(100vw - 48px), 54vw"',
+    );
+    expect(page).not.toMatch(/field-guide-hero[^>]+decoding="async"/);
+    expect(page.match(/walkthrough-[a-z]+-480\.webp/g)).toHaveLength(4);
+    expect(styles).toMatch(/\.walkthrough,[\s\S]*content-visibility: auto;/);
+    expect(styles).toContain("contain-intrinsic-size: auto 720px");
   });
 
   test("does not rewrite unknown requests to the landing page and caches hashed assets immutably", () => {

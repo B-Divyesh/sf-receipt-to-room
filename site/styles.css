@@ -529,6 +529,10 @@ footer > div:nth-child(2) a,
   .hero-art img {
     border-width: 6px;
   }
+  .hero-art {
+    width: 200px;
+    justify-self: end;
+  }
   .trust-strip span {
     padding: 13px 6px;
     font-size: 12px;
@@ -769,11 +773,25 @@ footer > div:nth-child(2) a,
   border: 1px solid var(--rule);
   box-shadow: var(--shadow);
 }
+.walkthrough-frames picture {
+  display: block;
+}
 .walkthrough-frames img {
   display: block;
   width: 100%;
   height: auto;
   border-bottom: 1px solid var(--rule);
+}
+
+/* Keep the first render scoped to the visible receipt workflow. */
+.process,
+.walkthrough,
+.privacy-section,
+.price-section,
+.install-section,
+footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
 }
 .walkthrough-frames figcaption {
   display: grid;

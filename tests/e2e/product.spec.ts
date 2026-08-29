@@ -4,32 +4,32 @@ import AxeBuilder from "@axe-core/playwright";
 const releaseApi =
   "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const release = {
-  tag_name: "v0.1.16",
+  tag_name: "v0.1.17",
   assets: [
     {
-      name: "Receipt.to.Room_0.1.16_x64_en-US.msi",
+      name: "Receipt.to.Room_0.1.17_x64_en-US.msi",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64_en-US.msi",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_x64_en-US.msi",
     },
     {
-      name: "Receipt.to.Room_0.1.16_x64-setup.exe",
+      name: "Receipt.to.Room_0.1.17_x64-setup.exe",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64-setup.exe",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_x64-setup.exe",
     },
     {
-      name: "Receipt.to.Room_0.1.16_aarch64.dmg",
+      name: "Receipt.to.Room_0.1.17_aarch64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_aarch64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_aarch64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.16_x64.dmg",
+      name: "Receipt.to.Room_0.1.17_x64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_x64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_x64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.16_amd64.AppImage",
+      name: "Receipt.to.Room_0.1.17_amd64.AppImage",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.16/Receipt.to.Room_0.1.16_amd64.AppImage",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.17/Receipt.to.Room_0.1.17_amd64.AppImage",
     },
   ],
 };
@@ -244,7 +244,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   await page.goto("http://127.0.0.1:4173/");
   await expect(
     page.getByRole("link", { name: /download linux appimage/i }),
-  ).toHaveAttribute("href", /releases\/download\/v0\.1\.16/);
+  ).toHaveAttribute("href", /releases\/download\/v0\.1\.17/);
   await expect(page.getByText(/unsigned release/)).toBeVisible();
   await page.getByRole("button", { name: "See all downloads" }).click();
   await expect(page.locator("#download-list")).toContainText(
@@ -292,6 +292,94 @@ test("normal landing hides demo state while the demo URL shows it", async ({
   await expect(
     page.getByRole("heading", { name: "Your room inventory" }),
   ).toBeVisible();
+});
+
+test("verification 14 regression preloads and selects the phone-sized hero", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const measurements: Array<{ tagName: string; startTime: number }> = [];
+    Object.defineProperty(window, "__receiptLcp", { value: measurements });
+    new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        const candidate = entry as PerformanceEntry & { element?: Element };
+        measurements.push({
+          tagName: candidate.element?.tagName ?? "",
+          startTime: candidate.startTime,
+        });
+      }
+    }).observe({ type: "largest-contentful-paint", buffered: true });
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  const session = await page.context().newCDPSession(page);
+  await session.send("Network.enable");
+  await session.send("Network.emulateNetworkConditions", {
+    offline: false,
+    latency: 150,
+    downloadThroughput: (1.6 * 1024 * 1024) / 8,
+    uploadThroughput: (750 * 1024) / 8,
+    connectionType: "cellular4g",
+  });
+  await session.send("Emulation.setCPUThrottlingRate", { rate: 4 });
+  await mockRelease(page);
+  const heroRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("field-guide-hero-")) {
+      heroRequests.push(request.url());
+    }
+  });
+
+  await page.goto("http://127.0.0.1:4173/", {
+    waitUntil: "domcontentloaded",
+  });
+  const preload = page.locator('link[rel="preload"][as="image"]');
+  await expect(preload).toHaveAttribute("type", "image/webp");
+  await expect(preload).toHaveAttribute("fetchpriority", "high");
+  await expect(preload).toHaveAttribute(
+    "imagesizes",
+    "(max-width:600px) calc(100vw - 28px), (max-width:850px) calc(100vw - 48px), 54vw",
+  );
+
+  const hero = page.locator(".hero-art img");
+  await expect
+    .poll(() => hero.evaluate((image: HTMLImageElement) => image.currentSrc))
+    .toMatch(/field-guide-hero-384\.webp$/);
+  await expect
+    .poll(() => hero.evaluate((image: HTMLImageElement) => image.complete))
+    .toBe(true);
+  await expect(hero).toHaveCSS("width", "200px");
+  expect(heroRequests.filter((url) => url.endsWith("-384.webp"))).toHaveLength(
+    1,
+  );
+  expect(heroRequests.some((url) => /-(768|1536)\.(avif|webp)$/.test(url))).toBe(
+    false,
+  );
+  await expect(page.locator(".walkthrough")).toHaveCSS(
+    "content-visibility",
+    "auto",
+  );
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const entries = (
+          window as unknown as {
+            __receiptLcp: Array<{ tagName: string; startTime: number }>;
+          }
+        ).__receiptLcp;
+        return entries.at(-1) ?? null;
+      }),
+    )
+    .not.toBeNull();
+  const largestPaint = await page.evaluate(() => {
+    const entries = (
+      window as unknown as {
+        __receiptLcp: Array<{ tagName: string; startTime: number }>;
+      }
+    ).__receiptLcp;
+    return entries.at(-1)!;
+  });
+  expect(largestPaint).toEqual(expect.objectContaining({ tagName: "H1" }));
+  expect((largestPaint as { startTime: number }).startTime).toBeLessThan(2500);
 });
 
 test("install command panels use the designed keyboard focus ring", async ({
@@ -1216,7 +1304,7 @@ test("site routes expose complete metadata, focused headings, shared links, and 
     await expect(page.locator("main h1")).toHaveCount(1);
     if (path !== "/") await expect(page.locator("main h1")).toBeFocused();
     await expect(page.locator("footer")).toContainText(
-      "Built by Param Factory · v0.1.16",
+      "Built by Param Factory · v0.1.17",
     );
     await expect(
       page.locator("footer").getByRole("link", { name: "Receipt to Room home" }),

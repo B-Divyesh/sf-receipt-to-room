@@ -48,6 +48,20 @@
     />
     <link rel="icon" href="/assets/app-icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/field-guide-hero-384.webp"
+      type="image/webp"
+      imagesrcset="
+        /assets/field-guide-hero-384.webp   384w,
+        /assets/field-guide-hero-672.webp   672w,
+        /assets/field-guide-hero-768.webp   768w,
+        /assets/field-guide-hero-1536.webp 1536w
+      "
+      imagesizes="(max-width:600px) calc(100vw - 28px), (max-width:850px) calc(100vw - 48px), 54vw"
+      fetchpriority="high"
+    />
     <title>Receipt to Room — turn receipts into room records</title>
   </head>
   <body>
@@ -96,26 +110,29 @@
         <figure class="hero-art">
           <picture
             ><source
-              type="image/avif"
-              srcset="
-                /assets/field-guide-hero-768.avif   768w,
-                /assets/field-guide-hero-1536.avif 1536w
-              "
-              sizes="(max-width:760px) 100vw,54vw" />
-            <source
               type="image/webp"
               srcset="
+                /assets/field-guide-hero-384.webp   384w,
+                /assets/field-guide-hero-672.webp   672w,
                 /assets/field-guide-hero-768.webp   768w,
                 /assets/field-guide-hero-1536.webp 1536w
               "
-              sizes="(max-width:760px) 100vw,54vw" />
+              sizes="(max-width:600px) calc(100vw - 28px), (max-width:850px) calc(100vw - 48px), 54vw" />
+            <source
+              type="image/avif"
+              srcset="
+                /assets/field-guide-hero-384.avif   384w,
+                /assets/field-guide-hero-672.avif   672w,
+                /assets/field-guide-hero-768.avif   768w,
+                /assets/field-guide-hero-1536.avif 1536w
+              "
+              sizes="(max-width:600px) calc(100vw - 28px), (max-width:850px) calc(100vw - 48px), 54vw" />
             <img
-              src="/assets/field-guide-hero-768.webp"
+              src="/assets/field-guide-hero-384.webp"
               width="768"
               height="512"
               alt="Illustrated receipt arranged as a botanical specimen with a fern, room tabs, and a brass ruler"
               fetchpriority="high"
-              decoding="async"
           /></picture>
           <figcaption>
             Identify the line. Check the detail. Place it in a room.
@@ -192,14 +209,21 @@
         <ol class="walkthrough-frames">
           <li>
             <figure>
-              <img
-                src="/assets/walkthrough-load.png"
-                width="960"
-                height="600"
-                alt="Receipt to Room demo inventory with three reviewed household records"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="/assets/walkthrough-load-480.webp 480w, /assets/walkthrough-load-720.webp 720w, /assets/walkthrough-load-960.webp 960w"
+                  sizes="(max-width:850px) calc(100vw - 28px), 50vw"
+                />
+                <img
+                  src="/assets/walkthrough-load.png"
+                  width="960"
+                  height="600"
+                  alt="Receipt to Room demo inventory with three reviewed household records"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <figcaption>
                 <strong>1. Load demo records</strong
                 ><span
@@ -210,14 +234,21 @@
           </li>
           <li>
             <figure>
-              <img
-                src="/assets/walkthrough-review.png"
-                width="960"
-                height="600"
-                alt="Receipt to Room review screen showing extracted purchase lines"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="/assets/walkthrough-review-480.webp 480w, /assets/walkthrough-review-720.webp 720w, /assets/walkthrough-review-960.webp 960w"
+                  sizes="(max-width:850px) calc(100vw - 28px), 50vw"
+                />
+                <img
+                  src="/assets/walkthrough-review.png"
+                  width="960"
+                  height="600"
+                  alt="Receipt to Room review screen showing extracted purchase lines"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <figcaption>
                 <strong>2. Review receipt lines</strong
                 ><span>Check names, prices, and which lines to save.</span>
@@ -226,14 +257,21 @@
           </li>
           <li>
             <figure>
-              <img
-                src="/assets/walkthrough-assign.png"
-                width="960"
-                height="600"
-                alt="Receipt to Room line fields for room category and warranty date"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="/assets/walkthrough-assign-480.webp 480w, /assets/walkthrough-assign-720.webp 720w, /assets/walkthrough-assign-960.webp 960w"
+                  sizes="(max-width:850px) calc(100vw - 28px), 50vw"
+                />
+                <img
+                  src="/assets/walkthrough-assign.png"
+                  width="960"
+                  height="600"
+                  alt="Receipt to Room line fields for room category and warranty date"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <figcaption>
                 <strong>3. Place each item</strong
                 ><span
@@ -244,14 +282,21 @@
           </li>
           <li>
             <figure>
-              <img
-                src="/assets/walkthrough-export.png"
-                width="960"
-                height="600"
-                alt="Receipt to Room inventory with search and spreadsheet export controls"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="/assets/walkthrough-export-480.webp 480w, /assets/walkthrough-export-720.webp 720w, /assets/walkthrough-export-960.webp 960w"
+                  sizes="(max-width:850px) calc(100vw - 28px), 50vw"
+                />
+                <img
+                  src="/assets/walkthrough-export.png"
+                  width="960"
+                  height="600"
+                  alt="Receipt to Room inventory with search and spreadsheet export controls"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <figcaption>
                 <strong>4. Search and export</strong
                 ><span
