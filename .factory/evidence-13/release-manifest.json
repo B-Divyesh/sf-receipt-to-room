@@ -1,0 +1,26 @@
+{
+  "version": "0.1.15",
+  "sourceCommit": "7ddbd63b0ac262d1f4afcd0292e18beaaca858c9",
+  "platforms": {
+    "macos-arm64": {
+      "label": "macOS (Apple silicon)",
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_aarch64.dmg",
+      "sha256": "fd61f979a8b2aec59fd305eeb226ecdd99dc7a8bbaa9eeab23eab3f3adbb97d9"
+    },
+    "macos-x86_64": {
+      "label": "macOS (Intel)",
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_x64.dmg",
+      "sha256": "104473a2e6c6d9777d1ebafcac5c985c0d77dc8b7a2bed7c9427ccc5f307585e"
+    },
+    "windows-x86_64": {
+      "label": "Windows",
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_x64_en-US.msi",
+      "sha256": "04bf4a39353a19a2041985fc199ae62b9b62a0ec2ba8c01903ecac11b9a4724d"
+    },
+    "linux-x86_64": {
+      "label": "Linux AppImage",
+      "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_amd64.AppImage",
+      "sha256": "df2cb07ac0ee32602d16404baba895ffebfeeec332441fb18463c8ffd5a71764"
+    }
+  }
+}

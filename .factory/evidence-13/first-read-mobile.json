@@ -1,0 +1,32 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "headline": {
+    "text": "Turn receipts into room records.",
+    "top": 211.140625,
+    "bottom": 307.171875,
+    "left": 14,
+    "right": 376,
+    "visible": true
+  },
+  "audience": {
+    "text": "For renters and homeowners who need purchase details after a move,\n            repair, or insurance question.",
+    "top": 331.171875,
+    "bottom": 414.84375,
+    "left": 14,
+    "right": 376,
+    "visible": true
+  },
+  "action": {
+    "text": "Try it with sample data",
+    "top": 444.84375,
+    "bottom": 495.640625,
+    "left": 14,
+    "right": 227.609375,
+    "visible": true
+  },
+  "resultText": "See three demo records right away.",
+  "facts": []
+}

@@ -1,0 +1,15 @@
+Site JS raw/gzip
+dist/site/assets/main-C0_VOYmH.js	5974	2426
+dist/site/assets/route-focus-akH4p22P.js	280	255
+dist/site/assets/route-navigation-BlcLUy7O.js	3120	1506
+Site CSS raw/gzip
+dist/site/assets/route-navigation-koKB4E7q.css	11076	3154
+App JS raw/gzip
+dist/app/assets/dist-js-DBAF1h-L.js	212	214
+dist/app/assets/index-Crb--glI.js	35125	12424
+dist/app/assets/src-rEmny-xb.js	17275	7236
+App CSS raw/gzip
+dist/app/assets/index-B_9QZTSI.css	14871	4133
+Hero
+dist/site/assets/field-guide-hero-1536.avif\t131355
+dist/site/assets/field-guide-hero-768.avif\t27041

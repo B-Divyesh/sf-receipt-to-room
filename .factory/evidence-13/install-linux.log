@@ -1,0 +1,9 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 87.1M  100 87.1M    0     0   222M      0 --:--:-- --:--:-- --:--:--  222M
+Installed Receipt to Room to /tmp/tmp.O5LRIMV0t9/bin/receipt-to-room (SHA256 verified).
+If needed, add /tmp/tmp.O5LRIMV0t9/bin to PATH, then run: receipt-to-room
+install_dir=/tmp/tmp.O5LRIMV0t9
+installed=/tmp/tmp.O5LRIMV0t9/bin/receipt-to-room bytes=91396600 mode=-rwxr-xr-x
+df2cb07ac0ee32602d16404baba895ffebfeeec332441fb18463c8ffd5a71764  /tmp/tmp.O5LRIMV0t9/bin/receipt-to-room

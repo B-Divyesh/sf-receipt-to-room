@@ -1,0 +1,183 @@
+{
+  "site": {
+    "order": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Receipt to Room",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Demo",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "How it works",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Privacy",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Downloads",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Try it with sample data",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Read the privacy note",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Buy unlimited receipts — $29",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Download Linux AppImage",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "See all downloads",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "DIV",
+        "text": "macOS / Linuxcurl -fsSL https://receipt-to-room.sociobot.in/install.sh",
+        "outlineWidth": "1px",
+        "outlineColor": "rgb(16, 16, 16)",
+        "visible": true
+      },
+      {
+        "tag": "DIV",
+        "text": "Windows PowerShellirm https://receipt-to-room.sociobot.in/install.ps1 ",
+        "outlineWidth": "1px",
+        "outlineColor": "rgb(16, 16, 16)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Receipt to Room",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Demo",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Privacy",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Terms",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Source on GitHub (external)",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "BODY",
+        "text": "Skip to main content\n    \n    \n      \n          Receipt to Room\n      ",
+        "outlineWidth": "0px",
+        "outlineColor": "rgb(25, 51, 43)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Receipt to Room",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Demo",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "How it works",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      },
+      {
+        "tag": "A",
+        "text": "Privacy",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(11, 99, 206)",
+        "visible": true
+      }
+    ],
+    "unique": 16,
+    "allVisible": true,
+    "allRinged": false
+  },
+  "app": {
+    "addRing": "rgb(11, 99, 206) solid 3px",
+    "intakeFocused": true,
+    "reviewRing": "rgb(11, 99, 206) solid 3px",
+    "reviewHeadingFocused": true
+  }
+}

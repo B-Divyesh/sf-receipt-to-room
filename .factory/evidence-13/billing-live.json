@@ -1,0 +1,201 @@
+{
+  "checkout": {
+    "status": 303,
+    "location": "https://checkout.dodopayments.com/session/cks_0NmSOFdnALaCWXFzRWM7E",
+    "host": "checkout.dodopayments.com"
+  },
+  "hosted": {
+    "status": 200,
+    "url": "https://checkout.dodopayments.com/session/cks_0NmSOFdnALaCWXFzRWM7E",
+    "mentionsDodo": true,
+    "bytes": 137214
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 2,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 3,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 4,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 5,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 6,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 7,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 8,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 9,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 10,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 11,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 12,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 13,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 14,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 15,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 16,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 17,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 18,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 19,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 20,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 21,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 22,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 23,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 24,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 25,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 26,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 27,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 28,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 29,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 30,
+      "status": 200,
+      "retryAfter": null,
+      "body": "{\"expires_at\":null,\"reason\":\"invalid\",\"valid\":false}"
+    },
+    {
+      "attempt": 31,
+      "status": 429,
+      "retryAfter": "4",
+      "body": "Too Many Requests! Wait for 4s"
+    }
+  ]
+}

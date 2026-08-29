@@ -1,0 +1,4 @@
+manifest=df2cb07ac0ee32602d16404baba895ffebfeeec332441fb18463c8ffd5a71764
+actual=df2cb07ac0ee32602d16404baba895ffebfeeec332441fb18463c8ffd5a71764
+sums_entry=df2cb07ac0ee32602d16404baba895ffebfeeec332441fb18463c8ffd5a71764  Receipt.to.Room_0.1.15_amd64.AppImage
+bytes=91396600

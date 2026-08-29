@@ -1,0 +1,18 @@
+{
+  "tag_name": "v0.1.15",
+  "target_commitish": "7ddbd63b0ac262d1f4afcd0292e18beaaca858c9",
+  "published_at": "2026-08-29T16:25:37Z",
+  "assets": [
+    "latest.json",
+    "Receipt.to.Room-0.1.15-1.x86_64.rpm",
+    "Receipt.to.Room_0.1.15_aarch64.dmg",
+    "Receipt.to.Room_0.1.15_amd64.AppImage",
+    "Receipt.to.Room_0.1.15_amd64.deb",
+    "Receipt.to.Room_0.1.15_x64-setup.exe",
+    "Receipt.to.Room_0.1.15_x64.dmg",
+    "Receipt.to.Room_0.1.15_x64_en-US.msi",
+    "Receipt.to.Room_aarch64.app.tar.gz",
+    "Receipt.to.Room_x64.app.tar.gz",
+    "SHA256SUMS"
+  ]
+}

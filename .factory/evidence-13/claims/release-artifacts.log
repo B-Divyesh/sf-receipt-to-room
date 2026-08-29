@@ -1,0 +1,12 @@
+
+> receipt-to-room@0.1.15 test:release-contract
+> vitest run tests/release-contract.test.ts -t @claim:release-artifacts
+
+
+ RUN  v4.1.11 /work/repo
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 11 skipped (12)
+   Start at  16:49:02
+   Duration  294ms (transform 103ms, setup 0ms, import 137ms, tests 5ms, environment 0ms)

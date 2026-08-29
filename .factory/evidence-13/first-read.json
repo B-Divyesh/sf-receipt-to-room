@@ -1,0 +1,191 @@
+{
+  "status": 200,
+  "headers": {
+    "cache-control": "public, must-revalidate, max-age=30",
+    "content-encoding": "br",
+    "content-security-policy": "default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+    "content-type": "text/html",
+    "date": "Sat, 29 Aug 2026 16:49:27 GMT",
+    "etag": "\"52720107\"",
+    "last-modified": "Sat, 29 Aug 2026 16:32:24 GMT",
+    "permissions-policy": "camera=(), microphone=(), geolocation=()",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+    "vary": "Accept-Encoding",
+    "x-content-type-options": "nosniff",
+    "x-dns-prefetch-control": "off",
+    "x-frame-options": "DENY",
+    "x-xss-protection": "1; mode=block"
+  },
+  "evidence": {
+    "title": "Receipt to Room — turn receipts into room records",
+    "url": "https://receipt-to-room.sociobot.in/",
+    "h1": [
+      "Turn receipts into room records."
+    ],
+    "visible": [
+      {
+        "tag": "span",
+        "text": "Receipt to Room",
+        "top": 26
+      },
+      {
+        "tag": "a",
+        "text": "Demo",
+        "top": 16
+      },
+      {
+        "tag": "a",
+        "text": "How it works",
+        "top": 16
+      },
+      {
+        "tag": "a",
+        "text": "Privacy",
+        "top": 16
+      },
+      {
+        "tag": "a",
+        "text": "Downloads",
+        "top": 16
+      },
+      {
+        "tag": "p",
+        "text": "A local desktop app",
+        "top": 152
+      },
+      {
+        "tag": "h1",
+        "text": "Turn receipts into room records.",
+        "top": 184
+      },
+      {
+        "tag": "p",
+        "text": "For renters and homeowners who need purchase details after a move,\n            repair, or insurance question.",
+        "top": 452
+      },
+      {
+        "tag": "a",
+        "text": "Try it with sample data",
+        "top": 544
+      },
+      {
+        "tag": "span",
+        "text": "See three demo records right away.",
+        "top": 549
+      },
+      {
+        "tag": "li",
+        "text": "Demo records stay separate.",
+        "top": 620
+      },
+      {
+        "tag": "li",
+        "text": "Receipt text is read on your computer.",
+        "top": 648
+      },
+      {
+        "tag": "li",
+        "text": "$29 once for unlimited receipts.",
+        "top": 676
+      },
+      {
+        "tag": "figcaption",
+        "text": "Identify the line. Check the detail. Place it in a room.",
+        "top": 643
+      },
+      {
+        "tag": "p",
+        "text": "How it works",
+        "top": 894
+      }
+    ],
+    "buttons": [
+      {
+        "tag": "a",
+        "text": "Receipt to Room",
+        "href": "https://receipt-to-room.sociobot.in/"
+      },
+      {
+        "tag": "a",
+        "text": "Demo",
+        "href": "https://receipt-to-room.sociobot.in/?demo=1#sample"
+      },
+      {
+        "tag": "a",
+        "text": "How it works",
+        "href": "https://receipt-to-room.sociobot.in/#how"
+      },
+      {
+        "tag": "a",
+        "text": "Privacy",
+        "href": "https://receipt-to-room.sociobot.in/#privacy"
+      },
+      {
+        "tag": "a",
+        "text": "Downloads",
+        "href": "https://receipt-to-room.sociobot.in/#downloads"
+      },
+      {
+        "tag": "a",
+        "text": "Try it with sample data",
+        "href": "https://receipt-to-room.sociobot.in/?demo=1#sample"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/",
+      "type": "document"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/main-C0_VOYmH.js",
+      "type": "script"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/route-navigation-BlcLUy7O.js",
+      "type": "script"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/route-navigation-koKB4E7q.css",
+      "type": "stylesheet"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/field-guide-hero-1536.avif",
+      "type": "image"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/walkthrough-load.png",
+      "type": "image"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/walkthrough-review.png",
+      "type": "image"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/walkthrough-assign.png",
+      "type": "image"
+    },
+    {
+      "method": "GET",
+      "url": "https://receipt-to-room.sociobot.in/assets/walkthrough-export.png",
+      "type": "image"
+    },
+    {
+      "method": "GET",
+      "url": "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest",
+      "type": "fetch"
+    }
+  ],
+  "consoleEvents": [],
+  "pageErrors": [],
+  "cookies": []
+}

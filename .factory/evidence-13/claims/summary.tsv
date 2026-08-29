@@ -1,0 +1,50 @@
+sample-demo	npm run test:e2e -- --grep @claim:sample-demo
+	RC=0
+local-ocr	npm run test:e2e -- --grep @claim:local-ocr
+	RC=0
+csv-export	npm run test:e2e -- --grep @claim:csv-export
+	RC=0
+price	npm run test:e2e -- --grep @claim:price
+	RC=0
+release-api	npm run test:e2e -- --grep @claim:release-api
+	RC=0
+receipt-workflow	npm run test:e2e -- --grep @claim:receipt-workflow
+	RC=0
+editable-records	npm run test:e2e -- --grep @claim:editable-records
+	RC=0
+bulk-queue	npm run test:e2e -- --grep @claim:bulk-queue
+	RC=0
+image-input	npm run test:e2e -- --grep @claim:image-input
+	RC=0
+print-undo	npm run test:e2e -- --grep @claim:print-undo
+	RC=0
+local-storage	npm run test:e2e -- --grep @claim:local-storage
+	RC=0
+backup-restore	npm run test:e2e -- --grep @claim:backup-restore
+	RC=0
+redacted-exports	npm run test:e2e -- --grep @claim:redacted-exports
+	RC=0
+privacy-boundaries	npm run test:e2e -- --grep @claim:privacy-boundaries
+	RC=0
+license-cache	npm run test:e2e -- --grep @claim:license-cache
+	RC=0
+license-rate-policy	npm run test:e2e -- --grep @claim:license-rate-policy
+	RC=0
+offline-work	npm run test:e2e -- --grep @claim:offline-work
+	RC=0
+checkout-operator	npm run test:e2e -- --grep @claim:checkout-operator
+	RC=0
+free-exports	npm run test:e2e -- --grep @claim:free-exports
+	RC=0
+scope-boundaries	npm run test:release-contract -- -t @claim:scope-boundaries
+	RC=0
+release-trigger	npm run test:release-contract -- -t @claim:release-trigger
+	RC=0
+release-artifacts	npm run test:release-contract -- -t @claim:release-artifacts
+	RC=0
+release-candidate	npm run test:release-contract -- -t @claim:release-candidate
+	RC=0
+installer-integrity	npm run test:release-contract -- -t @claim:installer-integrity
+	RC=0
+refund-revocation	npm run test:e2e -- --grep @claim:refund-revocation
+	RC=0

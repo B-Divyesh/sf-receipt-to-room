@@ -1,0 +1,17 @@
+
+> receipt-to-room@0.1.15 verify:release-candidate
+> node scripts/release-candidate.mjs v0.1.15 5e4023b748d08f478c8be2c474546dc34c07dca4
+
+file:///work/repo/scripts/release-candidate.mjs:21
+    throw new Error(`release tag ${tag} targets ${tagCommit}, expected ${expectedCommit}`);
+          ^
+
+Error: release tag v0.1.15 targets 7ddbd63b0ac262d1f4afcd0292e18beaaca858c9, expected 5e4023b748d08f478c8be2c474546dc34c07dca4
+    at assertTaggedCandidate (file:///work/repo/scripts/release-candidate.mjs:21:11)
+    at main (file:///work/repo/scripts/release-candidate.mjs:37:30)
+    at file:///work/repo/scripts/release-candidate.mjs:41:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.23.2

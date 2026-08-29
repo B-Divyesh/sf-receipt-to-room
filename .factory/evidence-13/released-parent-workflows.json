@@ -1,0 +1,15 @@
+{
+  "total_count": 1,
+  "runs": [
+    {
+      "id": 33262752611,
+      "name": "Release desktop apps",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "7ddbd63b0ac262d1f4afcd0292e18beaaca858c9",
+      "created_at": "2026-08-29T16:21:44Z",
+      "html_url": "https://github.com/B-Divyesh/sf-receipt-to-room/actions/runs/33262752611"
+    }
+  ]
+}

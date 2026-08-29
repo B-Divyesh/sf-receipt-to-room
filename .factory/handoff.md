@@ -1,96 +1,82 @@
-# Receipt to Room — polish 4 handoff
+# Receipt to Room — verification 13 handoff
 
 ## Outcome
 
-**PASS** on 2026-08-29 UTC. The released source is
-`7ddbd63b0ac262d1f4afcd0292e18beaaca858c9` (`v0.1.15`), and production serves
-that exact SHA at <https://receipt-to-room.sociobot.in/>.
+**FAIL** on 2026-08-29 UTC for candidate
+`5e4023b748d08f478c8be2c474546dc34c07dca4` at
+<https://receipt-to-room.sociobot.in/>.
 
-This round closes F-4-1 / reopened F-1-21 completely. Same-origin navigation
-now uses one shared mechanism for intent markers, history restoration, h1/h2
-focus, visible focus treatment, and polite route announcements. The landing
-page deliberately keeps its cold-load skip-link behavior; Home receives focus
-only after Demo exit, a same-origin return, or browser Back/Forward.
+The website and product workflow pass, and the live static build matches the
+candidate. Release acceptance fails because the native `v0.1.15` release,
+tag, and `latest.json` identify parent
+`7ddbd63b0ac262d1f4afcd0292e18beaaca858c9`, not the nominated candidate.
+There is no tag or release workflow run for `5e4023b...`.
 
-## What changed
+No product code was changed. The full report is
+[`.factory/verification-13.md`](verification-13.md).
 
-- Added `site/route-navigation.ts`, used by both the landing and static-route
-  focus modules.
-- Prevented the demo exit link from doing a full reload. It now changes the
-  URL through History API, clears only demo storage, focuses Home’s h1, and
-  announces “Home.”
-- Added the shared `#route-announcement` polite live region to Home, Privacy,
-  Terms, and 404.
-- Added a designed focus ring for route headings that remains visible after
-  pointer-triggered returns, not just keyboard-triggered ones.
-- Added 390 px Playwright coverage for Demo → Home, Privacy/Terms/404 → Home,
-  and cross-page Back/Forward. It asserts URL, focused heading, visible ring,
-  and announcement.
-- Bumped the aligned desktop/site release identity to `0.1.15`.
-- Updated the catalog sentence: “Turn receipt photos into room records you can
-  search on your computer.”
+## Defects
 
-## Verification
+- **P0:** native release provenance does not match the nominated candidate.
+- **P2:** the two focusable install-command panels use an unstyled 1 px browser
+  outline instead of the designed 3 px focus treatment.
+- **P3:** live AVIF assets are served as `application/octet-stream`, not
+  `image/avif`.
 
-From clean clone `/tmp/receipt-to-room-polish4-final-claims.w5C9IN/clone` at
-the final main branch:
+## Verification summary
 
-```sh
-npm ci
-# each .factory/claims.json command separately: 25/25 passed
-npm test                 # 19/19 passed
-npm run build            # produced dist/app and dist/site
-npm run test:e2e         # 24/24 passed
-cargo check --manifest-path src-tauri/Cargo.toml
-cargo test --manifest-path src-tauri/Cargo.toml
-```
+- Every `.factory/claims.json` command: **25/25 PASS**, run separately after
+  clean `npm ci`.
+- Cold first-read at desktop and 390 px: **PASS**; the first screen states the
+  job, audience, first action, and sample result. One click opens three sample
+  records in an isolated demo.
+- `npm test`: **19/19 PASS**.
+- `npm run test:release-contract`: **12/12 PASS**.
+- `npx tsc --noEmit`: **PASS**; no separate npm lint script exists.
+- `npm run build`: **PASS**, with `dist/app` and `dist/site`.
+- `npm run test:e2e`: **24/24 PASS**.
+- Rust format/check/test/clippy with the release workflow's Linux libraries:
+  **PASS**.
+- Independent mobile intake, error recovery, quantity boundaries, line-level
+  classification, warranty, search, edit, CSV, remove/undo, storage isolation,
+  request logging, and keyboard flow: **PASS**.
+- Desktop/390 px live route sweep: zero serious/critical axe findings,
+  console/page/request errors, cookies, or overflow. Reduced motion and 200%
+  page scale retain the task.
+- Lighthouse mobile: **99 Performance, 100 Accessibility, 100 Best Practices,
+  100 SEO**; LCP 1.1 s, TBT 150 ms, CLS 0.
+- Live privacy: only the documented GitHub API request leaves the website;
+  direct demo and app workflow are same-origin only.
+- Paid service: checkout 303 to Dodo; hosted page 200; requests 1–30 allowed;
+  request 31 is 429 with `Retry-After: 4`.
+- Parent release AppImage: checksum matches manifest and `SHA256SUMS`; public
+  installer succeeds; extracted app stays alive for the smoke window.
+- Exact provenance commands for `5e4023b...`: **FAIL**.
 
-The final 390 px Axe sweep found zero serious or critical findings, no console
-errors, and no horizontal overflow on `/`, `/?demo=1#sample`, `/privacy/`,
-`/terms/`, and `/404.html`. `npm run verify:url -- https://receipt-to-room.sociobot.in/`
-passed after deployment.
+Evidence is under `.factory/evidence-13/`.
 
-Live checks also confirmed direct demo creates only `demo:` storage, makes no
-cross-origin request, and returns Home with a focused, visibly outlined h1 and
-the “Home.” announcement. Demo → Home, all legal/404 → Home links, and
-Privacy Back/Forward were rechecked in fresh 390 px contexts.
-
-Evidence screenshots:
-
-- `.factory/screenshots/polish-4-live-home-mobile.png`
-- `.factory/screenshots/polish-4-live-demo-mobile.png`
-- `.factory/screenshots/polish-4-live-home-return-mobile.png`
-
-Release workflow [33262752611](https://github.com/B-Divyesh/sf-receipt-to-room/actions/runs/33262752611)
-completed all six jobs. The v0.1.15 release has macOS ARM/Intel DMGs, Windows
-MSI/EXE, Linux AppImage/DEB/RPM, `SHA256SUMS`, and `latest.json`. Its target
-commit and manifest `sourceCommit` are both `7ddbd63`. Downloaded
-`Receipt.to.Room_0.1.15_amd64.deb` SHA-256
-`4a2951bbbee7d2d97aec6d0c86c729781efeaad776d1f97088673628460a49e3`
-matches the published checksum.
-
-Static deployment used `/opt/fleet/lib/deploy-static.sh receipt-to-room
-dist/site`; Azure deployment ID `6c01d12b-0592-4cf8-bffc-b4e65eae3e50`
-completed successfully. Live Home has build-commit `7ddbd63`.
-
-## Run locally
+## Reproduce
 
 ```sh
 npm ci
-npm run dev:site
-npm run dev
 npm test
-npm run test:e2e
+npm run test:release-contract
+npx tsc --noEmit
 npm run build
+npm run test:e2e
+cargo fmt --check --manifest-path src-tauri/Cargo.toml
+cargo check --locked --manifest-path src-tauri/Cargo.toml
+cargo test --locked --manifest-path src-tauri/Cargo.toml
+cargo clippy --locked --manifest-path src-tauri/Cargo.toml -- -D warnings
+npm run verify:url -- https://receipt-to-room.sociobot.in
+npm run verify:release-candidate -- v0.1.15 5e4023b748d08f478c8be2c474546dc34c07dca4
+npm run verify:live-release -- 5e4023b748d08f478c8be2c474546dc34c07dca4 https://receipt-to-room.sociobot.in
 ```
 
-Try the website demo with `/?demo=1#sample`. In the desktop app, choose **Load
-demo records** on its first screen.
+The final two commands reproduce the release blocker.
 
-## Known gaps and operator action
+## Operator action
 
-No review finding or product defect remains open. Native bundles are unsigned,
-as stated on the site and in the README. No signing secrets are configured in
-the workflow; if signing is later required, the owner must add the relevant
-Apple certificate/notarization and Windows Authenticode secrets before changing
-the release workflow.
+Publish/tag the exact nominated candidate, or nominate the already released
+parent SHA. Native bundles remain intentionally unsigned; signing still needs
+the owner's Apple notarization and Windows Authenticode credentials if desired.

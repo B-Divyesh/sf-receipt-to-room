@@ -1,0 +1,42 @@
+URL /assets/main-C0_VOYmH.js
+content-type: text/javascript
+cache-control: public, max-age=31536000, immutable
+content-length: 5974
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+URL /assets/route-navigation-koKB4E7q.css
+content-type: text/css
+cache-control: public, max-age=31536000, immutable
+content-length: 11076
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+URL /assets/field-guide-hero-640.avif
+content-type: text/html
+cache-control: public, must-revalidate, max-age=30
+content-length: 2935
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+URL /robots.txt
+content-type: text/plain
+cache-control: public, must-revalidate, max-age=30
+content-length: 81
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+URL /sitemap.xml
+content-type: text/xml
+cache-control: public, must-revalidate, max-age=30
+content-length: 375
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+URL /install.sh
+content-type: application/x-sh
+cache-control: public, must-revalidate, max-age=30
+content-length: 1880
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+URL /install.ps1
+content-type: application/octet-stream
+cache-control: public, must-revalidate, max-age=30
+content-length: 950
+x-content-type-options: nosniff
+content-security-policy: default-src 'self'; connect-src 'self' https://api.github.com https://api.sociobot.in; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'

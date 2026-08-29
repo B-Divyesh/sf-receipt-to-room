@@ -1,0 +1,46 @@
+{
+  "records": [
+    {
+      "name": "Cedar kettle",
+      "visible": true
+    },
+    {
+      "name": "Reading lamp",
+      "visible": true
+    },
+    {
+      "name": "Linen storage box",
+      "visible": true
+    }
+  ],
+  "banner": "Demo — sample data, nothing is saved.Reset demoLeave demo and use my records",
+  "storage": [
+    "demo:receipt-to-room:sample:v1"
+  ],
+  "requests": [
+    "https://receipt-to-room.sociobot.in/?demo=1",
+    "https://receipt-to-room.sociobot.in/assets/main-C0_VOYmH.js",
+    "https://receipt-to-room.sociobot.in/assets/route-navigation-BlcLUy7O.js",
+    "https://receipt-to-room.sociobot.in/assets/route-navigation-koKB4E7q.css",
+    "https://receipt-to-room.sociobot.in/assets/field-guide-hero-768.avif",
+    "https://receipt-to-room.sociobot.in/assets/walkthrough-load.png",
+    "https://receipt-to-room.sociobot.in/assets/walkthrough-review.png",
+    "https://receipt-to-room.sociobot.in/assets/walkthrough-assign.png",
+    "https://receipt-to-room.sociobot.in/assets/walkthrough-export.png"
+  ],
+  "external": [],
+  "cookies": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "focus": {
+    "text": "",
+    "outline": "rgb(25, 51, 43) auto 0px",
+    "boxShadow": "none",
+    "background": "rgb(255, 255, 255)",
+    "color": "rgb(25, 51, 43)",
+    "border": "1px solid rgb(25, 51, 43)",
+    "width": 334,
+    "height": 46.796875
+  },
+  "animations": 0
+}

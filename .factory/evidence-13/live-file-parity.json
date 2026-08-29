@@ -1,0 +1,303 @@
+[
+  {
+    "rel": "404.html",
+    "route": "/404.html",
+    "status": 200,
+    "match": true,
+    "localBytes": 2935,
+    "remoteBytes": 2935,
+    "localSha256": "5a6d67de27b99bbcf35796dc30d4c30729c087734f4a7e2d65fb27157d22d3ff",
+    "remoteSha256": "5a6d67de27b99bbcf35796dc30d4c30729c087734f4a7e2d65fb27157d22d3ff",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "_headers",
+    "route": "/_headers",
+    "status": 200,
+    "match": true,
+    "localBytes": 542,
+    "remoteBytes": 542,
+    "localSha256": "7a0512035fe02fbc81b31a27b76fbbd3645c83dc319f30c75f7bc0f60408072b",
+    "remoteSha256": "7a0512035fe02fbc81b31a27b76fbbd3645c83dc319f30c75f7bc0f60408072b",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "assets/app-icon.svg",
+    "route": "/assets/app-icon.svg",
+    "status": 200,
+    "match": true,
+    "localBytes": 454,
+    "remoteBytes": 454,
+    "localSha256": "176d2837eca51020b0a5a622bd2f37fcd5ff8ee7118c7717ec90ec53bbf4faf1",
+    "remoteSha256": "176d2837eca51020b0a5a622bd2f37fcd5ff8ee7118c7717ec90ec53bbf4faf1",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/apple-touch-icon.png",
+    "route": "/assets/apple-touch-icon.png",
+    "status": 200,
+    "match": true,
+    "localBytes": 71519,
+    "remoteBytes": 71519,
+    "localSha256": "db093974183592b482cd9b7769a8dacdaba42f9bfc5ff9b4f7e272a946006b7e",
+    "remoteSha256": "db093974183592b482cd9b7769a8dacdaba42f9bfc5ff9b4f7e272a946006b7e",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/field-guide-hero-1536.avif",
+    "route": "/assets/field-guide-hero-1536.avif",
+    "status": 200,
+    "match": true,
+    "localBytes": 131355,
+    "remoteBytes": 131355,
+    "localSha256": "b469d092d05027df498a578728a688a4d43ccbaf3a3cb38f44892b7e2f9ad969",
+    "remoteSha256": "b469d092d05027df498a578728a688a4d43ccbaf3a3cb38f44892b7e2f9ad969",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/field-guide-hero-1536.webp",
+    "route": "/assets/field-guide-hero-1536.webp",
+    "status": 200,
+    "match": true,
+    "localBytes": 151620,
+    "remoteBytes": 151620,
+    "localSha256": "8ca01217352263ac5848abc9b7b13b7633d9866cb175fa891a1db9e1e6f198b2",
+    "remoteSha256": "8ca01217352263ac5848abc9b7b13b7633d9866cb175fa891a1db9e1e6f198b2",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/field-guide-hero-768.avif",
+    "route": "/assets/field-guide-hero-768.avif",
+    "status": 200,
+    "match": true,
+    "localBytes": 27041,
+    "remoteBytes": 27041,
+    "localSha256": "11c9a5bb4506639bab5f56590a44c005f73bd5e55b6c56f5d16ab7fcfe191f2c",
+    "remoteSha256": "11c9a5bb4506639bab5f56590a44c005f73bd5e55b6c56f5d16ab7fcfe191f2c",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/field-guide-hero-768.webp",
+    "route": "/assets/field-guide-hero-768.webp",
+    "status": 200,
+    "match": true,
+    "localBytes": 36284,
+    "remoteBytes": 36284,
+    "localSha256": "3f45fcdb44f40d81105d5cf3892d9fbac47768f6e4ba28dbc2f196a937c19614",
+    "remoteSha256": "3f45fcdb44f40d81105d5cf3892d9fbac47768f6e4ba28dbc2f196a937c19614",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/main-C0_VOYmH.js",
+    "route": "/assets/main-C0_VOYmH.js",
+    "status": 200,
+    "match": true,
+    "localBytes": 5974,
+    "remoteBytes": 5974,
+    "localSha256": "2898e35e7540a6d7cbe95bbe7a73d1ea8534a7b9ced575c0568c8b1975ae8493",
+    "remoteSha256": "2898e35e7540a6d7cbe95bbe7a73d1ea8534a7b9ced575c0568c8b1975ae8493",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/main-C0_VOYmH.js.map",
+    "route": "/assets/main-C0_VOYmH.js.map",
+    "status": 200,
+    "match": true,
+    "localBytes": 16972,
+    "remoteBytes": 16972,
+    "localSha256": "c89ff5e3978279f1daa31f1ec442834b3d670122bb358a7c5b8841d3582ab555",
+    "remoteSha256": "c89ff5e3978279f1daa31f1ec442834b3d670122bb358a7c5b8841d3582ab555",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/route-focus-akH4p22P.js",
+    "route": "/assets/route-focus-akH4p22P.js",
+    "status": 200,
+    "match": true,
+    "localBytes": 280,
+    "remoteBytes": 280,
+    "localSha256": "72792ea52a36d57c03a73a3df14715967e41e26d0caf624688446e19deec468f",
+    "remoteSha256": "72792ea52a36d57c03a73a3df14715967e41e26d0caf624688446e19deec468f",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/route-focus-akH4p22P.js.map",
+    "route": "/assets/route-focus-akH4p22P.js.map",
+    "status": 200,
+    "match": true,
+    "localBytes": 910,
+    "remoteBytes": 910,
+    "localSha256": "b4a4ca4147f137816cd2c9e6040f9d763756368367cd9d1113b3c977db22ec52",
+    "remoteSha256": "b4a4ca4147f137816cd2c9e6040f9d763756368367cd9d1113b3c977db22ec52",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/route-navigation-BlcLUy7O.js",
+    "route": "/assets/route-navigation-BlcLUy7O.js",
+    "status": 200,
+    "match": true,
+    "localBytes": 3120,
+    "remoteBytes": 3120,
+    "localSha256": "6a0d88608909624ed453d668a0baf85d810ed112891ac220ea7fcbec043d38c9",
+    "remoteSha256": "6a0d88608909624ed453d668a0baf85d810ed112891ac220ea7fcbec043d38c9",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/route-navigation-BlcLUy7O.js.map",
+    "route": "/assets/route-navigation-BlcLUy7O.js.map",
+    "status": 200,
+    "match": true,
+    "localBytes": 6312,
+    "remoteBytes": 6312,
+    "localSha256": "2e4dda989d06528ea896e08fdf3dcd1cb59498dd6f2b90216036b7a3375a8f02",
+    "remoteSha256": "2e4dda989d06528ea896e08fdf3dcd1cb59498dd6f2b90216036b7a3375a8f02",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/route-navigation-koKB4E7q.css",
+    "route": "/assets/route-navigation-koKB4E7q.css",
+    "status": 200,
+    "match": true,
+    "localBytes": 11076,
+    "remoteBytes": 11076,
+    "localSha256": "0dccaa1d20a396b19f29663aad24d759614c0fbd0cef5e163c33a96ce195d377",
+    "remoteSha256": "0dccaa1d20a396b19f29663aad24d759614c0fbd0cef5e163c33a96ce195d377",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/social-preview.webp",
+    "route": "/assets/social-preview.webp",
+    "status": 200,
+    "match": true,
+    "localBytes": 69444,
+    "remoteBytes": 69444,
+    "localSha256": "26c7c461674911bb9e86e0b19070e74691d90f01d0f516bf49de73a4463f9bea",
+    "remoteSha256": "26c7c461674911bb9e86e0b19070e74691d90f01d0f516bf49de73a4463f9bea",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/walkthrough-assign.png",
+    "route": "/assets/walkthrough-assign.png",
+    "status": 200,
+    "match": true,
+    "localBytes": 67387,
+    "remoteBytes": 67387,
+    "localSha256": "93bff868414c0c895d4b1872d95f785c0e743504ab26a0ae69a2f936eec0d8a3",
+    "remoteSha256": "93bff868414c0c895d4b1872d95f785c0e743504ab26a0ae69a2f936eec0d8a3",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/walkthrough-export.png",
+    "route": "/assets/walkthrough-export.png",
+    "status": 200,
+    "match": true,
+    "localBytes": 73938,
+    "remoteBytes": 73938,
+    "localSha256": "0edac82dce5f8baa5c78735f5c2327ed7d5657c0373efb87c8fa9dd58aab298e",
+    "remoteSha256": "0edac82dce5f8baa5c78735f5c2327ed7d5657c0373efb87c8fa9dd58aab298e",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/walkthrough-load.png",
+    "route": "/assets/walkthrough-load.png",
+    "status": 200,
+    "match": true,
+    "localBytes": 71297,
+    "remoteBytes": 71297,
+    "localSha256": "0a3337bad2e9c548d3397b2db11b8e55f23e4da7f3e0ea9d0a274c63c2290393",
+    "remoteSha256": "0a3337bad2e9c548d3397b2db11b8e55f23e4da7f3e0ea9d0a274c63c2290393",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "assets/walkthrough-review.png",
+    "route": "/assets/walkthrough-review.png",
+    "status": 200,
+    "match": true,
+    "localBytes": 51275,
+    "remoteBytes": 51275,
+    "localSha256": "515a845ad9a0dd1962a7adfac0c93c6af016c00a112a0628a0c2416f9b1da867",
+    "remoteSha256": "515a845ad9a0dd1962a7adfac0c93c6af016c00a112a0628a0c2416f9b1da867",
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "rel": "index.html",
+    "route": "/",
+    "status": 200,
+    "match": true,
+    "localBytes": 13174,
+    "remoteBytes": 13174,
+    "localSha256": "445763304a185254643963631915612b46fbdae740bd62b709c8ba0d4b811aab",
+    "remoteSha256": "445763304a185254643963631915612b46fbdae740bd62b709c8ba0d4b811aab",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "install.ps1",
+    "route": "/install.ps1",
+    "status": 200,
+    "match": true,
+    "localBytes": 950,
+    "remoteBytes": 950,
+    "localSha256": "b260b1c9dbeed5ce3a030a631120f3794d116aa7f041cf099ec041be7926923d",
+    "remoteSha256": "b260b1c9dbeed5ce3a030a631120f3794d116aa7f041cf099ec041be7926923d",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "install.sh",
+    "route": "/install.sh",
+    "status": 200,
+    "match": true,
+    "localBytes": 1880,
+    "remoteBytes": 1880,
+    "localSha256": "ed7eed1217494bd6afcaf744dd8c8c3fc98e5d94113e104396e63f19a59b089b",
+    "remoteSha256": "ed7eed1217494bd6afcaf744dd8c8c3fc98e5d94113e104396e63f19a59b089b",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "privacy/index.html",
+    "route": "/privacy/",
+    "status": 200,
+    "match": true,
+    "localBytes": 3936,
+    "remoteBytes": 3936,
+    "localSha256": "f2ac18c66c8735d57dc44746a5bed0d923675ddbdeea4c9010adb96a9ab9b966",
+    "remoteSha256": "f2ac18c66c8735d57dc44746a5bed0d923675ddbdeea4c9010adb96a9ab9b966",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "robots.txt",
+    "route": "/robots.txt",
+    "status": 200,
+    "match": true,
+    "localBytes": 81,
+    "remoteBytes": 81,
+    "localSha256": "c9df067afca44f055176a6617a6ad8e79e0e3fafdc45c4bc1f37c33e74094ba9",
+    "remoteSha256": "c9df067afca44f055176a6617a6ad8e79e0e3fafdc45c4bc1f37c33e74094ba9",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "sitemap.xml",
+    "route": "/sitemap.xml",
+    "status": 200,
+    "match": true,
+    "localBytes": 375,
+    "remoteBytes": 375,
+    "localSha256": "a29517cfd3edda2dfcebe13b9b05b883e4378e62ac459d14487cc431722e043e",
+    "remoteSha256": "a29517cfd3edda2dfcebe13b9b05b883e4378e62ac459d14487cc431722e043e",
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "rel": "staticwebapp.config.json",
+    "excluded": "deployment configuration"
+  },
+  {
+    "rel": "terms/index.html",
+    "route": "/terms/",
+    "status": 200,
+    "match": true,
+    "localBytes": 4024,
+    "remoteBytes": 4024,
+    "localSha256": "3b57277888142f45945fed4137780d26382f14e5fadd50b62e4ec523d240bdb2",
+    "remoteSha256": "3b57277888142f45945fed4137780d26382f14e5fadd50b62e4ec523d240bdb2",
+    "cache": "public, must-revalidate, max-age=30"
+  }
+]

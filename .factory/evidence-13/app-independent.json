@@ -1,0 +1,38 @@
+{
+  "banner": "Demo — sample data, nothing is saved.Reset demoLeave demo and use my records",
+  "unsupported": "receipt.txt was skipped. Use a JPG, PNG, or WebP no larger than 10 MB.",
+  "oversized": "too-large.png was skipped. Use a JPG, PNG, or WebP no larger than 10 MB.",
+  "blank": {
+    "message": "Paste at least one item and price, then try again.",
+    "focused": true,
+    "invalid": "true"
+  },
+  "q1000": {
+    "valid": false,
+    "message": "Value must be less than or equal to 999.",
+    "heading": true
+  },
+  "searchVisible": true,
+  "csv": {
+    "filename": "receipt-to-room-inventory.csv",
+    "bytes": 755,
+    "hasOfficeLamp": true,
+    "hasEditedRoom": true,
+    "rows": 7
+  },
+  "undoVisible": true,
+  "restored": true,
+  "storageKeys": [
+    "demo:receipt-to-room:inventory:v1",
+    "demo:receipt-to-room:receipt-usage:v1",
+    "receipt-to-room:inventory:v1"
+  ],
+  "realSentinel": "real-records-stay-separate",
+  "externalRequests": [],
+  "cookies": [],
+  "consoleEvents": [],
+  "pageErrors": [],
+  "axeSeriousCritical": [],
+  "reducedMotion": true,
+  "overflow": false
+}

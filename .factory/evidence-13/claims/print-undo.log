@@ -1,0 +1,59 @@
+
+> receipt-to-room@0.1.15 test:e2e
+> npm run build && playwright test --grep @claim:print-undo
+
+
+> receipt-to-room@0.1.15 build
+> npm run build:app && npm run build:site
+
+
+> receipt-to-room@0.1.15 build:app
+> npm run prepare:ocr && tsc --noEmit && vite build --config vite.app.config.ts
+
+
+> receipt-to-room@0.1.15 prepare:ocr
+> node scripts/prepare-ocr.mjs
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 32 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/app/index.html                   0.64 kB │ gzip:  0.38 kB
+dist/app/assets/index-B_9QZTSI.css   14.87 kB │ gzip:  4.13 kB
+dist/app/assets/dist-js-DBAF1h-L.js   0.21 kB │ gzip:  0.19 kB │ map: 16.97 kB
+dist/app/assets/src-rEmny-xb.js      17.27 kB │ gzip:  7.34 kB │ map: 70.79 kB
+dist/app/assets/index-Crb--glI.js    35.12 kB │ gzip: 12.52 kB │ map: 71.72 kB
+
+✓ built in 277ms
+
+> receipt-to-room@0.1.15 build:site
+> vite build --config vite.site.config.ts
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 12 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/site/404.html                               2.93 kB │ gzip: 1.15 kB
+dist/site/privacy/index.html                     3.93 kB │ gzip: 1.62 kB
+dist/site/terms/index.html                       4.02 kB │ gzip: 1.69 kB
+dist/site/index.html                            13.17 kB │ gzip: 3.47 kB
+dist/site/assets/route-navigation-koKB4E7q.css  11.07 kB │ gzip: 3.11 kB
+dist/site/assets/route-focus-akH4p22P.js         0.28 kB │ gzip: 0.23 kB │ map:  0.91 kB
+dist/site/assets/route-navigation-BlcLUy7O.js    3.12 kB │ gzip: 1.48 kB │ map:  6.31 kB
+dist/site/assets/main-C0_VOYmH.js                5.97 kB │ gzip: 2.39 kB │ map: 16.97 kB
+
+✓ built in 113ms
+[WebServer] (node:3484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3539) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:3559) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3559) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·
+  1 passed (4.6s)

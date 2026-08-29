@@ -1,0 +1,15 @@
+
+> receipt-to-room@0.1.15 verify:url
+> bash verify-url.sh https://receipt-to-room.sociobot.in
+
+{
+  "url": "https://receipt-to-room.sociobot.in",
+  "title": "Receipt to Room — turn receipts into room records",
+  "lang": "en",
+  "mains": 1,
+  "h1s": 1,
+  "imagesWithoutAlt": 0,
+  "horizontalOverflow": false,
+  "consoleErrors": 0,
+  "pageErrors": 0
+}

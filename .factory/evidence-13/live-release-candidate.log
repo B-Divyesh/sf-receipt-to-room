@@ -1,0 +1,15 @@
+
+> receipt-to-room@0.1.15 verify:live-release
+> node scripts/verify-live-release.mjs 5e4023b748d08f478c8be2c474546dc34c07dca4 https://receipt-to-room.sociobot.in
+
+file:///work/repo/scripts/release-provenance.mjs:12
+    throw new Error(`release targets ${release.target_commitish}, expected ${expectedCommit}`);
+          ^
+
+Error: release targets 7ddbd63b0ac262d1f4afcd0292e18beaaca858c9, expected 5e4023b748d08f478c8be2c474546dc34c07dca4
+    at assertReleaseProvenance (file:///work/repo/scripts/release-provenance.mjs:12:11)
+    at assertPublishedCandidate (file:///work/repo/scripts/release-provenance.mjs:44:18)
+    at file:///work/repo/scripts/verify-live-release.mjs:38:1
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+Node.js v22.23.2

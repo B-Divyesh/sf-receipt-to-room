@@ -1,0 +1,119 @@
+[
+  {
+    "url": "https://api.sociobot.in/api/v1/products/receipt-to-room/checkout",
+    "status": "covered-by-checkout-test"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-receipt-to-room",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_aarch64.dmg",
+    "status": 302,
+    "location": "https://release-assets.githubusercontent.com/github-production-release-asset/1349363324/e56d388d-c8c6-4848-9ded-e0ba65822ff5?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-08-29T18%3A01%3A50Z&rscd=attachment%3B+filename%3DReceipt.to.Room_0.1.15_aarch64.dmg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-08-29T17%3A01%3A36Z&ske=2026-08-29T18%3A01%3A50Z&sks=b&skv=2018-11-09&sig=b4ttkMywZp6geDFgXPurd4fceC0FX1akIqjRM7O9eHY%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4ODAyNDk2NSwibmJmIjoxNzg4MDIzMTY1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.o6Dne6KtxCPqav6WjkCRc7eqyRKKwgkIcv8CjJKowZM&response-content-disposition=attachment%3B%20filename%3DReceipt.to.Room_0.1.15_aarch64.dmg&response-content-type=application%2Foctet-stream"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_amd64.AppImage",
+    "status": 302,
+    "location": "https://release-assets.githubusercontent.com/github-production-release-asset/1349363324/dfd52075-9d5e-4d96-9067-fd6bc9e64030?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-08-29T18%3A01%3A23Z&rscd=attachment%3B+filename%3DReceipt.to.Room_0.1.15_amd64.AppImage&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-08-29T17%3A00%3A41Z&ske=2026-08-29T18%3A01%3A23Z&sks=b&skv=2018-11-09&sig=d6FmY79Gbfrkny9Z858kwAefsXwAy25zOUTuT8FqQXw%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4ODAyNDk2NSwibmJmIjoxNzg4MDIzMTY1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.o6Dne6KtxCPqav6WjkCRc7eqyRKKwgkIcv8CjJKowZM&response-content-disposition=attachment%3B%20filename%3DReceipt.to.Room_0.1.15_amd64.AppImage&response-content-type=application%2Foctet-stream"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_x64-setup.exe",
+    "status": 302,
+    "location": "https://release-assets.githubusercontent.com/github-production-release-asset/1349363324/254f7acc-24e1-40ec-a976-c57237f9dca1?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-08-29T18%3A03%3A45Z&rscd=attachment%3B+filename%3DReceipt.to.Room_0.1.15_x64-setup.exe&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-08-29T17%3A03%3A08Z&ske=2026-08-29T18%3A03%3A45Z&sks=b&skv=2018-11-09&sig=i1g2yKLKw5S4j6MGtxR93yhnM5VMNMX%2FdLO5Ff8kPCU%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4ODAyNDk2NSwibmJmIjoxNzg4MDIzMTY1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.o6Dne6KtxCPqav6WjkCRc7eqyRKKwgkIcv8CjJKowZM&response-content-disposition=attachment%3B%20filename%3DReceipt.to.Room_0.1.15_x64-setup.exe&response-content-type=application%2Foctet-stream"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.15/Receipt.to.Room_0.1.15_x64.dmg",
+    "status": 302,
+    "location": "https://release-assets.githubusercontent.com/github-production-release-asset/1349363324/98a21123-0c40-4b31-b0b9-c655986a4ee4?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-08-29T17%3A50%3A09Z&rscd=attachment%3B+filename%3DReceipt.to.Room_0.1.15_x64.dmg&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-08-29T16%3A49%3A58Z&ske=2026-08-29T17%3A50%3A09Z&sks=b&skv=2018-11-09&sig=wVugKwUpQJjcWJ0TjCATTQI46HDfv38U5ZGrvP8N92c%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4ODAyNDk2NSwibmJmIjoxNzg4MDIzMTY1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.o6Dne6KtxCPqav6WjkCRc7eqyRKKwgkIcv8CjJKowZM&response-content-disposition=attachment%3B%20filename%3DReceipt.to.Room_0.1.15_x64.dmg&response-content-type=application%2Foctet-stream"
+  },
+  {
+    "url": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/latest",
+    "status": 302,
+    "location": "https://github.com/B-Divyesh/sf-receipt-to-room/releases/tag/v0.1.15"
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/#downloads",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/#how",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/#main",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/#privacy",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/404.html#main",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/?demo=1#downloads",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/?demo=1#how",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/?demo=1#main",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/?demo=1#privacy",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/?demo=1#sample",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/privacy/",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/privacy/#main",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/terms/",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "https://receipt-to-room.sociobot.in/terms/#main",
+    "status": 200,
+    "location": null
+  },
+  {
+    "url": "mailto:privacy@sociobot.in",
+    "status": "mailto-skipped"
+  },
+  {
+    "url": "mailto:support@sociobot.in",
+    "status": "mailto-skipped"
+  }
+]
