@@ -5,7 +5,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 // @ts-expect-error The production helper is intentionally plain Node ESM.
-import { assertDeploymentProvenance } from "../scripts/release-provenance.mjs";
+import { assertDeploymentProvenance, assertPublishedCandidate } from "../scripts/release-provenance.mjs";
 // @ts-expect-error The production helper is intentionally plain Node ESM.
 import { assertTaggedCandidate } from "../scripts/release-candidate.mjs";
 
@@ -21,7 +21,7 @@ describe("release and static-host contract", () => {
     };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.12");
+    expect(pkg.version).toBe("0.1.13");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -49,21 +49,78 @@ describe("release and static-host contract", () => {
 
     expect(() =>
       assertTaggedCandidate({
-        tag: "v0.1.12",
-        version: "0.1.12",
+        tag: "v0.1.13",
+        version: "0.1.13",
         tagCommit: staleTaggedParent,
         expectedCommit: candidate,
       }),
-    ).toThrow(`release tag v0.1.12 targets ${staleTaggedParent}`);
+    ).toThrow(`release tag v0.1.13 targets ${staleTaggedParent}`);
 
     expect(
       assertTaggedCandidate({
-        tag: "v0.1.12",
-        version: "0.1.12",
+        tag: "v0.1.13",
+        version: "0.1.13",
         tagCommit: candidate,
         expectedCommit: candidate,
       }),
-    ).toEqual({ tag: "v0.1.12", version: "0.1.12", commit: candidate });
+    ).toEqual({ tag: "v0.1.13", version: "0.1.13", commit: candidate });
+  });
+
+  test("verification 11 regression binds native artifacts and the deployed site to one nominated candidate", () => {
+    const candidate = "09d0468e5f31692affb70ff58ee998f85f8ebbf9";
+    const staleParent = "bb83b4096ab30d46eb04d82fdb67dea89c571ea0";
+    const page = (commit: string) =>
+      `<!doctype html><html><head><meta name="build-commit" content="${commit}"></head></html>`;
+    const release = (commit: string) => ({
+      tag_name: "v0.1.13",
+      target_commitish: commit,
+    });
+    const manifest = (commit: string) => ({
+      version: "0.1.13",
+      sourceCommit: commit,
+      platforms: {},
+    });
+
+    expect(() =>
+      assertPublishedCandidate({
+        release: release(staleParent),
+        manifest: manifest(staleParent),
+        html: page(candidate),
+        expectedCommit: candidate,
+      }),
+    ).toThrow(`release targets ${staleParent}, expected ${candidate}`);
+
+    expect(() =>
+      assertPublishedCandidate({
+        release: release(candidate),
+        manifest: manifest(staleParent),
+        html: page(candidate),
+        expectedCommit: candidate,
+      }),
+    ).toThrow(`release manifest records ${staleParent}, expected ${candidate}`);
+
+    expect(() =>
+      assertPublishedCandidate({
+        release: release(candidate),
+        manifest: manifest(candidate),
+        html: page(staleParent),
+        expectedCommit: candidate,
+      }),
+    ).toThrow(`deployment records ${staleParent}, expected ${candidate}`);
+
+    expect(
+      assertPublishedCandidate({
+        release: release(candidate),
+        manifest: manifest(candidate),
+        html: page(candidate),
+        expectedCommit: candidate,
+      }),
+    ).toEqual({
+      commit: candidate,
+      tag: "v0.1.13",
+      version: "0.1.13",
+      deploymentCommit: candidate,
+    });
   });
 
   test("rejects the exact release-target drift reported by independent verification", () => {
@@ -162,7 +219,9 @@ describe("release and static-host contract", () => {
 
     expect(config).toContain('name: "build-commit"');
     expect(config).toContain("BUILD_SOURCE_COMMIT");
-    expect(liveGate).toContain("assertDeploymentProvenance(html, expectedCommit)");
+    expect(liveGate).toContain(
+      "assertPublishedCandidate({ release, manifest: platformManifest, html, expectedCommit })",
+    );
   });
 
   test("does not rewrite unknown requests to the landing page and caches hashed assets immutably", () => {

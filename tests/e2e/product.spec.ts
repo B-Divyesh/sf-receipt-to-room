@@ -4,32 +4,32 @@ import AxeBuilder from "@axe-core/playwright";
 const releaseApi =
   "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const release = {
-  tag_name: "v0.1.12",
+  tag_name: "v0.1.13",
   assets: [
     {
-      name: "Receipt.to.Room_0.1.12_x64_en-US.msi",
+      name: "Receipt.to.Room_0.1.13_x64_en-US.msi",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.12/Receipt.to.Room_0.1.12_x64_en-US.msi",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_x64_en-US.msi",
     },
     {
-      name: "Receipt.to.Room_0.1.12_x64-setup.exe",
+      name: "Receipt.to.Room_0.1.13_x64-setup.exe",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.12/Receipt.to.Room_0.1.12_x64-setup.exe",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_x64-setup.exe",
     },
     {
-      name: "Receipt.to.Room_0.1.12_aarch64.dmg",
+      name: "Receipt.to.Room_0.1.13_aarch64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.12/Receipt.to.Room_0.1.12_aarch64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_aarch64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.12_x64.dmg",
+      name: "Receipt.to.Room_0.1.13_x64.dmg",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.12/Receipt.to.Room_0.1.12_x64.dmg",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_x64.dmg",
     },
     {
-      name: "Receipt.to.Room_0.1.12_amd64.AppImage",
+      name: "Receipt.to.Room_0.1.13_amd64.AppImage",
       browser_download_url:
-        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.12/Receipt.to.Room_0.1.12_amd64.AppImage",
+        "https://github.com/B-Divyesh/sf-receipt-to-room/releases/download/v0.1.13/Receipt.to.Room_0.1.13_amd64.AppImage",
     },
   ],
 };
@@ -244,7 +244,7 @@ test("@claim:release-api uses the GitHub API, caches a matching download, and ne
   await page.goto("http://127.0.0.1:4173/");
   await expect(
     page.getByRole("link", { name: /download linux appimage/i }),
-  ).toHaveAttribute("href", /releases\/download\/v0\.1\.12/);
+  ).toHaveAttribute("href", /releases\/download\/v0\.1\.13/);
   await expect(page.getByText(/unsigned release/)).toBeVisible();
   await page.getByRole("button", { name: "See all downloads" }).click();
   await expect(page.locator("#download-list")).toContainText(
@@ -906,6 +906,19 @@ test("390px touch targets cover every control reported by verification 9", async
   await expectTouchTargets(page, [["desktop app wordmark", ".wordmark"]]);
 });
 
+test("verification 11 regression keeps every desktop Demo link at least 44 by 44 CSS pixels", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await mockRelease(page);
+  for (const route of ["/", "/privacy/", "/terms/", "/404.html"]) {
+    await page.goto(`http://127.0.0.1:4173${route}`);
+    await expectTouchTargets(page, [
+      [`desktop Demo link on ${route}`, ".site-header nav a:first-child"],
+    ]);
+  }
+});
+
 test("@claim:license-cache checkout return stores, strips, verifies, and caches a license", async ({
   page,
 }) => {
@@ -1129,7 +1142,7 @@ test("site routes expose complete metadata, focused headings, shared links, and 
     await expect(page.locator("main h1")).toHaveCount(1);
     if (path !== "/") await expect(page.locator("main h1")).toBeFocused();
     await expect(page.locator("footer")).toContainText(
-      "Built by Param Factory · v0.1.12",
+      "Built by Param Factory · v0.1.13",
     );
     await expect(
       page.locator("footer").getByRole("link", { name: "Receipt to Room home" }),

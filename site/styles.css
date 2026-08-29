@@ -89,6 +89,7 @@ button:focus-visible {
   gap: 28px;
 }
 .site-header nav a {
+  min-width: 44px;
   min-height: 44px;
   display: flex;
   align-items: center;

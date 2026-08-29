@@ -36,6 +36,16 @@ export function assertDeploymentProvenance(html, expectedCommit) {
   return { commit: deployedCommit };
 }
 
+/**
+ * One identity contract for the native artifacts and the deployed site.
+ * This prevents a passing site build from masking binaries made from a parent.
+ */
+export function assertPublishedCandidate({ release, manifest, html, expectedCommit }) {
+  const native = assertReleaseProvenance(release, manifest, expectedCommit);
+  const deployment = assertDeploymentProvenance(html, expectedCommit);
+  return { ...native, deploymentCommit: deployment.commit };
+}
+
 async function main() {
   const [expectedCommit, releasePath, manifestPath] = process.argv.slice(2);
   if (!expectedCommit || !releasePath || !manifestPath) {
