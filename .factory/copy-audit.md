@@ -1,42 +1,29 @@
-# Landing copy audit
+# Copy audit — polish 1
 
-## Sentence inventory
+## First screen
 
 | Sentence | Words | Result |
 | --- | ---: | --- |
-| Turn receipts into room records. | 5 | headline rule passes |
-| For renters and homeowners who need purchase details after a move, repair, or insurance question. | 15 | plain audience and situation |
-| See three room records right away. | 6 | clear next step |
-| Sample data stays separate. | 4 | listed claim |
-| Receipt OCR runs on your computer. | 6 | listed claim |
-| $29 once for unlimited receipts. | 5 | price fact |
-| Demo — sample data, nothing is saved to your real records. | 10 | demo banner |
-| Three reviewed purchases are ready to search. | 7 | sample state |
-| This is a sample workspace. | 5 | demo explanation |
-| Your real records are never read here. | 7 | demo isolation |
-| Choose receipt images in the desktop app. | 7 | first step |
-| Correct item names, prices, rooms, and warranty dates before saving. | 10 | review step |
-| Search by room or item. | 6 | find step |
-| Export a redacted CSV. | 4 | output step |
-| The desktop app reads receipt images locally. | 7 | listed claim |
-| Read the privacy note for storage and license details. | 9 | next step |
-| The free app includes search and CSV export. | 8 | listed claim |
-| Pay $29 once for unlimited receipt intake and JSON backup. | 11 | listed claim |
-| Sociobot/Dodo handles payment. | 3 | merchant detail |
-| Choose the installer for your computer. | 7 | download direction |
-| Releases are unsigned. | 3 | warning |
-| Downloads are being published. | 4 | unavailable state |
-| Check the release page again soon. | 7 | unavailable next step |
-
-All landing sentences are under 22 words. The banned-word scan found no banned
-wording. Labels, headings, navigation, commands, and fragments are omitted
-because they are not sentences.
+| Turn receipts into room records. | 5 | Plain job headline |
+| For renters and homeowners who need purchase details after a move, repair, or insurance question. | 15 | Audience and situation |
+| See three demo records right away. | 6 | Explains the result of the action |
+| Demo records stay separate. | 4 | Listed claim |
+| Receipt text is read on your computer. | 7 | Listed claim |
+| $29 once for unlimited receipts. | 5 | Listed price claim |
 
 ## Terminology
 
-| Concept | One term used |
+| Concept | One term |
 | --- | --- |
-| A receipt-derived entry | room record |
-| OCR output held for review | line |
-| Isolated try-out | sample data |
-| Paid purchase | field kit |
+| Isolated try-out | demo |
+| Records inside the try-out | demo records |
+| Purchase beyond the free version | paid version |
+| Receipt extraction | receipt text reading |
+| Downloaded table | spreadsheet |
+| Downloaded restore file | backup file |
+
+## Result
+
+All reader-facing sentences added or rewritten in this pass are 22 words or
+fewer. The first screen names the job, audience, and next action without
+acronyms or product lore. Banned-word scan: no matches.

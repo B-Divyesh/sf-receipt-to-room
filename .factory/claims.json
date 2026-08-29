@@ -1,28 +1,28 @@
 [
   {
     "id": "sample-demo",
-    "claim": "Try it with sample data shows three useful records immediately, and the editable app sample project stays separate from real records.",
+    "claim": "Try the demo shows three useful records immediately, and demo work stays separate from real records.",
     "where": "landing hero, demo banner, desktop first-run screen, README",
     "test": "npm run test:e2e -- --grep @claim:sample-demo",
     "sandbox": "fresh 390px browser context; click the landing action and assert a sample row is in the next viewport, then edit/reset the app sample project and assert only demo-prefixed storage changes"
   },
   {
     "id": "local-ocr",
-    "claim": "Receipt OCR runs on your computer; images are not uploaded or retained after recognition.",
+    "claim": "Receipt text is read on your computer; images are not uploaded or retained after recognition.",
     "where": "landing hero and privacy section",
     "test": "npm run test:e2e -- --grep @claim:local-ocr",
     "sandbox": "isolated app demo; run bundled OCR on the shipped receipt, assert no external runtime request, and assert no image data enters storage"
   },
   {
     "id": "csv-export",
-    "claim": "The free app includes search and CSV export.",
+    "claim": "The free app includes search and spreadsheet download.",
     "where": "pricing section",
     "test": "npm run test:e2e -- --grep @claim:csv-export",
     "sandbox": "fresh browser context; add a typed sample receipt, search the saved inventory, and assert a CSV download"
   },
   {
     "id": "price",
-    "claim": "Pay $29 once for unlimited receipt intake and JSON backup.",
+    "claim": "Pay $29 once for unlimited receipt intake and backup files.",
     "where": "pricing section",
     "test": "npm run test:e2e -- --grep @claim:price",
     "sandbox": "fresh browser context; assert the one-time $29 field-kit price and checkout link"
@@ -117,5 +117,47 @@
     "where": "desktop offline state",
     "test": "npm run test:e2e -- --grep @claim:offline-work",
     "sandbox": "fresh app storage; load the packaged UI, take the browser context offline, add a typed receipt, and export CSV"
+  },
+  {
+    "id": "checkout-operator",
+    "claim": "Payment opens on Sociobot.",
+    "where": "landing price section, privacy page",
+    "test": "npm run test:e2e -- --grep @claim:checkout-operator",
+    "sandbox": "fresh landing browser context; assert the paid-version action points only to the Sociobot hosted checkout endpoint"
+  },
+  {
+    "id": "free-exports",
+    "claim": "Spreadsheet and printable exports remain available in the free version.",
+    "where": "landing price section, README",
+    "test": "npm run test:e2e -- --grep @claim:free-exports",
+    "sandbox": "demo at the three-receipt free limit; complete search and assert spreadsheet download before any paid token is present"
+  },
+  {
+    "id": "scope-boundaries",
+    "claim": "The app does not scrape retailers, estimate value, or file insurance claims.",
+    "where": "README, Terms",
+    "test": "npm run test:release-contract -- -t @claim:scope-boundaries",
+    "sandbox": "repository contract test checks the exact public boundary statements on a clean checkout"
+  },
+  {
+    "id": "release-trigger",
+    "claim": "GitHub Actions builds native bundles after a version tag or manual dispatch.",
+    "where": "README Deploy section",
+    "test": "npm run test:release-contract -- -t @claim:release-trigger",
+    "sandbox": "repository contract test reads the checked-in release workflow"
+  },
+  {
+    "id": "release-artifacts",
+    "claim": "A native release publishes installers, checksums, and a release manifest.",
+    "where": "README Deploy section",
+    "test": "npm run test:release-contract -- -t @claim:release-artifacts",
+    "sandbox": "repository contract test reads the checked-in release workflow and manifest generator contract"
+  },
+  {
+    "id": "installer-integrity",
+    "claim": "The install scripts check each download against its published checksum.",
+    "where": "README Install section",
+    "test": "npm run test:release-contract -- -t @claim:installer-integrity",
+    "sandbox": "repository contract test confirms each installer rejects a checksum mismatch before install or launch"
   }
 ]

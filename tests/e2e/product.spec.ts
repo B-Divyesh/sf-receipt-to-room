@@ -22,16 +22,16 @@ async function mockRelease(page: Page, body: unknown = release, status = 200): P
   await page.route(releaseApi, (route) => route.fulfill({ status, contentType: "application/json", body: JSON.stringify(body) }));
 }
 
-test("@claim:price landing page is responsive and accessible", async ({ page }) => {
+test("@claim:price @claim:checkout-operator landing price and payment link are responsive and accessible", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await mockRelease(page);
   await page.goto("http://127.0.0.1:4173/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(/turn receipts into room records/i);
   await expect(page.locator("main")).toBeVisible();
-  await expect(page.getByRole("link", { name: /try it with sample data/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /try the demo/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /download linux appimage/i })).toBeVisible();
   await expect(page.getByText("$29", { exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Buy the field kit" })).toHaveAttribute("href", /products\/receipt-to-room\/checkout$/);
+  await expect(page.getByRole("link", { name: "Buy unlimited receipts — $29" })).toHaveAttribute("href", "https://api.sociobot.in/api/v1/products/receipt-to-room/checkout");
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""))).toEqual([]);
 
@@ -64,9 +64,9 @@ test("@claim:price landing page is responsive and accessible", async ({ page }) 
   await page.getByRole("button", { name: "Add to room inventory" }).click();
   await expect(page.getByText("Fourth item", { exact: true })).toBeVisible();
   expect(await page.evaluate(() => new Set(JSON.parse(localStorage.getItem("receipt-to-room:inventory:v1")!).map((item: { receiptId: string }) => item.receiptId)).size)).toBe(3);
-  await page.getByRole("button", { name: /field kit unlocked/i }).click();
+  await page.getByRole("button", { name: /paid version active/i }).click();
   const backup = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Download JSON backup" }).click();
+  await page.getByRole("button", { name: "Download backup file" }).click();
   expect((await backup).suggestedFilename()).toBe("receipt-to-room-backup.json");
 });
 
@@ -103,6 +103,26 @@ test("normal landing hides demo state while the demo URL shows it", async ({ pag
   await expect(page.getByRole("heading", { name: "Your room inventory" })).toBeVisible();
 });
 
+test("landing history restores URL, metadata, focus, and demo state", async ({ page }) => {
+  await mockRelease(page);
+  await page.goto("http://127.0.0.1:4173/");
+  await page.getByRole("link", { name: "Try the demo" }).click();
+  await expect(page).toHaveURL(/\?demo=1#sample$/);
+  await expect(page).toHaveTitle("Demo — Receipt to Room");
+  await expect(page.getByLabel("Demo mode")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your room inventory" })).toBeFocused();
+  await page.goBack();
+  await expect(page).toHaveURL("http://127.0.0.1:4173/");
+  await expect(page).toHaveTitle("Receipt to Room — turn receipts into room records");
+  await expect(page.getByLabel("Demo mode")).toBeHidden();
+  await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+  await page.goForward();
+  await expect(page).toHaveURL(/\?demo=1#sample$/);
+  await expect(page).toHaveTitle("Demo — Receipt to Room");
+  await expect(page.getByLabel("Demo mode")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your room inventory" })).toBeFocused();
+});
+
 test("@claim:offline-work manual intake and export remain available offline", async ({ page, context }) => {
   await page.addInitScript(() => localStorage.clear());
   await page.goto("http://127.0.0.1:1420/?demo=1#intake");
@@ -114,7 +134,7 @@ test("@claim:offline-work manual intake and export remain available offline", as
   await page.getByRole("button", { name: "Add to room inventory" }).click();
   await expect(page.getByText("Toolbox", { exact: true })).toBeVisible();
   const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Export CSV" }).click();
+  await page.getByRole("button", { name: "Download spreadsheet" }).click();
   expect((await download).suggestedFilename()).toBe("receipt-to-room-inventory.csv");
 });
 
@@ -133,16 +153,19 @@ test("@claim:sample-demo is isolated, searchable, resettable, and keyboard reach
   await page.addInitScript((record) => localStorage.setItem("receipt-to-room:inventory:v1", JSON.stringify([record])), realRecord);
   await mockRelease(page);
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("http://127.0.0.1:4173/");
-  await page.getByRole("link", { name: "Try it with sample data" }).click();
+  await page.goto("http://127.0.0.1:4173/?demo=1");
   await expect(page).toHaveTitle("Demo — Receipt to Room");
-  await expect(page.getByLabel("Demo mode")).toContainText("sample data, nothing is saved to your real records");
+  await expect(page.getByLabel("Demo mode")).toContainText("demo records only; nothing is saved to your real records");
+  await expect.poll(() => page.evaluate(() => Object.keys(localStorage))).toContain("demo:receipt-to-room:release-metadata:v2");
+  expect(await page.evaluate(() => localStorage.getItem("receipt-to-room:release-metadata:v2"))).toBeNull();
+  expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key !== "receipt-to-room:inventory:v1"))).toEqual(expect.arrayContaining(["demo:receipt-to-room:sample:v1", "demo:receipt-to-room:release-metadata:v2"]));
+  expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key !== "receipt-to-room:inventory:v1").every((key) => key.startsWith("demo:")))).toBe(true);
   const sampleHeading = page.getByRole("heading", { name: "Your room inventory" });
   await expect(sampleHeading).toBeVisible();
   await expect(sampleHeading).toBeFocused();
   expect((await page.getByText("Cedar kettle", { exact: true }).boundingBox())!.y).toBeLessThan(844);
   await expect(page.getByText("Cedar kettle", { exact: true })).toBeVisible();
-  await page.getByLabel("Search sample records").fill("lamp");
+  await page.getByLabel("Search demo records").fill("lamp");
   await expect(page.getByText("Reading lamp", { exact: true })).toBeVisible();
   await expect(page.getByText("Cedar kettle", { exact: true })).toBeHidden();
   await page.getByRole("button", { name: "Reset demo" }).focus();
@@ -170,13 +193,13 @@ test("@claim:sample-demo is isolated, searchable, resettable, and keyboard reach
   const cleanContext = await browser.newContext();
   const cleanPage = await cleanContext.newPage();
   await cleanPage.goto("http://127.0.0.1:1420/#intake");
-  await cleanPage.getByRole("button", { name: "Load sample project" }).click();
+  await cleanPage.getByRole("button", { name: "Load demo records" }).click();
   await expect(cleanPage.getByLabel("Demo mode")).toBeVisible();
   await expect(cleanPage.getByText("Cedar kettle", { exact: true })).toBeVisible();
   await cleanContext.close();
 });
 
-test("@claim:csv-export @claim:receipt-workflow @claim:local-storage @claim:editable-records a mixed-room receipt stays accurate and editable", async ({ page }) => {
+test("@claim:csv-export @claim:receipt-workflow @claim:local-storage @claim:editable-records @claim:free-exports a mixed-room receipt stays accurate and editable", async ({ page }) => {
   await page.addInitScript(() => { localStorage.clear(); localStorage.setItem("receipt-to-room:inventory:v1", "real-records-stay-separate"); });
   const externalRequests: string[] = [];
   page.on("request", (request) => { if (/^https?:/.test(request.url()) && !request.url().startsWith("http://127.0.0.1:1420")) externalRequests.push(request.url()); });
@@ -209,7 +232,7 @@ test("@claim:csv-export @claim:receipt-workflow @claim:local-storage @claim:edit
   await expect(page.getByText("Living room", { exact: true })).toBeVisible();
   await expect(page.getByText("Warranty to 2030-08-19", { exact: true })).toBeVisible();
   const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Export CSV" }).click();
+  await page.getByRole("button", { name: "Download spreadsheet" }).click();
   const csv = await download;
   expect(csv.suggestedFilename()).toBe("receipt-to-room-inventory.csv");
   const csvText = await (await import("node:fs/promises")).readFile(await csv.path() as string, "utf8");
@@ -244,7 +267,7 @@ test("@claim:bulk-queue queues two shipped receipt images", async ({ page }) => 
 test("@claim:print-undo creates printable output and restores a removed item", async ({ page }) => {
   await page.addInitScript((record) => localStorage.setItem("demo:receipt-to-room:inventory:v1", JSON.stringify([record])), storedReceipt("receipt-print", "Reading lamp"));
   await page.goto("http://127.0.0.1:1420/?demo=1#inventory");
-  await page.getByRole("button", { name: "Print / save PDF" }).click();
+  await page.getByRole("button", { name: "Print inventory" }).click();
   const printFrame = page.locator('iframe[title="Printable room inventory"]');
   await expect(printFrame).toHaveCount(1);
   expect(await printFrame.evaluate((frame: HTMLIFrameElement) => frame.contentDocument?.body.textContent)).toContain("Reading lamp");
@@ -319,11 +342,11 @@ test("@claim:backup-restore rejects malformed records without replacing known-go
   page.on("pageerror", (event) => pageErrors.push(event.message));
   await page.goto("http://127.0.0.1:1420/#license");
   const backupDownload = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Download JSON backup" }).click();
+  await page.getByRole("button", { name: "Download backup file" }).click();
   expect((await backupDownload).suggestedFilename()).toBe("receipt-to-room-backup.json");
   await page.locator("#restore-json").setInputFiles({ name: "valid.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify({ version: 1, items: [restored] })) });
   await expect(page.getByText("Restored chair", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: /field kit unlocked/i }).click();
+  await page.getByRole("button", { name: /paid version active/i }).click();
   await page.locator("#restore-json").setInputFiles({ name: "broken.json", mimeType: "application/json", buffer: Buffer.from('{"version":1,"items":[{}]}') });
   await expect(page.getByRole("status")).toContainText("current records were kept");
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("receipt-to-room:inventory:v1")!)[0].name)).toBe("Restored chair");
@@ -339,11 +362,11 @@ test("@claim:redacted-exports @claim:privacy-boundaries exports redact payment d
   page.on("request", (request) => { if (/^https?:/.test(request.url()) && !request.url().startsWith("http://127.0.0.1:1420")) externalRequests.push(request.url()); });
   await page.goto("http://127.0.0.1:1420/?demo=1#inventory");
   const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Export CSV" }).click();
+  await page.getByRole("button", { name: "Download spreadsheet" }).click();
   const csv = await (await import("node:fs/promises")).readFile(await (await download).path() as string, "utf8");
   expect(csv).toContain("[redacted payment]");
   expect(csv).not.toContain("4111 1111 1111 1111");
-  await page.getByRole("button", { name: "Print / save PDF" }).click();
+  await page.getByRole("button", { name: "Print inventory" }).click();
   const printText = await page.locator('iframe[title="Printable room inventory"]').evaluate((frame: HTMLIFrameElement) => frame.contentDocument?.body.textContent ?? "");
   expect(printText).toContain("[redacted payment]");
   expect(printText).not.toContain("4111 1111 1111 1111");
@@ -382,11 +405,11 @@ test("@claim:license-cache checkout return stores, strips, verifies, and caches 
   await expect.poll(() => verifiedToken).toBe("licensed-test-token");
   await expect.poll(() => new URL(page.url()).searchParams.has("license")).toBe(false);
   await expect.poll(() => page.evaluate(() => localStorage.getItem("sb_license:receipt-to-room"))).toBe("licensed-test-token");
-  await page.getByRole("button", { name: /field kit unlocked/i }).click();
-  await expect(page.getByRole("heading", { name: "Your full field kit is unlocked." })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Download JSON backup" })).toBeVisible();
+  await page.getByRole("button", { name: /paid version active/i }).click();
+  await expect(page.getByRole("heading", { name: "Your paid version is active." })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Download backup file" })).toBeVisible();
   await page.reload();
-  await expect(page.getByRole("heading", { name: "Your full field kit is unlocked." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your paid version is active." })).toBeVisible();
   expect(verificationRequests).toBe(1);
 });
 
@@ -408,10 +431,10 @@ test("@claim:license-rate-policy license throttling always presents a non-zero r
     return statuses;
   });
   expect(allowed).toEqual(Array(30).fill(200));
-  await page.getByRole("button", { name: "Unlock" }).click();
-  await page.getByLabel("License token").fill("rate-limited-token");
-  await page.getByRole("button", { name: "Verify license" }).click();
-  await expect(page.getByRole("status")).toContainText("Try again in 1 second.");
+  await page.getByRole("button", { name: "Paid version", exact: true }).click();
+  await page.getByLabel("Paid-version token").fill("rate-limited-token");
+  await page.getByRole("button", { name: "Verify paid version" }).click();
+  await expect(page.locator("#license-note")).toContainText("Try again in 1 second.");
   expect(attempts).toBe(31);
 });
 

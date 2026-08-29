@@ -114,5 +114,10 @@ Prompt sheet:
 Generated with the factory Azure image deployment (`factory-image`) on
 2026-08-28. The generation is original for this product. Source PNG and prompt
 sidecar live in `assets/src/`; optimized WebP/AVIF derivatives live with the
-site. Generated-imagery disclosure appears in the landing footer. All interface
-icons are original inline SVG strokes authored for this repository.
+site. Provenance is recorded in this design note. All interface icons are
+original inline SVG strokes authored for this repository.
+
+The four desktop walkthrough images in `site/public/assets/walkthrough-*.png`
+are original Playwright captures of the shipped app's demo inventory, review,
+line assignment, and export states. They were captured on 2026-08-29 from the
+bundled local UI; they are not generated imagery or stock material.

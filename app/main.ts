@@ -122,11 +122,11 @@ function render(focusSelector?: string): void {
       <nav aria-label="Workspace">
         <button class="nav-button ${view === "intake" ? "active" : ""}" data-view="intake">Add receipt</button>
         <button class="nav-button ${view === "inventory" ? "active" : ""}" data-view="inventory">Inventory <span class="count">${items.length}</span></button>
-        <button class="nav-button ${view === "license" ? "active" : ""}" data-view="license">${licenseValid ? "Field kit unlocked" : "Unlock"}</button>
+        <button class="nav-button ${view === "license" ? "active" : ""}" data-view="license">${licenseValid ? "Paid version active" : "Paid version"}</button>
       </nav>
     </header>
     ${demoMode ? `<aside class="demo-banner" aria-label="Demo mode"><span><strong>Demo</strong> — sample data, nothing is saved to your real records.</span><span><button id="reset-demo" type="button">Reset demo</button><button id="start-real" type="button">Start for real</button></span><span class="sr-only" id="demo-reset-note" aria-live="polite"></span></aside>` : ""}
-    ${navigator.onLine ? "" : '<div class="offline" role="status">Offline — OCR, editing, and exports still work. License checks will resume when connected.</div>'}
+    ${navigator.onLine ? "" : '<div class="offline" role="status">Offline — text reading, editing, and exports still work. Paid-version checks resume when connected.</div>'}
     <main id="main" tabindex="-1">${viewContent()}</main>
     <div class="sr-only" aria-live="polite" id="live-status">${escapeHtml(status)}</div>
   `;
@@ -152,7 +152,7 @@ function viewContent(): string {
 }
 
 function intakeView(): string {
-  const limitNote = demoMode ? "Demo sample project" : licenseValid ? "Unlimited receipt intake is active." : `${receiptCount()} of ${FREE_RECEIPTS} free receipts used.`;
+  const limitNote = demoMode ? "Demo records" : licenseValid ? "Unlimited receipt intake is active." : `${receiptCount()} of ${FREE_RECEIPTS} free receipts used.`;
   return `
     <section class="page-head">
       <div><p class="eyebrow">Field intake · ${escapeHtml(limitNote)}</p><h1>Turn a receipt into room records.</h1><p>Choose clear photos. Recognition happens on this device; images are discarded after review.</p></div>
@@ -177,9 +177,9 @@ function uploadView(): string {
       <aside class="field-note" aria-labelledby="privacy-note">
         <span class="pin" aria-hidden="true"></span><h2 id="privacy-note">Your private worktable</h2>
         <ul><li>No account required</li><li>No receipt images uploaded</li><li>Payment fragments redacted from exports</li><li>Saved item details remain editable</li></ul>
-        <details><summary>OCR missed something?</summary><p>Use “Paste receipt text” to add a typed or copied receipt without a photo.</p></details>
+        <details><summary>Text reading missed something?</summary><p>Use “Paste receipt text” to add a typed or copied receipt without a photo.</p></details>
         <button class="button secondary" id="show-manual">Paste receipt text</button>
-        ${!demoMode && items.length === 0 ? `<button class="button secondary" id="load-demo">Load sample project</button>` : ""}
+        ${!demoMode && items.length === 0 ? `<button class="button secondary" id="load-demo">Load demo records</button>` : ""}
       </aside>
     </section>
     <section id="manual-entry" class="manual-entry" ${manualEntryOpen ? "" : "hidden"} aria-labelledby="manual-title">
@@ -240,7 +240,7 @@ function inventoryView(): string {
   return `<section class="page-head inventory-head"><div><p class="eyebrow">Household index</p><h1>Your room inventory</h1><p>${items.length} items · ${inventoryTotalLabel()} recorded purchase total, not a valuation.</p></div><button class="button primary" data-view="intake">Add receipt</button></section>
     <section class="inventory-tools" aria-label="Inventory tools">
       <form id="search-form" role="search"><label for="search">Search items, rooms, categories, or retailers</label><div><input id="search" name="q" value="${escapeHtml(query)}" type="search"/><button class="button secondary">Search</button></div></form>
-      <div class="export-actions"><button class="button secondary" id="export-csv" ${items.length ? "" : "disabled"}>Export CSV</button><button class="button secondary" id="export-pdf" ${items.length ? "" : "disabled"}>Print / save PDF</button></div>
+      <div class="export-actions"><button class="button secondary" id="export-csv" ${items.length ? "" : "disabled"}>Download spreadsheet</button><button class="button secondary" id="export-pdf" ${items.length ? "" : "disabled"}>Print inventory</button></div>
     </section>
     ${editingItem ? editItemForm(editingItem) : ""}
     ${items.length ? (filtered.length ? `<div class="inventory-table-wrap"><table><caption class="sr-only">Reviewed household inventory</caption><thead><tr><th>Item</th><th>Room</th><th>Category</th><th>Purchased</th><th class="number">Paid</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>${filtered.map(itemRow).join("")}</tbody></table></div>` : `<div class="empty-state"><h2>No specimens match “${escapeHtml(query)}”</h2><p>Try a room name, retailer, or broader item word.</p><button class="button secondary" id="clear-search">Clear search</button></div>`) : `<div class="empty-state"><svg aria-hidden="true" viewBox="0 0 100 100"><path d="M50 88V28m0 37C31 62 20 50 17 31 35 31 47 39 50 54m0-12c9-15 21-22 36-22-1 18-13 31-36 36"/></svg><h2>The index is waiting for its first item.</h2><p>Add a receipt photo, review the useful lines, and choose their room.</p><button class="button primary" data-view="intake">Add your first receipt</button></div>`}
@@ -271,12 +271,12 @@ function editItemForm(item: InventoryItem): string {
 
 function licenseView(): string {
   return `<section class="license-layout">
-    <div class="license-copy"><p class="eyebrow">Permanent field kit</p><h1>${licenseValid ? "Your full field kit is unlocked." : "Keep every room record, for good."}</h1><p>Receipt to Room is useful free for three receipts. A one-time $29 purchase supports local-first development and removes intake limits.</p>
-      <ul class="feature-list"><li>Unlimited receipt intake</li><li>Local inventory records</li><li>JSON backup and restore between devices</li><li>CSV and printable exports</li></ul>
-      ${licenseValid ? `<p class="success-note">✓ License verified on this device.</p><button class="button secondary" id="backup-json">Download JSON backup</button><label class="button secondary file-button" for="restore-json">Restore JSON backup</label><input id="restore-json" type="file" accept="application/json"/>` : `<a class="button primary" href="${CHECKOUT}">Buy once for $29</a>`}
-      <p class="legal-line">Secure checkout is hosted by Sociobot/Dodo, the merchant of record. Refunds are handled there and revoke the license. <a href="https://receipt-to-room.sociobot.in/privacy">Privacy</a> · <a href="https://receipt-to-room.sociobot.in/terms">Terms</a></p>
+    <div class="license-copy"><p class="eyebrow">Paid version</p><h1>${licenseValid ? "Your paid version is active." : "Keep every room record, for good."}</h1><p>The free version includes three receipts. Pay $29 once to remove receipt intake limits.</p>
+      <ul class="feature-list"><li>Unlimited receipt intake</li><li>Local inventory records</li><li>Backup and restore between devices</li><li>Spreadsheet and printable exports</li></ul>
+      ${licenseValid ? `<p class="success-note">✓ Paid version checked on this device.</p><button class="button secondary" id="backup-json">Download backup file</button><label class="button secondary file-button" for="restore-json">Restore backup file</label><input id="restore-json" type="file" accept="application/json"/>` : `<a class="button primary" href="${CHECKOUT}">Buy unlimited receipts — $29</a>`}
+      <p class="legal-line">Payment opens on Sociobot. Refunds revoke the paid version. <a href="https://receipt-to-room.sociobot.in/privacy">Privacy</a> · <a href="https://receipt-to-room.sociobot.in/terms">Terms</a></p>
     </div>
-    <aside class="license-card"><span class="folio">Restore a purchase</span><h2>Have a license?</h2><p>Paste the token from your receipt. It is stored only on this device.</p><form id="license-form"><label for="license-token">License token</label><input id="license-token" autocomplete="off" spellcheck="false" required/><button class="button secondary">Verify license</button></form><p class="form-note" id="license-note" role="status">${escapeHtml(status)}</p></aside>
+    <aside class="license-card"><span class="folio">Restore a purchase</span><h2>Have a paid-version token?</h2><p>Paste the token from your receipt. It is stored only on this device.</p><form id="license-form"><label for="license-token">Paid-version token</label><input id="license-token" autocomplete="off" spellcheck="false" required/><button class="button secondary">Verify paid version</button></form><p class="form-note" id="license-note" role="status">${escapeHtml(status)}</p></aside>
   </section>`;
 }
 

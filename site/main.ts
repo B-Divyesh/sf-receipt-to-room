@@ -3,7 +3,8 @@ import "./styles.css";
 const repository = "https://github.com/B-Divyesh/sf-receipt-to-room";
 const releasesApi = "https://api.github.com/repos/B-Divyesh/sf-receipt-to-room/releases/latest";
 const releasePage = `${repository}/releases/latest`;
-const downloadCacheKey = "receipt-to-room:release-metadata:v2";
+const realDownloadCacheKey = "receipt-to-room:release-metadata:v2";
+const demoDownloadCacheKey = "demo:receipt-to-room:release-metadata:v2";
 const cacheLifetime = 60 * 60 * 1000;
 const demoKey = "demo:receipt-to-room:sample:v1";
 
@@ -48,13 +49,13 @@ function downloadsFromRelease(release: Release): Download[] {
 }
 
 function saveRelease(release: Release): void {
-  try { localStorage.setItem(downloadCacheKey, JSON.stringify({ savedAt: Date.now(), release } satisfies CachedRelease)); }
+  try { localStorage.setItem(isDemo() ? demoDownloadCacheKey : realDownloadCacheKey, JSON.stringify({ savedAt: Date.now(), release } satisfies CachedRelease)); }
   catch { /* Storage can be unavailable in private browser modes. */ }
 }
 
 function cachedRelease(): CachedRelease | null {
   try {
-    const cached = JSON.parse(localStorage.getItem(downloadCacheKey) ?? "null") as CachedRelease | null;
+    const cached = JSON.parse(localStorage.getItem(isDemo() ? demoDownloadCacheKey : realDownloadCacheKey) ?? "null") as CachedRelease | null;
     if (!cached || typeof cached.savedAt !== "number" || !cached.release || !Array.isArray(cached.release.assets)) return null;
     return cached;
   } catch { return null; }
@@ -123,6 +124,16 @@ const sampleData: SampleItem[] = [
 ];
 
 function isDemo(): boolean { return new URL(location.href).searchParams.get("demo") === "1"; }
+function setMeta(selector: string, content: string): void { document.querySelector<HTMLMetaElement>(selector)?.setAttribute("content", content); }
+function setRouteMetadata(demo: boolean): void {
+  const title = demo ? "Demo — Receipt to Room" : "Receipt to Room — turn receipts into room records";
+  const description = demo ? "Try three demo room records without changing your real records." : "Turn receipt photos into a searchable room record on your computer.";
+  const canonical = demo ? "https://receipt-to-room.sociobot.in/?demo=1" : "https://receipt-to-room.sociobot.in/";
+  document.title = title;
+  document.querySelector<HTMLLinkElement>("#page-canonical")?.setAttribute("href", canonical);
+  setMeta("#page-description", description); setMeta("#og-title", title); setMeta("#og-description", description);
+  setMeta("#twitter-title", title); setMeta("#twitter-description", description);
+}
 function renderSample(query = ""): void {
   const needle = query.trim().toLowerCase();
   const visible = sampleData.filter((item) => Object.values(item).some((value) => value.toLowerCase().includes(needle)));
@@ -146,7 +157,7 @@ function renderSample(query = ""): void {
 function enterDemo(moveFocus = true): void {
   try { localStorage.setItem(demoKey, JSON.stringify({ startedAt: Date.now() })); } catch { /* The sample still works in memory. */ }
   if (!isDemo()) history.pushState({}, "", "/?demo=1#sample");
-  document.title = "Demo — Receipt to Room";
+  setRouteMetadata(true);
   demoBanner.hidden = false;
   sample.hidden = false;
   renderSample(sampleSearch.value);
@@ -166,16 +177,31 @@ function resetDemo(): void {
   document.querySelector<HTMLElement>("#demo-reset-note")!.textContent = "Sample reset.";
 }
 
+function leaveDemo(moveFocus = true): void {
+  try { localStorage.removeItem(demoKey); } catch { /* Storage can be disabled. */ }
+  demoBanner.hidden = true; sample.hidden = true; setRouteMetadata(false);
+  if (moveFocus) requestAnimationFrame(() => {
+    const heading = document.querySelector<HTMLElement>("h1");
+    if (heading) { heading.tabIndex = -1; heading.focus(); }
+  });
+}
+
+function syncRouteFromLocation(): void {
+  if (isDemo()) enterDemo(true);
+  else leaveDemo(true);
+}
+
 document.querySelectorAll<HTMLAnchorElement>("[data-start-demo]").forEach((link) => link.addEventListener("click", (event) => {
   event.preventDefault();
   enterDemo();
 }));
 document.querySelector<HTMLButtonElement>("#reset-demo")?.addEventListener("click", resetDemo);
 document.querySelector<HTMLAnchorElement>("#start-real")?.addEventListener("click", () => {
-  try { localStorage.removeItem(demoKey); } catch { /* Storage can be disabled. */ }
+  leaveDemo(false);
 });
 sampleSearch.addEventListener("input", () => renderSample(sampleSearch.value));
+window.addEventListener("popstate", syncRouteFromLocation);
 
 if (isDemo()) enterDemo();
-else { sample.hidden = true; demoBanner.hidden = true; }
+else { sample.hidden = true; demoBanner.hidden = true; setRouteMetadata(false); }
 void loadDownloads();

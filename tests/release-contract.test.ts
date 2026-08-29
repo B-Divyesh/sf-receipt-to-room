@@ -9,13 +9,13 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (path: string) => readFileSync(resolve(root, path), "utf8");
 
 describe("release and static-host contract", () => {
-  test("ships one new native version through the package, Rust bundle, and tag workflow", () => {
+  test("@claim:release-trigger @claim:release-artifacts ships one new native version through the package, Rust bundle, and tag workflow", () => {
     const pkg = JSON.parse(read("package.json")) as { version: string };
     const cargo = read("src-tauri/Cargo.toml");
     const tauri = JSON.parse(read("src-tauri/tauri.conf.json")) as { version: string };
     const workflow = read(".github/workflows/release.yml");
 
-    expect(pkg.version).toBe("0.1.5");
+    expect(pkg.version).toBe("0.1.6");
     expect(cargo).toContain(`version = "${pkg.version}"`);
     expect(tauri.version).toBe(pkg.version);
     expect(workflow).toContain('tags: ["v*"]');
@@ -86,6 +86,26 @@ describe("release and static-host contract", () => {
     expect(config).not.toMatch(/\bport:\s*(4173|1420)/);
   });
 
+  test("@claim:scope-boundaries documents record-keeping limits without promising retailer, valuation, or claim service", () => {
+    const readme = read("README.md");
+    const terms = read("site/terms/index.html");
+    expect(readme).toContain("does not scrape retailers");
+    expect(readme).toContain("does not estimate current value");
+    expect(readme).toMatch(/not\s+file insurance claims/);
+    expect(terms).toContain("does not provide insurance coverage");
+  });
+
+  test("@claim:installer-integrity checks the published checksum before each installer proceeds", () => {
+    const shell = read("site/public/install.sh");
+    const powershell = read("site/public/install.ps1");
+    expect(shell).toContain('[ "$actual" = "$expected" ] ||');
+    expect(shell).toContain("Checksum mismatch; the download was not installed.");
+    expect(shell.indexOf('[ "$actual" = "$expected" ] ||')).toBeLessThan(shell.indexOf('install -m 755'));
+    expect(powershell).toContain("Get-FileHash -Path $temporary -Algorithm SHA256");
+    expect(powershell).toContain("Checksum mismatch; the download was not installed.");
+    expect(powershell.indexOf("if ($actual -ne $asset.sha256")).toBeLessThan(powershell.indexOf("Start-Process msiexec.exe"));
+  });
+
   test("lists every documented product capability with exactly one claim test", () => {
     const claims = JSON.parse(read(".factory/claims.json")) as Array<{ id: string; test: string }>;
     const ids = claims.map((claim) => claim.id);
@@ -93,10 +113,11 @@ describe("release and static-host contract", () => {
       "sample-demo", "local-ocr", "csv-export", "price", "release-api",
       "receipt-workflow", "editable-records", "bulk-queue", "image-input", "print-undo",
       "local-storage", "backup-restore", "redacted-exports", "privacy-boundaries",
-      "license-cache", "license-rate-policy", "offline-work"
+      "license-cache", "license-rate-policy", "offline-work", "checkout-operator", "free-exports",
+      "scope-boundaries", "installer-integrity"
     ]));
     expect(new Set(ids).size).toBe(ids.length);
-    const e2e = read("tests/e2e/product.spec.ts");
+    const e2e = `${read("tests/e2e/product.spec.ts")}\n${read("tests/release-contract.test.ts")}`;
     for (const claim of claims) {
       expect(claim.test).toContain(`@claim:${claim.id}`);
       expect(e2e.match(new RegExp(`@claim:${claim.id}\\b`, "g"))).toHaveLength(1);

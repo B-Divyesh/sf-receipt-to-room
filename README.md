@@ -2,29 +2,29 @@
 
 Turn receipts into room records. Receipt to Room is for renters and homeowners
 who need purchase details after a move, repair, or insurance question. The
-desktop app reads JPG, PNG, and WebP receipts on-device. Each line has its own
-room, category, and warranty date, and every saved item can be edited.
+desktop app reads receipt text on your computer. Each line has its own room,
+category, and warranty date. Saved items remain editable.
 
-It does not scrape retailers, estimate current value, file insurance claims, or
-promise that an insurer will accept a record. Keep original receipts where a
-retailer, warranty provider, or insurer requires them.
+The app does not scrape retailers. It does not estimate current value. It does
+not file insurance claims. Keep original receipts where another party requires
+them.
 
 ## What ships
 
 - Tauri 2 desktop app for Windows, macOS, and Linux
-- Local English receipt OCR, including a multi-image queue
-- Manual fallback with per-line room, category, warranty, and saved-item editing
-- Redacted CSV and printable inventory output; deletion includes five-second undo
-- Useful free tier (three receipts) and a $29 one-time Sociobot license unlock
-- Static, OS-aware download site in `dist/site`
+- Reads English receipt text on your computer, including several photos in a queue
+- Manual entry with per-line room, category, warranty, and saved-item editing
+- Spreadsheet download with payment details removed, printable output, and five-second undo
+- Free version for three receipts; $29 once for unlimited receipt intake and backup files
+- Static, operating-system-aware download site in `dist/site`
 
-## Try the sample
+## Try the demo
 
-Open `https://receipt-to-room.sociobot.in/?demo=1` or choose **Try it with
-sample data** on the landing page. The sandbox immediately shows three reviewed
-room records. In the app, choose **Load sample project** on the first screen.
-The editable sample project uses only `demo:receipt-to-room:*` storage and never
-reads or writes real inventory. See [.factory/demo.md](.factory/demo.md).
+Open `https://receipt-to-room.sociobot.in/?demo=1` or choose **Try the demo**
+on the landing page. The demo immediately shows three reviewed room records.
+In the app, choose **Load demo records** on the first screen. Demo records use
+only `demo:receipt-to-room:*` storage. They never read or write real inventory.
+See [.factory/demo.md](.factory/demo.md).
 
 ## Develop
 
@@ -37,8 +37,8 @@ npm run dev          # desktop UI in a browser
 npm run tauri dev    # native desktop shell
 ```
 
-OCR assets are copied from pinned npm packages into the local Vite public folder
-before app builds. No CDN is used at runtime.
+The text-reading files come from pinned packages. They are bundled with the
+app. No files load from outside services at runtime.
 
 ## Test and build
 
@@ -51,17 +51,11 @@ npm run verify:url -- https://receipt-to-room.sociobot.in
 cargo check --manifest-path src-tauri/Cargo.toml
 ```
 
-The static deploy root is `dist/site`. GitHub Actions builds native bundles only
-after a `v*` tag or manual dispatch. It publishes DMG, MSI/EXE, AppImage, and DEB
-assets together with `SHA256SUMS` and `latest.json`.
-
 ## Install
 
-The landing page reads CORS-enabled metadata from the GitHub Releases API,
-caches a successful response for one hour, and selects the matching release
-asset for the visitor's operating system. If no release metadata is available,
-it links to the release page and says that downloads are being published.
-Builds are unsigned.
+The site checks GitHub for the latest release. It saves those details for one
+hour. It then shows the installer for your operating system. If details are
+unavailable, it links to the release page. Builds are unsigned.
 
 ```sh
 curl -fsSL https://receipt-to-room.sociobot.in/install.sh | sh
@@ -71,28 +65,26 @@ curl -fsSL https://receipt-to-room.sociobot.in/install.sh | sh
 irm https://receipt-to-room.sociobot.in/install.ps1 | iex
 ```
 
-The scripts verify SHA256 before installing or opening an installer. macOS users
-may need to right-click the app and choose **Open**. Windows may show a
+The install scripts check each download against its published checksum. macOS
+users may need to right-click the app and choose **Open**. Windows may show a
 SmartScreen publisher warning.
 
-## Privacy and licensing
+## Privacy and paid version
 
-Inventory lives in local app storage. The only product API call verifies an
-optional license at `api.sociobot.in`, cached for one day. Accessibility and
-CSV/PDF exports are never paywalled. See `/privacy/` and `/terms/` on the site.
+Inventory lives in local app storage. The only product API call checks an
+optional paid-version token at `api.sociobot.in`. Its result is saved for one
+day. Spreadsheet and printable exports remain available in the free version.
+See `/privacy/` and `/terms/` on the site.
 
-The license service allows 30 verification requests per client in a service
-window. Further requests return `429` with `Retry-After`. The app always shows
-a wait of at least one second before the next attempt. The live release gate
-checks this response policy.
-
-Every visitor-facing capability above maps to an executable entry in
-[`.factory/claims.json`](.factory/claims.json).
+The token service allows 30 checks per client in a service window. Further
+checks return `429` with `Retry-After`. The app always shows a wait of at least
+one second before the next attempt.
 
 ## Deploy
 
 Deploy the contents of `dist/site` as a static site. Do not deploy `dist/app`.
-Native releases are produced by `.github/workflows/release.yml`.
+GitHub Actions builds native bundles after a `v*` tag or manual dispatch. A
+native release publishes installers, checksums, and a release manifest.
 
 ## License
 
