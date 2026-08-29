@@ -24,6 +24,8 @@
 - GitHub Actions release run 33231506112: passed. Release `v0.1.6` targets the
   exact product commit and includes DMG, MSI/EXE, AppImage, DEB/RPM,
   `SHA256SUMS`, and `latest.json`.
+- `npm run verify:live-release -- 1cc3603abadc475899b154b2056cad019450b092 https://receipt-to-room.sociobot.in`:
+  passed (hosted checkout, 30-request allowance, immutable assets, and real 404).
 - `npm run verify:url -- https://receipt-to-room.sociobot.in`: passed.
 - Live Playwright Axe: zero serious/critical findings on Home, Demo, Privacy,
   Terms, and 404; Home/Demo/Privacy/Terms had no console errors.
