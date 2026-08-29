@@ -1,0 +1,73 @@
+import { chromium } from "playwright";
+import AxeBuilder from "@axe-core/playwright";
+import { readFile } from "node:fs/promises";
+
+const browser = await chromium.launch({ headless: true });
+const context = await browser.newContext({ viewport: { width: 390, height: 844 }, acceptDownloads: true });
+const page = await context.newPage();
+const externalRequests = [];
+const consoleErrors = [];
+const pageErrors = [];
+page.on("request", (request) => {
+  if (/^https?:/.test(request.url()) && !request.url().startsWith("http://127.0.0.1:1420")) externalRequests.push(request.url());
+});
+page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
+page.on("pageerror", (error) => pageErrors.push(error.message));
+await page.addInitScript(() => {
+  localStorage.clear();
+  localStorage.setItem("receipt-to-room:inventory:v1", JSON.stringify([{ untouched: true }]));
+});
+await page.goto("http://127.0.0.1:1420/?demo=1#intake");
+await page.getByRole("button", { name: "Paste receipt text" }).click();
+await page.getByLabel("One purchased item and price per line").fill("HOME STORE\nKitchen kettle 39\nOffice lamp 1,299.99\nCable ties 0.00\nTOTAL 1338.99\nPurchased 08/19/2026");
+await page.getByRole("button", { name: "Review these lines" }).click();
+const reviewHeadingFocused = await page.getByRole("heading", { name: "Check the useful lines" }).evaluate((node) => document.activeElement === node);
+const parsed = await page.locator(".review-line").evaluateAll((nodes) => nodes.map((node) => ({ name: node.querySelector('input[name^="name-"]')?.value, confidence: node.querySelector(".confidence")?.textContent?.trim() })));
+await page.locator('select[name="room-0"]').selectOption("Kitchen");
+await page.locator('select[name="category-0"]').selectOption("Appliance");
+await page.locator('input[name="warrantyDate-0"]').fill("2028-08-19");
+await page.locator('select[name="room-1"]').selectOption("Office");
+await page.locator('select[name="category-1"]').selectOption("Electronics");
+await page.locator('input[name="warrantyDate-1"]').fill("2029-08-19");
+await page.locator('input[name="quantity-1"]').fill("1000");
+await page.getByRole("button", { name: "Add to room inventory" }).click();
+const maxBoundary = await page.locator('input[name="quantity-1"]').evaluate((input) => ({ valid: input.validity.valid, message: input.validationMessage, max: input.max }));
+await page.locator('input[name="quantity-1"]').fill("999");
+await page.getByRole("button", { name: "Add to room inventory" }).click();
+const inventoryHeadingFocused = await page.getByRole("heading", { name: "Your room inventory" }).evaluate((node) => document.activeElement === node);
+await page.getByLabel("Search items, rooms, categories, or retailers").fill("lamp");
+await page.getByRole("button", { name: "Search" }).click();
+const resultText = await page.locator("main").innerText();
+await page.getByRole("button", { name: "Edit Office lamp" }).click();
+await page.locator('#edit-item-form select[name="room"]').selectOption("Living room");
+await page.locator('#edit-item-form input[name="warrantyDate"]').fill("2030-08-19");
+await page.getByRole("button", { name: "Save changes" }).click();
+const downloadPromise = page.waitForEvent("download");
+await page.getByRole("button", { name: "Download spreadsheet" }).click();
+const download = await downloadPromise;
+const csv = await readFile(await download.path(), "utf8");
+const appAxe = await new AxeBuilder({ page }).analyze();
+const appSevere = appAxe.violations.filter((item) => item.impact === "serious" || item.impact === "critical").map((item) => item.id);
+const storage = await page.evaluate(() => Object.fromEntries(Object.keys(localStorage).sort().map((key) => [key, localStorage.getItem(key)])));
+await page.screenshot({ path: ".factory/verification-evidence-9/local-app-mobile.png", fullPage: true });
+
+const recovery = await context.newPage();
+await recovery.goto("http://127.0.0.1:1420/?demo=1#intake");
+await recovery.getByRole("button", { name: "Paste receipt text" }).click();
+await recovery.getByRole("button", { name: "Review these lines" }).click();
+const blankError = await recovery.getByRole("alert").textContent();
+const blankFocused = await recovery.getByLabel("One purchased item and price per line").evaluate((node) => document.activeElement === node && node.getAttribute("aria-invalid") === "true");
+await recovery.locator("#receipt-files").setInputFiles({ name: "receipt.txt", mimeType: "text/plain", buffer: Buffer.from("not an image") });
+const unsupportedError = await recovery.getByRole("alert").textContent();
+await recovery.locator("#receipt-files").setInputFiles({ name: "large.png", mimeType: "image/png", buffer: Buffer.alloc(10 * 1024 * 1024 + 1) });
+const oversizedError = await recovery.getByRole("alert").textContent();
+
+const reducedContext = await browser.newContext({ reducedMotion: "reduce" });
+const reducedPage = await reducedContext.newPage();
+await reducedPage.goto("http://127.0.0.1:1420/?demo=1#intake");
+const reduced = await reducedPage.locator(".button").first().evaluate((node) => ({ matches: matchMedia("(prefers-reduced-motion: reduce)").matches, transitionDuration: getComputedStyle(node).transitionDuration, animationName: getComputedStyle(node).animationName }));
+
+console.log(JSON.stringify({ reviewHeadingFocused, parsed, maxBoundary, inventoryHeadingFocused, resultHasOfficeLamp: resultText.includes("Office lamp"), resultHasCorrectWarranty: resultText.includes("2029-08-19"), csvLines: csv.trim().split("\n").length, csvHasLivingRoom: csv.includes("Living room"), storageKeys: Object.keys(storage), realStorageUntouched: storage["receipt-to-room:inventory:v1"] === JSON.stringify([{ untouched: true }]), externalRequests, consoleErrors, pageErrors, appSevere, blankError, blankFocused, unsupportedError, oversizedError, reduced }, null, 2));
+await reducedContext.close();
+await context.close();
+await browser.close();
